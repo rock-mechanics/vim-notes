@@ -1,3 +1,5 @@
+# Vim Notes
+
 # ZZ
 saves and writes to the file.
 it will also **exit** the vim editor.
@@ -90,18 +92,18 @@ it use the word `G` to denote goto.
 * a  of time.
 > for all examples, the cursor is placed at char w intitally.
 
-## Move by pages.
+# Move by pages.
 `^u` : move up half page.
 `^d` : move down half page.
 `^F` : move up whole page.
 `^B` : move down whole page.
 
-## Move by sentences.
+# Move by sentences.
 * `(` : move to the beginning of previous sentences. like this one. 
 * `)` : move to the beginning of next sentences. like this one. 
 > sentences are seprated by puncatuations like `.`, `!` or `?`. 
 
-## Move the current position on screen.
+# Move the current position on screen.
 * `z Enter` : move the current line to the top of screen.
 * `z .` : move the current line to the middle of screen.
 * `z -` : move the current line to the bottom of screen. 
@@ -114,13 +116,13 @@ it use the word `G` to denote goto.
 > all above commands can prefix with a number. so it will move the line number instead of current line.
 > so we can achieve commands like "make line 90 to the top of the screen".
 
-## Without changing the screen, move the cursor.
+# Without changing the screen, move the cursor.
 * `H` : move to the high position in screen
 * `M` : move to the middle position in screen
 * `L` : move to the low position in screen
 > `H` and `L` can be prefixed with a number, so the cursor offset the correct position by the number.
 
-## Search the file.
+# Search the file.
 * Search from the beginning of file 
 `/ [pattern]` 
 * Search from the end of file 
@@ -128,7 +130,7 @@ it use the word `G` to denote goto.
 > use `n` to move in the same direction. 
 > use `N` to move in the opposite direction.
 
-## Search as a motion.
+# Search as a motion.
 * `/pattern` can be treated as a motion `to the pattern`
 ```=
 d/while
@@ -137,7 +139,7 @@ d/while
 * delete while`.
 > place the cursor at `a` of `all`.
 
-## Search within current line.
+# Search within current line.
 * `f [char]` : serach forward next occurance from the cursor.
 * `F [char]` : search backward next occurance from the cursor.
 * `;` : next one.
@@ -149,7 +151,7 @@ d/while
 > `t` or `T` will stop right before/after the occurance.
 > `t` and `f` share same next one/ previous one commands.
 
-## Vim argument
+# Vim argument
 when firing up vim, you may specify command line argument.
 * `vim + [filename]` : open the file, put the cursor to the last line. 
 * `vim +n [filename]` : open the file, put the cursor to the n-th line. 
@@ -158,21 +160,21 @@ when firing up vim, you may specify command line argument.
 * `view [filename]` : the file will be opened as read only mode, where you cannot write any changes.
 > `view` command can also takes some argument like `+n` or `+/pattern`
 
-## Vim buffers
+# Vim buffers
 Vim opens a copy of the file into buffer. if system clashes, the lastest change you made is not written to the file, but Vim keeps a copy of the buffer. 
 To view a list of buffers, in shell, you may use.
 * `vim -r` 
 To open a buffer, you may use 
 * `vim -r [filename]`
 
-## Deletion and restore.
+# Deletion and restore.
 Vim keeps last **9** deletion you made. there are few ways you can retrieve it.
 * `"[number]p` : paste the last n-th deletion.
 * You can follow it by `u` and a `.`. then the paste number will auto increased.
 * `u` will revoke the pasted text.
 * `.` will re-envoke the paste deletion command, but the number will be increased by 1. 
 
-## Yank to named buffer.
+# Yank to named buffer.
 yank saves the text to an special buffer which is unnamed. 
 you can also yank to a **named** buffer, so it will not be overwritten easily.
 
@@ -186,7 +188,7 @@ paste the named buffer by using.
 
 ## Different flavor.
 if the `"[a-z]` is specifyed as `"[A-Z]`, then the named buffer will be appended instead of overwritten.
-## Bookmark your position for later revisit.
+# Bookmark your position for later revisit.
 During current session, if you want to mark the position of text for later visit. you may use
 * `m[char]` to mark the position
 * char can be any characters.
@@ -197,7 +199,7 @@ You may wish to revisit these marked places.
 * ```` : return to previous marked character.
 * `''` : return to previous marked line.
 
-## ex editor
+# ex editor
 vim is a visual mode for ex editor. ex is a line editor underlying vim.
 ex command can be fired within vim.
 
