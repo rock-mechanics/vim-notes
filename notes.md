@@ -70,18 +70,19 @@ it use the word `G` to denote goto.
 
 ## Small variations
 `dw` : delete a word including space after it.
-	* a word of time.
-	* a of time.
+* a word of time.
+* a of time.
 `de` : delete to the end of a word.
-	* a word of time.
-	* a  of time.
-	* there is one additonal space between `a` and `of`. 
+* a word of time.
+* a  of time.
+* there is one additonal space between `a` and `of`. 
 `de` : does not delete punctuations and symbols.
-	* a word$$! of time.
-	* a $$! of time.
+* a word$$! of time.
+* a $$! of time.
 `dE` : delete punctuations and symbols.
-	* a word$$! of time.
-	* a  of time.
+* a word$$! of time.
+* a  of time.
+> for all examples, the cursor is placed at char w intitally.
 
 ## Move by pages.
 `^u` : move up half page.
@@ -90,17 +91,17 @@ it use the word `G` to denote goto.
 `^B` : move down whole page.
 
 ## Move the current position on screen.
-`z Enter` : move the current line to the top of screen. 
-`z .` : move the current line to the middle of screen. 
-`z -` : move the current line to the bottom of screen. 
+* `z Enter` : move the current line to the top of screen.
+* `z .` : move the current line to the middle of screen.
+* `z -` : move the current line to the bottom of screen. 
 
 > all above commands can prefix with a number. so it will move the line number instead of current line.
 > so we can achieve commands like "make line 90 to the top of the screen".
 
 ## Without changing the screen, move the cursor.
-`H` : move to the high position in screen
-`M` : move to the middle position in screen
-`L` : move to the low position in screen
+* `H` : move to the high position in screen
+* `M` : move to the middle position in screen
+* `L` : move to the low position in screen
 > `H` and `L` can be prefixed with a number, so the cursor offset the correct position by the number.
 
 ## Search the file.
@@ -112,12 +113,13 @@ it use the word `G` to denote goto.
 > use `N` to move in the opposite direction.
 
 ## Search within current line.
-`f [char]` : serach forward next occurance from the cursor.
-`F [char]` : search backward next occurance from the cursor.
-`;` : next one.
-`,` : previous one.
+* `f [char]` : serach forward next occurance from the cursor.
+* `F [char]` : search backward next occurance from the cursor.
+* `;` : next one.
+* `,` : previous one.
 > `f` or `F` always jumps to the first letter of the ocurance.
 
-`t [char]` : search forward till the occurance.
-`T [char]` : search backward till the occurance.
+* `t [char]` : search forward till the occurance.
+* `T [char]` : search backward till the occurance.
+> `t` or `T` will stop right before/after the occurance.
 > `t` and `f` share same next one/ previous one commands.
