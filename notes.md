@@ -76,9 +76,11 @@ it use the word `G` to denote goto.
 * a word of time.
 * a  of time.
 * there is one additonal space between `a` and `of`. 
+
 `de` : does not delete punctuations and symbols.
 * a word$$! of time.
 * a $$! of time.
+
 `dE` : delete punctuations and symbols.
 * a word$$! of time.
 * a  of time.
