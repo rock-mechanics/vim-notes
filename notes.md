@@ -250,3 +250,26 @@ it can also combined with search to set the base line.
 :/pattern/;+5 d
 ```
 * delete the line with pattern and the following 5 lines.
+
+# Global search using ex command.
+* `:g/pattern`  : go to last occurance.
+* `:g/pattern/`p: print all lines of occurance.
+* `:g!/pattern/p: print all lines that does not contain the occurance.
+* `ln1, ln2g/pattern/p` : print matchs between lines of ln1 and ln2.
+
+## Multiple ex command in the same prompt.
+`|` character is used to combine multiple command into one line.
+
+# Ex file commands
+* `:w` : write file.
+* `:w [new-file-name]` : write buffer to a new file.
+* `:q` : quit 
+* `:wq` : quit and write.
+* `:x` : save and exit vim editor.
+* `ln1, ln2w [new-file-name]` : write part of the buffer to a new file.
+
+## Append buffer to a new file.
+* `ln1,ln2w >> [new-file-name]` : take ln1 and ln2 of the buffer and append it to a new file.
+
+## Copy another file into the current buffer. 
+`:read filename` : copy file into the current buffer.
