@@ -343,14 +343,14 @@ In subsititution, the regular expression **only works in the search pattern**.
 In the char set, sometimes you want to includes a series of char as one entity to match. 
 * `[.chars.]` : it will match `chars` not single char.
 Match a class of characters
-* [:alnum:] 
-* [:alpha:]
-* [:blank:] : spaces and tabs.
-* [:digit:]
-* [:punct:] : punctuations.
-* [:space:] : spaces.
-* [:upper:] 
-* [:lower:] 
+* `[:alnum:]` 
+* `[:alpha:]`
+* `[:blank:]` : spaces and tabs.
+* `[:digit:]`
+* `[:punct:]` : punctuations.
+* `[:space:]` : spaces.
+* `[:upper:]` 
+* `[:lower:]` 
 
 # Replacement string
 regular expression only works in search string. in replacement string. there are some special notations.
