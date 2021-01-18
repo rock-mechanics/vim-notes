@@ -252,9 +252,9 @@ it can also combined with search to set the base line.
 * delete the line with pattern and the following 5 lines.
 
 # Global search using ex command.
-* `:g/pattern`  : go to last occurance.
-* `:g/pattern/`p: print all lines of occurance.
-* `:g!/pattern/p: print all lines that does not contain the occurance.
+* `:g/pattern`   : go to last occurance.
+* `:g/pattern/p` : print all lines of occurance.
+* `:g!/pattern/p`: print all lines that does not contain the occurance.
 * `ln1, ln2g/pattern/p` : print matchs between lines of ln1 and ln2.
 
 ## Multiple ex command in the same prompt.
@@ -273,3 +273,88 @@ it can also combined with search to set the base line.
 
 ## Copy another file into the current buffer. 
 `:read filename` : copy file into the current buffer.
+
+# Mulitple files
+vim can open multiple files at the same time.
+## Buffer list.
+* to view buffer list , use `:args`.
+* add a file to buffer list , use `:argadd`.
+## Edit another buffer.
+edit another file in buffer list use `:e filename`.
+
+## Switch files.
+
+### Nav through buffer list.
+* to switch to next buffer in list. use `:n`.
+* to switch to previous buffer in list. use `:prev`.
+* to switch to previous buffer opened, using `:e #`
+> `Ctrl+^` is also equivalent to alternating buffer command.
+* `#` is a symbol for previous buffer. 
+* `%` is a symbol for current buffer. (not much use).
+> Vim requires you to write the file before switching to another buffer. 
+
+# Global replacement
+
+## Global locate lines to action.
+* `:g/pattern/action` : search specific lines and do actions on the line.
+
+## Line replacement 
+* `:s/pattern/replacement` : replace first occurance pattern with replacement within the line.
+* `:s/pattern/replacement/g` : replace all occurance pattern with replacement within the line.
+
+## Multiple line replacement
+* `:ln1,ln2s/pattern/replacement/g`: for all lines between ln1 and ln2, do the replacement.
+
+## All lines.
+Do action on all the lines is so common, so there is a symbol for it.
+* `:1,$s/pattern/replacement/g` : replace all lines.
+* `%s/pattern/replacement/g` : replace all lines.
+
+## Confirming all the replacement
+To add a confirmation reminder for each replacemnt, using the `c` option.
+* `:%s/pattern/replacment/gc`
+
+## Locate + Substitute.
+combine global locate function with global substitute function to do subsitution on selected line.
+* `:g/pattern/s/pattern/replacement/g`
+	* `g/pattern/ : select the lines containing the pattern.
+	* `s/pattern/replacement/g : replace all occurance of pattern with replacement.
+> if both pattern contains the same string, the second pattern can be omitted.
+```=
+:g/string/s//replacement/g
+```
+
+# Regular Expression.
+
+Regular expression is a powerful tool to match patterns, so you can find what you want within a bunch of text.
+
+In subsititution, the regular expression **only works in the search pattern**.
+* `.` : match a single character.
+* `[char]*` : match the char zero or more times.
+* `^` : match the start of line.
+* `$` : match the end of line.
+> `^` and `$` are not imaginary characters.
+* `[char set]` : match any char in the char set.
+* `\(string\)` : saves the matched string in a numbered buffer from 1, 2, 3 ...
+* `\<string` : match a word start with string. such as stringfoo.
+* `string\>` : match a word ends with string. such as foostring.
+
+# POSIX classes. 
+In the char set, sometimes you want to includes a series of char as one entity to match. 
+* `[.chars.]` : it will match `chars` not single char.
+Match a class of characters
+* [:alnum:] 
+* [:alpha:]
+* [:blank:] : spaces and tabs.
+* [:digit:]
+* [:punct:] : punctuations.
+* [:space:] : spaces.
+* [:upper:] 
+* [:lower:] 
+
+# Replacement string
+regular expression only works in search string. in replacement string. there are some special notations.
+* `\n` : expanded to numbered buffer.
+* `&` : entire matched string in search pattern.
+* `\u`, `\l` : lower/upper case the first character.
+* `\U`, `\L` : lower/upper case the entire expression unless terminated by `\E`.
