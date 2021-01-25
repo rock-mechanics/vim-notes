@@ -159,6 +159,7 @@ single character version of replacement mode and virtual replacement mode is the
 * `.` is current line. `$` denotes the end of file
 * `%` denotes all lines in the file
 * `'<` and `'>` denote the start and end of the selection
+* `0` denotes the start of file (imaginary line 0)
 ```=
 /pattern1/,/pattern2/p
 ```
@@ -181,4 +182,72 @@ single character version of replacement mode and virtual replacement mode is the
 ```
 * print current line and the next line.
 
+### Tip 29: Dumplicate or Move Line Using `:t` and `:m` Commands
+`t` is named as `copy to`
+```=
+: from t to
+: from m to 
+```
+* `from` and `to` is line address.
+* `t` copy the `from` line, put it **under** `to` line
+* `m` move the `from` line, put it **under** `to` line
+* current line address sometimes can be omitted.
+```=
+:6t.
+```
+* copy line 6 and put it under the current line (omitted)
+```=
+:t6
+```
+* copy current line(omitte) and put it under line 6
+```=
+:t.
+```
+* copy current line and put it under current line.
+```=
+:t$
+```
+* copy current line and put it at the end of the file.
+```=
+'<,'>t0
+```
+* copy visually selected region to the beginning of the file.
 
+### Tip 30 : Run Normal Mode Commands Across a Range
+Combine `ex` command with normal mode allow us to loop through lines and apply commands one by one.
+```=
+line1,line2 normal {command}
+```
+* `normal` keyword shows we are going to run a normal command for **each** of the line.
+```=
+1,10 normal .
+```
+* repeat last nromal command for line1 to line10
+```=
+:% normal //
+```
+* comment out entire java file
+```=
+:% normal A;
+```
+* append an semicolon for all lines of a file
+
+### Tip 31 : Repeat the Last `ex` Command
+```=
+@:
+```
+* repeat last command
+* once run, the second time, we can use `@@` to achieve the same thing
+
+### Tip 32 : Tab-Complete Your `ex` Commands
+Using `tab` can auto complete your commands just like what we do in shell.
+```=
+<c-d>
+```
+* show all the auto-completion options.
+```=
+:colorscheme <c-d>
+```
+* it will show all the color scheme avaiable and `tab` can be used to switch between them.
+
+### Tip 33 : Insert the Current Word at the Command Prompt
