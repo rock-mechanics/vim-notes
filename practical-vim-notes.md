@@ -52,6 +52,7 @@ Most of the time, operators cannot be used by itself.
 * l : letter.
 * aw : a word.
 * ap : a paragraph.
+* t{char} : from cusor to character(exlusive).
 
 ### Special Motion : Entire line
 operation on entire line is very common, thus a special rule for it.
@@ -75,5 +76,109 @@ In opertor pending mode, `esc` can resume to Normal Mode.
 * you may also use `c-w` to delete a word and then re-type it.
 * if the entire line is misspelled, you may use `c-u` to delete the entire line.
 > try to retype words instead of delete words by character can help you identify which words you normally mistype.
+
+### Tip 14 : Get Back to Normal Mode
+A special mode is called Insert-Normal-Mode. where you need to fire a normal mode command and switch back to insert mode **immediately** to continue typing.
+```=
+<C-o> : enter insert-normal-mode, and back to inert
+<C-o>zz : move the typing line to center of screen. and continue typing.
+```
+
+### Tip 15 : Paste from a Register Without Leaving Insert Mode
+paste in insert mode is common. 
+```=
+C-r {number}
+```
+* number is the buffer number.
+
+### Tip 16 : Do Back-of-the-Envelope Calculations in Place
+In vim, there is a special register called expression register.
+In edit mode, you may type `C-r=` to input the expression to the register.
+Like typing the following sentence
+```=
+6 chairs, each costing 35 dollars, totally 210 dollars.
+```
+
+### Tip 17 : Insert Unusual Characters by Character Code
+For any special characters, there is a vim code that can be used to enter it in edit mode.
+To enter a special character, use `C-v {code}`.
+* for ASCII code, the code has three digits, for example `A` = 065.
+* for Unicode character, we need 65535 characters, we can use 4 digits hexadecimal code 
+	* 4 digits = 16^4 = 65536 characters.
+	* the 4 digits need to prefixed with a letter `u`. for example, `c-v u00bf`=`¿`.
+	* unicode plane is the key word for search all the possible panel characters.
+
+* `c-v` can also be followed with an normal key, it will input the key literally without any modification (for example tab key).
+
+### Tip 18 : Insert Unusual Characters by Digraph
+Digraph is pairs of characters used to descriptively represent special characters.
+```=
+c-k char1 char2
+```
+* digraph is meant to be descriptive.
+	* ½ , it is `c-k 1 2`.
+	* ÷ , it is `c-k - :`.
+* digarph table can be looked up to get the key combination.
+
+### Tip 19 : Overwrite Existing Text with Replace Mode
+replace mode is changing the char one by one without changing the length of text.
+It can be invoked by `R` from normal mode.
+* Issues with special character, like `tab`, replace it will result in line reduction.
+
+virtual replace mode will replace screen character one by one. not literally the real character.
+It can be invoked by `gR` from normal mode.
+* Tab character will be replaced with 4 or more spaces. thus line length will not shrink in the beginning.
+
+single character version of replacement mode and virtual replacement mode is the following, normal mode will resumed once replacement is done.
+* `r{char}`
+* `gr{char}`
+
+### Tip 28 : Execute a Command on One or More Consecutive Lines
+```=
+:8
+```
+* go to line 8
+```=
+:print
+:p
+```
+* print current line
+```=
+:8p
+```
+* go to line 8, then print it.
+```=
+:2,5p
+```
+* print line 2 to line 5 inclusive
+* the cursor will stay at line 5 afterwards
+```=
+:.,$p
+```
+* print from the current line to end.
+* `.` is current line. `$` denotes the end of file
+* `%` denotes all lines in the file
+* `'<` and `'>` denote the start and end of the selection
+```=
+/pattern1/,/pattern2/p
+```
+* print lines from line containing pattern1 all the way to line containing pattern2
+```=
+/<html>/,/<\/html>/p
+```
+* start from line containing `<html>`
+* end with line containing `</html>`, so it will operate on entire html body
+* it also includes both of the html tag
+```=
+/<html>/+1, /<\/html>/-1p
+```
+* the line number can have a offset.
+* the begining line number + 1
+* the ending line number - 1.
+* so it prints content inside the html tag without the actual html tag.
+```=
+.,.+1p
+```
+* print current line and the next line.
 
 
