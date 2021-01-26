@@ -78,7 +78,7 @@ In opertor pending mode, `esc` can resume to Normal Mode.
 > try to retype words instead of delete words by character can help you identify which words you normally mistype.
 
 ### Tip 14 : Get Back to Normal Mode
-A special mode is called Insert-Normal-Mode. where you need to fire a normal mode command and switch back to insert mode **immediately** to continue typing.
+A special mode is called Insert-Normal-Mode. where you need to fire a normal mode command and switch back to insert mode immediately to continue typing.
 ```=
 <C-o> : enter insert-normal-mode, and back to inert
 <C-o>zz : move the typing line to center of screen. and continue typing.
@@ -132,6 +132,117 @@ It can be invoked by `gR` from normal mode.
 single character version of replacement mode and virtual replacement mode is the following, normal mode will resumed once replacement is done.
 * `r{char}`
 * `gr{char}`
+
+## Visual Mode 
+### Tip 20 : Groke Visual Mode
+Most Normal mode command can be run in visual mode, but the semantics is different.
+```=
+h,j,k,l
+```
+* expands the visual selected area.
+```=
+c
+y
+```
+* change the selected text. 
+* yank the selected text.
+```=
+viw
+vaw
+v{motion}
+```
+* `v` can be followed with a motion to select text 
+```=
+U
+```
+* `V` change selected text to uppercase.
+* `v` change selected text to lowercase.
+```=
+>
+```
+* `>` indent selected text
+```=
+r{char}
+```
+* replace each character in the selection to `{char}`
+
+
+### Tip 21 : Define a Visual Selection.
+
+```=
+v
+```
+* character visual mode.
+* toggle between the normal mode.
+```=
+V
+```
+* line visual mode
+* toggle between the normal mode.
+```=
+<c-v>
+```
+* block visual mode
+* toggle between the normal mode.
+```=
+gv
+```
+* reselect the last selection
+* it works on all three visual modes.
+```=
+o
+```
+* jump between the ends of selection
+
+### Tip 21.5 : Repeat Character-Wise Visual Commands
+In visual modes. character commands will be applied to every character.
+```=
+rx
+```
+* replace all character in the selection to `x`
+
+### Tip 22 : Repeat Line-Wise Visual Commands
+In visual modes, `.` will repeat the visual commands on the same selected text.
+
+### Tip 23 : Prefer Operators to Visual Commands Where Possible
+Visual commands normally don't work with `.` very well, it will only work on the same range (number of chars) of text, which makes it bit hard to use, if there is a normal operator alternative, we should use the normal mode alternative
+```=
+gU{motion}
+//make text in motion upper case in normal mode
+```
+is usually more repeatable than
+```=
+v{motion}U
+//perform upper case for visually selected text.
+```
+### Tip 24 : Edit Tablular Data with Visual-Block Mode
+### Tip 25 : Chagne Columns of Text
+some commands have different semantics in block visual mode.
+in block visual modes, the selecion on each line is considered a *sub-selection* instead of a whole selection
+operations may acts on each of them seperately.
+
+```=
+c{text}
+s{text}
+```
+* change each sub-selection to the `{text}` 
+
+### Tip 26 : Append After a Ragged Visual Block
+block visual modes can select not only rectanglur data. It can do more and become even more useful because of its special behavior than the normal visual mode.
+```
+$
+```
+* it can extend each subselection to the end of line.
+```
+A
+```
+* append after each sub selection
+
+## Command-Line Mode
+
+### Tip 27 : Meet Vim's Command Line
+* enter command line mode by pressing `:`
+* execute the command by pressing `Enter`
 
 ### Tip 28 : Execute a Command on One or More Consecutive Lines
 ```=
@@ -189,8 +300,8 @@ single character version of replacement mode and virtual replacement mode is the
 : from m to 
 ```
 * `from` and `to` is line address.
-* `t` copy the `from` line, put it **under** `to` line
-* `m` move the `from` line, put it **under** `to` line
+* `t` copy the `from` line, put it under `to` line
+* `m` move the `from` line, put it under `to` line
 * current line address sometimes can be omitted.
 ```=
 :6t.
@@ -218,7 +329,7 @@ Combine `ex` command with normal mode allow us to loop through lines and apply c
 ```=
 line1,line2 normal {command}
 ```
-* `normal` keyword shows we are going to run a normal command for **each** of the line.
+* `normal` keyword shows we are going to run a normal command for each of the line.
 ```=
 1,10 normal .
 ```
@@ -251,3 +362,8 @@ Using `tab` can auto complete your commands just like what we do in shell.
 * it will show all the color scheme avaiable and `tab` can be used to switch between them.
 
 ### Tip 33 : Insert the Current Word at the Command Prompt
+Vim keeps track of current cursor position and active buffer in command line mode, so you could insert it using
+```=
+<c-r><c-w>
+```
+
