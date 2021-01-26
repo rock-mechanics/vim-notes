@@ -379,3 +379,73 @@ Vim keeps track of current cursor position and active buffer in command line mod
 <c-r><c-w>
 ```
 
+### Tip 34 : Recall Commands from History
+very similar to bash, in vim's command line, you may use 
+```=
+up, down
+```
+to loop through history commands. you may also type part of the command to look for a similar command in history.
+#### Entrie history
+```=
+q:
+```
+* bring up the history window
+* use <Enter> to execute the commands in the window.
+* you can freely modify the command file using various of vim techniques and once completed, press enter to execute.
+```=
+:q
+```
+* exit from the command line window and goes back to your active buffer.
+
+#### Chain two commands together to repeat
+you may need to run a command after writing to vim. use `|` to chain commands together.
+```=
+:w | !python3 prog.py
+```
+* most likely you are modifying `prog.py`, you want to write it and run it.
+
+#### Enter command line window from command line.
+```=
+<c-f>
+```
+
+### Tip 35: Run Commands in The Shell
+```=
+:!{command}
+```
+```=
+:!ls
+```
+* list file in current directory
+#### current file name
+```=
+%
+```
+```=
+:w | !python3 %
+```
+* save file and use python 3 interpreter to run the current file
+#### start a shell to run multiple shell commands
+```=
+:sh
+```
+* start a shell
+```=
+exit
+```
+* quit the shell and return to vim
+
+#### suspend vim in shell and bring back vim
+Since vim is actually a program running in the shell, we could suspend it temporarily using a universal shell command
+```=
+<c-z>
+```
+* suspend the vim running in shell, so you could interact with shell.
+```=
+$ jobs
+```
+* check the jobs listed in the background.
+```=
+$ fg
+```
+* bring back the suspended job.
