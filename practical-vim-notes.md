@@ -51,11 +51,19 @@ Most of the time, operators cannot be used by itself.
 * `gU` : make it upper.
 * `g~` : swap the case.
 
+Operators can be combined with motions and text objects to achieve greater effect.
+
 #### Motions
-* l : letter.
-* aw : a word.
-* ap : a paragraph.
+Motion moves your cursor to include more text from your current position.
 * t{char} : from cusor to character(exlusive).
+* `$` : to the end of line
+* `e` : to the end of word
+
+#### Text Object
+Text object identify a pattern based on your cursor, and acts on the pattern.
+* `aw` : a word
+* `ap` : a paragraph
+* `w` : to the end of the word
 
 #### Special Motion : Entire line
 operation on entire line is very common, thus a special rule for it.
@@ -69,8 +77,8 @@ operation on entire line is very common, thus a special rule for it.
 * `g~~` : swap case for a line.
 
 #### Operator-Pending Mode
-when a `operator`is pressed, vim will enter a state that accepts only `motion`. before a `motion` is received,it is at a state of "Operator-Pending".
-In opertor pending mode, `esc` can resume to Normal Mode.
+when a `operator`is pressed, vim will enter a state that accepts only `motion` or `text-object`. before that is received,it is at a state of "Operator-Pending".
+In opertor pending mode, `ESC` can resume to Normal Mode.
 
 ## Insert Mode
 
