@@ -1,6 +1,6 @@
 # Practical Vim
 
-## The Vim Way
+# The Vim Way
 ### Tip 1 : Meet the Dot Command
 ### Tip 2 : Don't Repeat Yourself.
 ### Tip 3 : Take One Step Back, Then Three Steps Forward.
@@ -9,6 +9,9 @@
 ### Tip 6 : Meet the Dot Formula
 
 # Part 1: Modes
+
+## Normal Mode
+
 Normal mode is the natrual resting state for vim.
 ### Tip 7 : Pause Your Brush Off the Page
 * Spend more time thinking, reviewing, modifing than simply inputing text to your code.
@@ -35,10 +38,10 @@ Both the following commands can be fixed with a number, so it will repeat `n` ti
 * `dw.` : `d` is delete, `w` is motion, `.` is repeat.
 when it is hard to count, it may be easier to repeat than count. If count is a incorrect, you need to undo the entire operation and redo it, in the case of repeat, you only need to do one more repeat.
 
-## Tip 12 : Combine And Conquer
+### Tip 12 : Combine And Conquer
 Operators and motion can be combined to achieve greater effect.
 Most of the time, operators cannot be used by itself.
-### Operators
+#### Operators
 * `d` : delete. 
 * `c` : change. 
 * `y` : yank. 
@@ -48,13 +51,13 @@ Most of the time, operators cannot be used by itself.
 * `gU` : make it upper.
 * `g~` : swap the case.
 
-### Motions
+#### Motions
 * l : letter.
 * aw : a word.
 * ap : a paragraph.
 * t{char} : from cusor to character(exlusive).
 
-### Special Motion : Entire line
+#### Special Motion : Entire line
 operation on entire line is very common, thus a special rule for it.
 * `dd` : delete a line.
 * `cc` : change a line.
@@ -65,7 +68,7 @@ operation on entire line is very common, thus a special rule for it.
 * `gUU` : upper case a line.
 * `g~~` : swap case for a line.
 
-### Operator-Pending Mode
+#### Operator-Pending Mode
 when a `operator`is pressed, vim will enter a state that accepts only `motion`. before a `motion` is received,it is at a state of "Operator-Pending".
 In opertor pending mode, `esc` can resume to Normal Mode.
 
@@ -134,6 +137,7 @@ single character version of replacement mode and virtual replacement mode is the
 * `gr{char}`
 
 ## Visual Mode 
+
 ### Tip 20 : Groke Visual Mode
 Most Normal mode command can be run in visual mode, but the semantics is different.
 ```=
