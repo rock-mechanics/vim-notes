@@ -449,3 +449,60 @@ $ jobs
 $ fg
 ```
 * bring back the suspended job.
+
+#### using the content of a buffer for stdin and stdout
+```=
+:read ! {command}
+```
+* reroute the output of `{command}` to the buffer content.
+```=
+:w !{command}
+```
+* make the file as stdin to the command
+
+#### filtering the contents of a buffer through an external command
+```=
+:{range} w !{command}
+```
+* pass the range of buffer to {command} as stdin
+* reroute the stdout to replace the range in the buffer.
+```=
+:2,4 !sort -t',' -k2
+```
+* `-t','` tell the `sort` to delimited by `,`.
+* `-k2` tells the `sort` to sort based on the second item.
+
+#### select text to filter using `!{motion}`
+```=
+!G
+```
+* from current line to the end of file.
+* then we need to type in the filter command to filter the selected text.
+
+### Tip 36 : Run Multiple `ex` Commands as a Batch
+#### Vim Scripts
+a series of vim commands can be written an `.vim` file. it can then be sourced into a file at one go.
+* there is no need to prefix `:` at the start of each `ex` command.
+```=
+global/href/join
+vglobal/href/delete
+%normal A: http://vimcasts.org
+%normal yi"$p
+%substitute/\v^[^\>]+\>\s//g
+```
+* above commands can be saved in `batch.vim`
+#### Run scripts
+* run the script using `:source batch.vim`
+#### Source scripts for multiple buffers.
+```=
+vim *.vim
+```
+* open multiple files with vim as arguments buffer.
+```=
+:args
+```
+* check the opened argument buffer.
+```=
+:argdo source batch.vim
+```
+* it will source the `batch.vim` for all the argument buffer.
