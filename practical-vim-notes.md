@@ -448,3 +448,293 @@ $ jobs
 ```=
 $ fg
 ```
+* bring back the suspended job.
+
+#### using the content of a buffer for stdin and stdout
+```=
+:read ! {command}
+```
+* reroute the output of `{command}` to the buffer content.
+```=
+:w !{command}
+```
+* make the file as stdin to the command
+
+#### filtering the contents of a buffer through an external command
+
+```=
+:{range} w !{command}
+```
+* pass the range of buffer to {command} as stdin
+* reroute the stdout to replace the range in the buffer.
+```=
+:2,4 !sort -t',' -k2
+```
+* `-t','` tell the `sort` to delimited by `,`.
+* `-k2` tells the `sort` to sort based on the second item.
+
+#### select text to filter using `!{motion}`
+
+```=
+!G
+```
+* from current line to the end of file.
+* then we need to type in the filter command to filter the selected text.
+
+### Tip 36 : Run Multiple `ex` Commands as a Batch
+
+#### Vim Scripts
+
+a series of vim commands can be written an `.vim` file. it can then be sourced into a file at one go.
+* there is no need to prefix `:` at the start of each `ex` command.
+```=
+global/href/join
+vglobal/href/delete
+%normal A: http://vimcasts.org
+%normal yi"$p
+%substitute/\v^[^\>]+\>\s//g
+```
+* above commands can be saved in `batch.vim`
+#### Run scripts
+* run the script using `:source batch.vim`
+#### Source scripts for multiple buffers.
+```=
+vim *.vim
+```
+* open multiple files with vim as arguments buffer.
+```=
+:args
+```
+* check the opened argument buffer.
+```=
+:argdo source batch.vim
+```
+* it will source the `batch.vim` for all the argument buffer.
+
+# Files
+
+## Manage Multiple Files
+
+### Tip 37 : Track Open Files with the Buffer List
+
+#### Understand Distincation Between Files and Buffers
+
+* buffer is a memory copy of a file. we are editing a buffer.
+* as the buffer and file content diverges, we need to save the buffer.
+```=
+:write
+:update
+:saveas
+```
+#### Meet the Buffer List
+```=
+:ls
+```
+* open the buffer list.
+```=
+:bnext
+```
+* switch to next buffer in the current window.
+* the current window will be replaced by the next buffer
+```=
+% // current buffer displayed in widow
+# // alternate buffer
+:b# // switch to alternate buffer
+```
+* this allow you to switch between two different buffers quickly in the current window.
+* it can toggle quick using `<c-^>`
+#### Use the Buffer List
+```=
+:bprev
+:bnext
+:bfirst
+:blast
+:b {number}
+:b {name}
+:bufdo //run ex command to all buffers
+:bdelete {number1} {number2} {number2}
+:N,M bdelete
+```
+* delete a buffer has no impact to file, it only removes the memory representation of the file, which is a copy by nature.
+
+### Tip 38 : Group Buffers into a Collection with the Argument List
+* argument list is a representation of all files that are passed to vim when vim is opened.
+* argument list is not the same as buffer list.
+* arg list is a feature of `vi`. 
+* buffer list is a feature of `vim`.
+
+#### Populate Argument List
+```=
+:args {name}
+```
+```=
+:args *
+```
+* add all files in the current direcotry to argumetn list.
+
+```=
+:args **
+```
+* add all files in the current directory and recursively all files in the sub directory
+
+```=
+:args *.*
+```
+* add all files with extension to arglist.
+
+```=
+:args **/*.js
+```
+* add `js` file of all sub-directory to arglist
+
+```=
+:args **/*.js **/*.css
+```
+* add `js` and `css` files to arglist from all subdirectories.
+
+#### using argument list
+
+```=
+:next
+:prev
+```
+* navigate through the argument list.
+
+### Tip 39 : Manage Hidden Files
+
+hidden buffer is a buffer not showing up in the window.
+by default, vim not allowing you to hide a buffer without saving it.
+```=
+set hidden
+```
+* disable this proection and hide buffer freely regardless of save state.
+* hidden buffer will be denoted `h` in buffer list.
+
+modified but unsaved buffer will be denoted by an `+` sign in the buffer list.modified but unsaved buffer will be denoted by an `+` sign in the buffer list.
+
+
+```=
+:wall
+:qall
+:qall! //quit all buffer without save
+```
+
+```=
+:e! 
+//read the file to current buffer. it will disgard all the unsaved changes
+//revert to last saved version.
+```
+
+### Tip 40 : Divide Your Workspace into Split Windows
+
+```=
+:sp
+```
+* split windows horizontally.
+```=
+:sp {filename}
+```
+* split windows horizontally. and load a buffer.
+
+```=
+:vs
+```
+* split windows vertically.
+
+```=
+:vs {filename}
+```
+* split windows vertically. and load a buffer.
+
+```=
+:e {filename}
+```
+* load a buffer to current window.
+
+```=
+<c-w> h
+<c-w> j
+<c-w> k
+<c-w> l
+```
+* change focus of the window.
+
+```=
+:close
+```
+* close the current window
+
+```=
+:only
+```
+* close all windows except the current one
+* it will not delete the buffer.
+
+```=
+<c-w>= //make all window equal.
+<c-w>_ //max the height of current window.
+<c-w>| //max the width of current window.
+n<c-w>_ //change to the height of window to n lines.
+n<c-w>| //change to the width of window to n lines.
+
+```
+* `_` and `|` is like the adjustment bar.
+* if the sell support mouse, you can also manually adjust the adjustment bar on the screen using a mouse.
+
+### Tip 41 : Organise Your Window Layouts with Tab Pages
+a tab is a collection of window layouts.
+
+```=
+:lcd 
+```
+* local current directory of current buffer.
+
+```=
+:lcd {path}
+```
+* change the local directory to `path` for the current buffer.
+
+```=
+:windo lcd {path}
+```
+* set the current directory for all buffers in the current window.
+
+```=
+:tabedit {filename}
+```
+* open a file in a new tab.
+
+```=
+<c-w>T
+```
+* move the current window to a new tab.
+
+```=
+:tabclose
+```
+* close the tab and all windows on the tab.
+
+```=
+:tabonly
+```
+* close all windows on the tab except for the current window.
+
+```=
+:tabn
+```
+* switch to next tab.
+
+```=
+:tabp
+```
+* switch to previous tab.
+
+```=
+:tabn {number}
+```
+* switch to n-th tab.
+
+```=
+:tabmove {number}
+```
+* change the sequence of the tab.
