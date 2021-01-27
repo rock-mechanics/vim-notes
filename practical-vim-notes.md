@@ -448,4 +448,3 @@ $ jobs
 ```=
 $ fg
 ```
-* bring back the suspended job.
