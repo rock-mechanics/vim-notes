@@ -1,6 +1,6 @@
 # Practical Vim
 
-# The Vim Way
+## Chapter 1 :  The Vim Way
 ### Tip 1 : Meet the Dot Command
 ### Tip 2 : Don't Repeat Yourself.
 ### Tip 3 : Take One Step Back, Then Three Steps Forward.
@@ -10,7 +10,7 @@
 
 # Part 1: Modes
 
-## Normal Mode
+## Chapter 2 : Normal Mode
 
 Normal mode is the natrual resting state for vim.
 ### Tip 7 : Pause Your Brush Off the Page
@@ -80,7 +80,7 @@ operation on entire line is very common, thus a special rule for it.
 when a `operator`is pressed, vim will enter a state that accepts only `motion` or `text-object`. before that is received,it is at a state of "Operator-Pending".
 In opertor pending mode, `ESC` can resume to Normal Mode.
 
-## Insert Mode
+## Chapter 3 : Insert Mode
 
 ### Tip 13 : Make Corrections Instantly from Insert Mode
 * when making edits, you may use `backspace` to delete char by char.
@@ -144,7 +144,7 @@ single character version of replacement mode and virtual replacement mode is the
 * `r{char}`
 * `gr{char}`
 
-## Visual Mode 
+## Chapter 4 : Visual Mode 
 
 ### Tip 20 : Groke Visual Mode
 Most Normal mode command can be run in visual mode, but the semantics is different.
@@ -250,7 +250,7 @@ A
 ```
 * append after each sub selection
 
-## Command-Line Mode
+## Chapter 5 : Command-Line Mode
 
 ### Tip 27 : Meet Vim's Command Line
 * enter command line mode by pressing `:`
@@ -511,9 +511,9 @@ vim *.vim
 ```
 * it will source the `batch.vim` for all the argument buffer.
 
-# Files
+# Part 2 : Files
 
-## Manage Multiple Files
+## Chapter 6 : Manage Multiple Files
 
 ### Tip 37 : Track Open Files with the Buffer List
 
@@ -738,3 +738,413 @@ a tab is a collection of window layouts.
 :tabmove {number}
 ```
 * change the sequence of the tab.
+
+
+## Chapter 7 : Open Files and Save Them to Disk
+
+### Tip 42 : Open a File by Its Filepath Using `:edit` 
+
+```=
+:pwd
+```
+* print the working directory, similar to shell.
+
+```=
+% 
+```
+* the full name of current buffer (including path)
+
+```=
+%:h
+```
+* the full path of current buffer (exluding filename)
+
+### Tip 43 : Open a File by Its Filename Using `:find`
+`path` is an set of directories vim uses to find documents using the `:find` command.
+
+```=
+:set path+=app/**
+```
+* add all directories under app to the path variableet 
+
+```=
+:find {part of file name} Tab
+```
+* open file to current buffer.
+
+### Tip 44 : Explore the File System with netrw
+`netrw` means network read and write
+
+```=
+vim {directory}
+```
+* open directory in vim buffer
+
+```=
+:E
+```
+* exlore the directory of active buffer.
+
+```=
+:Sexplore
+:Vexplore
+```
+* explore the directory of active buffer in a split window.
+### Tip 45 : Save Files to Nonexistent Directories
+vim open a new buffer for new file regardless the directory existance.
+vim will pop up an error if you try to write the file to an non existence directory.
+
+```=
+:!mkdir {directory}
+```
+* linux command to create a directory.
+
+```=
+:!mkdir -p {dir/dir/dir}
+```
+* create all new directories in the path.
+
+```=
+:!mkdir -p %:h
+```
+* create direcotry in the file name of the active buffer.
+
+### Tip 46 : Save a File as the Super User.
+in case we don't have the right to write to a file. we need to run Linux sudo command to write to the content.
+
+```=
+:w !sudo tee % >/dev/null
+```
+* `tee` is a linux command, takes `stdin` and saves it into a file and at the same time push it to `stdout`
+* `:w !{command}` push the buffer as the `stdin`
+* `%` is the current buffer name.
+* `>/dev/null` is receving the `stdout` as we don't really care the output
+
+# Part 3 : Getting Around Faster.
+
+## Chapter 8 : Navigate Inside Files with Motion
+* motion allows us to move around in a file`
+* motion can be combined with operators
+
+### Tip 47 : Keep Your Fingers on the Home Row
+### Tip 48 : distinguish between real lines and display lines.
+* real lines has a line nubmer.
+* display lines is due to the length of line and vim auto wraps the text.
+
+```=
+g{j, k , l, h}
+g0
+g$
+g^ // move to the first non-empty char in the display line.
+```
+* move around in display line.
+
+### Tip 49 : Move Word-Wise
+
+```=
+w
+b
+```
+* move forward to the beginning of next word.
+* move backward to the beginning of previous word.
+
+```=
+e
+ge
+```
+* `e` move to the end of next word
+* `ge` move to the end of previous word
+
+```=
+ea
+gea
+```
+* `ea` can be read as `append to the end of next word`
+* `gea` can be read as `append to the end of previous word`
+
+```=
+W
+B
+```
+* move forward to the beginning of next WORD
+* move backward to the beginning of previous WORD 
+* big words consists of non-letter characters 
+
+```=
+E
+gE
+```
+* `E` move to the end of next WORD
+* `gE` move to the end of previous WORD
+
+### Tip 50 : Find by Character
+
+```=
+f{char}
+```
+* search a character in the current line.
+
+```=
+;
+```
+* continue the search
+```=
+,
+```
+* continue the search in the reverse direction
+
+```=
+t{char}
+```
+* can be read as `to {char}`
+* search a character in the current line. stop before the character.
+
+#### the search define a motion.
+it can be used to gether with commands
+
+```=
+{commands} {motion}
+```
+
+```=
+dtt
+```
+* delete from the current cursor to the letter t
+* `tt` defines a motion
+
+#### reverse the direction
+
+```=
+F{char}
+T{char}
+```
+
+### Tip 51 : Search to Navigate
+
+```=
+/{partial words/
+```
+
+```=
+n
+```
+* next occurance
+```=
+N
+```
+* previous occurance
+
+#### the search define a motion too.
+it can be used to gether with commands
+
+```=
+{commands} {motion}
+```
+
+```=
+d/th
+```
+* delete from the current cursor to the char combo 'th'
+* `/th` defines a motion
+
+### Tip 52 : Trace Your Selection with Precision Text Objects
+text objects is a pattern/structure of texts.
+
+```=
+i(
+i[
+i{
+i<
+```
+* inside of the braces
+* it does not incudes the braces iteself.
+
+```=
+a(
+a[
+a{
+a<
+```
+* around of the braces
+* it includes the braces and one white space either before or after the brace.
+
+```=
+it
+at
+```
+* inside the tag
+* around the tag
+
+#### Combine text objects with commands
+
+```=
+daw
+caw
+yaw
+di(
+vi<
+```
+* delete a word
+* change a word
+* yank a word
+* delete inside the ()
+* visually select inside the <>
+
+### Tip 53 : Delete Around, or Change Inside
+* delete command works well with `around` motion.
+
+```=
+daw
+das
+dap
+```
+* change command works well with `in` motion
+
+```=
+ciw
+ci(
+cit
+```
+### Tip 54 : Mark Your Place and Snap Back to It
+
+```=
+m{char}
+```
+* mark the current position with designated letter buffer.
+
+```=
+'{char}
+```
+* go to the start of the marking line. 
+
+```=
+`{char}
+```
+* go to the marking character.
+
+### Tip 55 : Jump Between Matching Parentheses
+
+```=
+%
+```
+* alternating between open and close braces.
+* once it jumps, it will mark the returning position, we could return to any marked position using 
+
+```=
+``
+```
+
+## Chapter 9 : Navigate Between Files with Jump
+jump allows us to move between different files.
+
+### Tip 56 : Traverse the Jump List
+
+* vim records the postion before and after we jump in a list called **jump list**
+* each window keeps its own jump list.
+
+```=
+<c-o>
+<c-i>
+```
+* in and out, traverse the jump list.
+
+```=
+:jumps
+```
+* display the whole jump list
+
+#### What is a jump
+
+```=
+{n} G
+```
+* jump to n-th line.
+```=
+/pattern/ <enter>
+?pattern/ <enter>
+n 
+N
+```
+* search forward and backward
+* repeat search forward or backward.
+
+```=
+(
+)
+```
+* jump to start of previous sentence
+* jump to start of next sentence.
+```=
+{
+}
+```
+* jump to start of previous paragraph
+* jump to start of next paragraph.
+
+```=
+H
+M
+L
+```
+* jump the cursor on the screen
+
+```=
+'{char}
+`{char}
+```
+* jump the cursor to the marking.
+
+#### Observation
+* jump is some unusual movement of the cursor, if the cursor's movement is within logical order, it may not considered a jump.
+* if the cursor jump may cause confusion, it is normally considered a jump.
+
+### Tip 57 ; Traverse the Change List
+* vim remebers all the change in a active session and keeps it in a list called **change list**
+
+```=
+:changes
+```
+* open the entire change list.
+
+```=
+g,
+```
+* cursor position of next change
+```=
+g;
+```
+* cursor position of previous change
+
+```=
+`.
+```
+* go back to positon of last change.
+
+```=
+`^
+```
+* go back to last insertion.
+
+```=
+gi
+```
+* uses ``^` to find the last insersion position and enter insertion mode.
+
+### Tip 58 : Jump to the Filename Under the Cursor
+
+```=
+gf
+```
+* go to the file that under the cursor.
+
+```=
+path
+```
+* path variable is comma seprated directories that vim will search for files using `find` and `gf`
+
+```=
+:set path?
+```
+* check the value of current path variable.
+
+### Tip 59 : Snap Between Files Using Global Marks
