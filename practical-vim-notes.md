@@ -1148,3 +1148,108 @@ path
 * check the value of current path variable.
 
 ### Tip 59 : Snap Between Files Using Global Marks
+gobal mark is recoginsed between different files
+
+```=
+m{CHAR}
+```
+* putting the position in the register `{CHAR}` and make it available across files. 
+* the {CHAR} needs to be upper case to indicate it is global register
+
+```=
+{backquote}{CHAR}
+```
+* go to the position of `{CHAR}` globally.
+* it will literally replace the current window with the global marked buffer.
+
+# Part 4 : Registers
+
+## Chapter 10 : Copy and Paste
+
+### Tip 60 : Delete, Yank and Put with Vim's Unnamed Register
+```=
+x
+```
+* delete a under the cursor, put it in unamed register.
+```=
+p
+```
+* in normal mode, it pastes the unnamed register after the cursor.
+#### Black whole register
+block whole register is a register that does not return anything. we can use it to as a command of "true deletion"
+```=
+"_d{motion}
+```
+* you won't be able to yank the text once you direct the text to black whole.
+* `_` is the denotion of black hole.
+
+### Tip 61 : Grok Vim's Registers
+
+```=
+"{register}
+```
+* indicate the address of register
+```=
+"add
+```
+* delete the current line, put it in register a
+```=
+"ap
+```
+* puts the content of register a
+#### `ex` command for regiser
+```=
+:d {register}
+:y {register}
+:p {register}
+```
+* all of them operate on the current line
+#### `yank` special register
+yank command save the content to two registers
+* unamed register
+* 0 register
+#### unamed register
+```=
+""
+```
+* default register of `c`, `d` commands
+#### append to register
+```
+"{CHAR}
+```
+* it will save to same register `char`, but instead of overwrite the register, it appends to it.
+#### system clipboard register
+```=
+"+
+```
+* we can read and write to it to external applications.
+#### expression register
+```=
+"=
+```
+* it will drop into command line mode, and evaluate what is inside the register.
+* use `p` to paste the value into the buffer.
+#### More interesting registers
+
+```=
+"%
+```
+* current file name
+```=
+"# 
+```
+* alternate file name
+```=
+".
+```
+* last inserted text
+```=
+":
+```
+* last ex command
+
+```=
+:/
+```
+* last serach pattern
+
