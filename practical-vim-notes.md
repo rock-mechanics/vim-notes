@@ -22,7 +22,9 @@ Normal mode is the natrual resting state for vim.
 * between entry and exit of insert mode, it counts as an change.
 * Make each "undoable chunk" corresponds to a thought.
 ### Tip 9 : Compose Repeatable Changes.
+
 * in the event when two action has the same number of strokes. repeatability is also a measure.
+
 ```=
 daw : delete a word and the space before it.
 ```
@@ -90,6 +92,7 @@ In opertor pending mode, `ESC` can resume to Normal Mode.
 
 ### Tip 14 : Get Back to Normal Mode
 A special mode is called Insert-Normal-Mode. where you need to fire a normal mode command and switch back to insert mode immediately to continue typing.
+
 ```=
 <C-o> : enter insert-normal-mode, and back to inert
 <C-o>zz : move the typing line to center of screen. and continue typing.
@@ -97,6 +100,7 @@ A special mode is called Insert-Normal-Mode. where you need to fire a normal mod
 
 ### Tip 15 : Paste from a Register Without Leaving Insert Mode
 paste in insert mode is common. 
+
 ```=
 C-r {number}
 ```
@@ -106,6 +110,7 @@ C-r {number}
 In vim, there is a special register called expression register.
 In edit mode, you may type `C-r=` to input the expression to the register.
 Like typing the following sentence
+
 ```=
 6 chairs, each costing 35 dollars, totally 210 dollars.
 ```
@@ -123,6 +128,7 @@ To enter a special character, use `C-v {code}`.
 
 ### Tip 18 : Insert Unusual Characters by Digraph
 Digraph is pairs of characters used to descriptively represent special characters.
+
 ```=
 c-k char1 char2
 ```
@@ -148,31 +154,37 @@ single character version of replacement mode and virtual replacement mode is the
 
 ### Tip 20 : Groke Visual Mode
 Most Normal mode command can be run in visual mode, but the semantics is different.
+
 ```=
 h,j,k,l
 ```
 * expands the visual selected area.
+
 ```=
 c
 y
 ```
 * change the selected text. 
 * yank the selected text.
+
 ```=
 viw
 vaw
 v{motion}
 ```
 * `v` can be followed with a motion to select text 
+
 ```=
 U
 ```
 * `V` change selected text to uppercase.
 * `v` change selected text to lowercase.
+
 ```=
 >
 ```
 * `>` indent selected text
+
 ```=
 r{char}
 ```
@@ -181,26 +193,31 @@ r{char}
 
 ### Tip 21 : Define a Visual Selection.
 
+
 ```=
 v
 ```
 * character visual mode.
 * toggle between the normal mode.
+
 ```=
 V
 ```
 * line visual mode
 * toggle between the normal mode.
+
 ```=
 <c-v>
 ```
 * block visual mode
 * toggle between the normal mode.
+
 ```=
 gv
 ```
 * reselect the last selection
 * it works on all three visual modes.
+
 ```=
 o
 ```
@@ -208,6 +225,7 @@ o
 
 ### Tip 21.5 : Repeat Character-Wise Visual Commands
 In visual modes. character commands will be applied to every character.
+
 ```=
 rx
 ```
@@ -218,11 +236,13 @@ In visual modes, `.` will repeat the visual commands on the same selected text.
 
 ### Tip 23 : Prefer Operators to Visual Commands Where Possible
 Visual commands normally don't work with `.` very well, it will only work on the same range (number of chars) of text, which makes it bit hard to use, if there is a normal operator alternative, we should use the normal mode alternative
+
 ```=
 gU{motion}
 //make text in motion upper case in normal mode
 ```
 is usually more repeatable than
+
 ```=
 v{motion}U
 //perform upper case for visually selected text.
@@ -232,6 +252,7 @@ v{motion}U
 some commands have different semantics in block visual mode.
 in block visual modes, the selecion on each line is considered a *sub-selection* instead of a whole selection
 operations may acts on each of them seperately.
+
 
 ```=
 c{text}
@@ -257,24 +278,29 @@ A
 * execute the command by pressing `Enter`
 
 ### Tip 28 : Execute a Command on One or More Consecutive Lines
+
 ```=
 :8
 ```
 * go to line 8
+
 ```=
 :print
 :p
 ```
 * print current line
+
 ```=
 :8p
 ```
 * go to line 8, then print it.
+
 ```=
 :2,5p
 ```
 * print line 2 to line 5 inclusive
 * the cursor will stay at line 5 afterwards
+
 ```=
 :.,$p
 ```
@@ -283,16 +309,19 @@ A
 * `%` denotes all lines in the file
 * `'<` and `'>` denote the start and end of the selection
 * `0` denotes the start of file (imaginary line 0)
+
 ```=
 /pattern1/,/pattern2/p
 ```
 * print lines from line containing pattern1 all the way to line containing pattern2
+
 ```=
 /<html>/,/<\/html>/p
 ```
 * start from line containing `<html>`
 * end with line containing `</html>`, so it will operate on entire html body
 * it also includes both of the html tag
+
 ```=
 /<html>/+1, /<\/html>/-1p
 ```
@@ -300,6 +329,7 @@ A
 * the begining line number + 1
 * the ending line number - 1.
 * so it prints content inside the html tag without the actual html tag.
+
 ```=
 .,.+1p
 ```
@@ -307,6 +337,7 @@ A
 
 ### Tip 29: Dumplicate or Move Line Using `:t` and `:m` Commands
 `t` is named as `copy to`
+
 ```=
 : from t to
 : from m to 
@@ -315,22 +346,27 @@ A
 * `t` copy the `from` line, put it under `to` line
 * `m` move the `from` line, put it under `to` line
 * current line address sometimes can be omitted.
+
 ```=
 :6t.
 ```
 * copy line 6 and put it under the current line (omitted)
+
 ```=
 :t6
 ```
 * copy current line(omitte) and put it under line 6
+
 ```=
 :t.
 ```
 * copy current line and put it under current line.
+
 ```=
 :t$
 ```
 * copy current line and put it at the end of the file.
+
 ```=
 '<,'>t0
 ```
@@ -338,24 +374,29 @@ A
 
 ### Tip 30 : Run Normal Mode Commands Across a Range
 Combine `ex` command with normal mode allow us to loop through lines and apply commands one by one.
+
 ```=
 line1,line2 normal {command}
 ```
 * `normal` keyword shows we are going to run a normal command for each of the line.
+
 ```=
 1,10 normal .
 ```
 * repeat last nromal command for line1 to line10
+
 ```=
 :% normal //
 ```
 * comment out entire java file
+
 ```=
 :% normal A;
 ```
 * append an semicolon for all lines of a file
 
 ### Tip 31 : Repeat the Last `ex` Command
+
 ```=
 @:
 ```
@@ -364,10 +405,12 @@ line1,line2 normal {command}
 
 ### Tip 32 : Tab-Complete Your `ex` Commands
 Using `tab` can auto complete your commands just like what we do in shell.
+
 ```=
 <c-d>
 ```
 * show all the auto-completion options.
+
 ```=
 :colorscheme <c-d>
 ```
@@ -375,23 +418,27 @@ Using `tab` can auto complete your commands just like what we do in shell.
 
 ### Tip 33 : Insert the Current Word at the Command Prompt
 Vim keeps track of current cursor position and active buffer in command line mode, so you could insert it using
+
 ```=
 <c-r><c-w>
 ```
 
 ### Tip 34 : Recall Commands from History
 very similar to bash, in vim's command line, you may use 
+
 ```=
 up, down
 ```
 to loop through history commands. you may also type part of the command to look for a similar command in history.
 #### Entrie history
+
 ```=
 q:
 ```
 * bring up the history window
 * use <Enter> to execute the commands in the window.
 * you can freely modify the command file using various of vim techniques and once completed, press enter to execute.
+
 ```=
 :q
 ```
@@ -399,37 +446,45 @@ q:
 
 #### Chain two commands together to repeat
 you may need to run a command after writing to vim. use `|` to chain commands together.
+
 ```=
 :w | !python3 prog.py
 ```
 * most likely you are modifying `prog.py`, you want to write it and run it.
 
 #### Enter command line window from command line.
+
 ```=
 <c-f>
 ```
 
 ### Tip 35: Run Commands in The Shell
+
 ```=
 :!{command}
 ```
+
 ```=
 :!ls
 ```
 * list file in current directory
 #### current file name
+
 ```=
 %
 ```
+
 ```=
 :w | !python3 %
 ```
 * save file and use python 3 interpreter to run the current file
 #### start a shell to run multiple shell commands
+
 ```=
 :sh
 ```
 * start a shell
+
 ```=
 exit
 ```
@@ -437,24 +492,29 @@ exit
 
 #### suspend vim in shell and bring back vim
 Since vim is actually a program running in the shell, we could suspend it temporarily using a universal shell command
+
 ```=
 <c-z>
 ```
 * suspend the vim running in shell, so you could interact with shell.
+
 ```=
 $ jobs
 ```
 * check the jobs listed in the background.
+
 ```=
 $ fg
 ```
 * bring back the suspended job.
 
 #### using the content of a buffer for stdin and stdout
+
 ```=
 :read ! {command}
 ```
 * reroute the output of `{command}` to the buffer content.
+
 ```=
 :w !{command}
 ```
@@ -462,11 +522,13 @@ $ fg
 
 #### filtering the contents of a buffer through an external command
 
+
 ```=
 :{range} w !{command}
 ```
 * pass the range of buffer to {command} as stdin
 * reroute the stdout to replace the range in the buffer.
+
 ```=
 :2,4 !sort -t',' -k2
 ```
@@ -474,6 +536,7 @@ $ fg
 * `-k2` tells the `sort` to sort based on the second item.
 
 #### select text to filter using `!{motion}`
+
 
 ```=
 !G
@@ -487,6 +550,7 @@ $ fg
 
 a series of vim commands can be written an `.vim` file. it can then be sourced into a file at one go.
 * there is no need to prefix `:` at the start of each `ex` command.
+
 ```=
 global/href/join
 vglobal/href/delete
@@ -498,14 +562,17 @@ vglobal/href/delete
 #### Run scripts
 * run the script using `:source batch.vim`
 #### Source scripts for multiple buffers.
+
 ```=
 vim *.vim
 ```
 * open multiple files with vim as arguments buffer.
+
 ```=
 :args
 ```
 * check the opened argument buffer.
+
 ```=
 :argdo source batch.vim
 ```
@@ -521,21 +588,25 @@ vim *.vim
 
 * buffer is a memory copy of a file. we are editing a buffer.
 * as the buffer and file content diverges, we need to save the buffer.
+
 ```=
 :write
 :update
 :saveas
 ```
 #### Meet the Buffer List
+
 ```=
 :ls
 ```
 * open the buffer list.
+
 ```=
 :bnext
 ```
 * switch to next buffer in the current window.
 * the current window will be replaced by the next buffer
+
 ```=
 % // current buffer displayed in widow
 # // alternate buffer
@@ -544,6 +615,7 @@ vim *.vim
 * this allow you to switch between two different buffers quickly in the current window.
 * it can toggle quick using `<c-^>`
 #### Use the Buffer List
+
 ```=
 :bprev
 :bnext
@@ -564,28 +636,34 @@ vim *.vim
 * buffer list is a feature of `vim`.
 
 #### Populate Argument List
+
 ```=
 :args {name}
 ```
+
 ```=
 :args *
 ```
 * add all files in the current direcotry to argumetn list.
+
 
 ```=
 :args **
 ```
 * add all files in the current directory and recursively all files in the sub directory
 
+
 ```=
 :args *.*
 ```
 * add all files with extension to arglist.
 
+
 ```=
 :args **/*.js
 ```
 * add `js` file of all sub-directory to arglist
+
 
 ```=
 :args **/*.js **/*.css
@@ -593,6 +671,7 @@ vim *.vim
 * add `js` and `css` files to arglist from all subdirectories.
 
 #### using argument list
+
 
 ```=
 :next
@@ -604,6 +683,7 @@ vim *.vim
 
 hidden buffer is a buffer not showing up in the window.
 by default, vim not allowing you to hide a buffer without saving it.
+
 ```=
 set hidden
 ```
@@ -613,11 +693,13 @@ set hidden
 modified but unsaved buffer will be denoted by an `+` sign in the buffer list.modified but unsaved buffer will be denoted by an `+` sign in the buffer list.
 
 
+
 ```=
 :wall
 :qall
 :qall! //quit all buffer without save
 ```
+
 
 ```=
 :e! 
@@ -627,29 +709,35 @@ modified but unsaved buffer will be denoted by an `+` sign in the buffer list.mo
 
 ### Tip 40 : Divide Your Workspace into Split Windows
 
+
 ```=
 :sp
 ```
 * split windows horizontally.
+
 ```=
 :sp {filename}
 ```
 * split windows horizontally. and load a buffer.
+
 
 ```=
 :vs
 ```
 * split windows vertically.
 
+
 ```=
 :vs {filename}
 ```
 * split windows vertically. and load a buffer.
 
+
 ```=
 :e {filename}
 ```
 * load a buffer to current window.
+
 
 ```=
 <c-w> h
@@ -659,16 +747,19 @@ modified but unsaved buffer will be denoted by an `+` sign in the buffer list.mo
 ```
 * change focus of the window.
 
+
 ```=
 :close
 ```
 * close the current window
+
 
 ```=
 :only
 ```
 * close all windows except the current one
 * it will not delete the buffer.
+
 
 ```=
 <c-w>= //make all window equal.
@@ -684,35 +775,42 @@ n<c-w>| //change to the width of window to n lines.
 ### Tip 41 : Organise Your Window Layouts with Tab Pages
 a tab is a collection of window layouts.
 
+
 ```=
 :lcd 
 ```
 * local current directory of current buffer.
+
 
 ```=
 :lcd {path}
 ```
 * change the local directory to `path` for the current buffer.
 
+
 ```=
 :windo lcd {path}
 ```
 * set the current directory for all buffers in the current window.
+
 
 ```=
 :tabedit {filename}
 ```
 * open a file in a new tab.
 
+
 ```=
 <c-w>T
 ```
 * move the current window to a new tab.
 
+
 ```=
 :tabclose
 ```
 * close the tab and all windows on the tab.
+
 
 ```=
 :tabonly
@@ -888,9 +986,11 @@ f{char}
 ;
 ```
 * continue the search
+
 ```=
 ,
 ```
+
 * continue the search in the reverse direction
 
 ```=
@@ -929,6 +1029,7 @@ T{char}
 n
 ```
 * next occurance
+
 ```=
 N
 ```
@@ -1074,6 +1175,7 @@ N
 ```
 * jump to start of previous sentence
 * jump to start of next sentence.
+
 ```=
 {
 }
@@ -1110,6 +1212,7 @@ L
 g,
 ```
 * cursor position of next change
+
 ```=
 g;
 ```
@@ -1167,16 +1270,21 @@ m{CHAR}
 ## Chapter 10 : Copy and Paste
 
 ### Tip 60 : Delete, Yank and Put with Vim's Unnamed Register
+
 ```=
 x
 ```
 * delete a under the cursor, put it in unamed register.
+
+
 ```=
 p
 ```
 * in normal mode, it pastes the unnamed register after the cursor.
 #### Black whole register
 block whole register is a register that does not return anything. we can use it to as a command of "true deletion"
+
+
 ```=
 "_d{motion}
 ```
@@ -1185,19 +1293,27 @@ block whole register is a register that does not return anything. we can use it 
 
 ### Tip 61 : Grok Vim's Registers
 
+
+
 ```=
 "{register}
 ```
 * indicate the address of register
+
+
 ```=
 "add
 ```
 * delete the current line, put it in register a
+
+
 ```=
 "ap
 ```
 * puts the content of register a
 #### `ex` command for regiser
+
+
 ```=
 :d {register}
 :y {register}
@@ -1209,6 +1325,7 @@ yank command save the content to two registers
 * unamed register
 * 0 register
 #### unamed register
+
 ```=
 ""
 ```
@@ -1219,11 +1336,13 @@ yank command save the content to two registers
 ```
 * it will save to same register `char`, but instead of overwrite the register, it appends to it.
 #### system clipboard register
+
 ```=
 "+
 ```
 * we can read and write to it to external applications.
 #### expression register
+
 ```=
 "=
 ```
@@ -1235,14 +1354,17 @@ yank command save the content to two registers
 "%
 ```
 * current file name
+
 ```=
 "# 
 ```
 * alternate file name
+
 ```=
 ".
 ```
 * last inserted text
+
 ```=
 ":
 ```
@@ -1253,3 +1375,284 @@ yank command save the content to two registers
 ```
 * last serach pattern
 
+### Tip 62 : Replace a Visual Selection with a Register
+in visual mode, `p` replace the selecton with content in `unnamed register`
+* it will also save the overwritten text into unnamed register.
+
+### Tip 63 : Paste from a Register
+
+```=
+p
+P
+```
+* `p` paste after the cursor, `P` paste before the cursor.
+* `before character` or `before line` depends on the the content in register.
+
+```=
+<c-r>{register}
+```
+* puts text when in edit mode.
+* it will be put before the cursor just like we typed it.
+no means .
+
+### Tip 64 : Interact with the System Clipboard
+#### paste from normal mode (easy).
+
+```=
+"+p
+```
+#### paste from insert mode (problematic)
+
+```=
+<c-r>+
+```
+With `autoindent` option, vim treats paste from system clipboard as actual typing, which will incure additional indentations to the inserted text.
+
+```=
+:set paste
+:set paste!
+```
+* `paste` option inform vim about pasting and disable relevant feature to make sure paste is as expected.
+* `paste!` option resumes the vim setting.
+
+```=
+:set pastetoggle =<f5>
+```
+* use <f5> key to toggle the paste options.
+
+## Chapter 11 : Macros
+
+### Tip 65 : Record and Execute a Macro
+* record a macro in register {register}
+
+```=
+q{register}
+```
+* quit recording the macro.
+
+```=
+q
+```
+* check contents of the register {register}
+
+```=
+:reg {register}
+```
+* run the macro in the register {register}
+
+```=
+@{register}
+```
+* run the last invoked macro.
+
+```=
+@@
+```
+
+### Tip 66 : Normalize, Strike, Abort
+* normalize : your cursor position.
+* strike : target with a motion.
+* abort : when motion fails.
+
+* if a motion fails, vim aborts the rest of the macro.
+
+```=
+1000@a
+```
+* we don't need to actually know how many times it will counts, we just need to know the number is large enough to fail.
+
+### Tip 67 : Play Back with a Count
+a pattern for macro can be composed as following
+
+```=
+qq{next instance}.q
+```
+* {next instance} can be `n` or `;` or `j` which defines a motion to move the next item.
+* `.` will repeat last change.
+* the pattern is scalable by prefix with a number.
+
+```=
+100@q
+```
+### Tip 68 : Repeat a Change on Contiguous Lines
+
+#### Macro in series
+* using `j` as the motion to next line.
+* macro will stop once encouter an illegal line. (safety catch)
+
+#### Macro in parrallel
+* using visual selection to define a range.
+* fire macro on each line with `normal` commands.
+
+```=
+'<,'>normal @a <enter>
+```
+
+* we don't need the motion to move the next instance, the visual selection has defined the range for us.
+
+### Tip 69 : Append Commands to a Macro
+use captical letter to append content to a register.
+
+```=
+q{REGISTER}
+```
+### Tip 70 : Act Upon a Collection of Files
+
+#### first work flow (parrallel)
+1. build args list
+3. record macro on current file.
+4. revert the changes on current files.
+5. run macro on all args list.
+
+#### commands.
+* navigate through directory inside vim
+
+```=
+:cd {directory}
+```
+
+* add `rb` files to args list.
+
+```=
+:args *.rb
+```
+
+* move to the start of the args list.
+
+```=
+:first
+```
+
+* revert the change to the first file.
+
+```=
+:edit!
+```
+
+* execuate `ex` commands for all buffers in arg list.
+
+```=
+:argdo normal @a
+```
+
+* write to all buffer
+
+```=
+:argdo w
+:wall
+```
+
+#### second work flow (series)
+1. build args list
+2. record macro on current buffer
+3. append `:next` to the macro
+4. run it multiple times 
+
+### Tip 71 : Evaluate an Iterator to Number Items in a List
+
+#### workflow
+1. create a variable and intialize it
+2. create a macro using the variable and increase the variable at the end of macro.
+3. execute the macro on multiple lines
+
+#### commands
+* create a variable.
+
+```=
+: let i = 0
+```
+
+* check variable value.
+
+```=
+: echo i
+```
+
+* using variable in insert mode by a evaluate expression
+
+```=
+<C-r>=i
+```
+
+* increase the variable.
+
+```=
+: let i = i + 1
+```
+
+### Tip 72 : Edit the Contents of a Macro
+#### work flow
+1. paste the register content to the end of file at a new line.
+2. edit the text in normal vim buffer.
+3. yank the buffer text back to register.
+
+#### commands
+
+* put register on a new line.
+
+```=
+:put {register}
+```
+
+* yank content back to register
+
+```=
+"{register}dd
+```
+
+# Part 5 : Patterns
+## Chapter 12 : Matching Patterns and Literals
+### Tip 73 : Tune the Case Sensitivity of Search Patterns
+#### global setting
+* make search case insensitive
+
+```=
+:set ignorecase
+```
+* make search case sensitive
+
+```=
+:set noignorecase
+```
+
+#### per-search setting
+* make this case insensitive
+
+```=
+\c
+```
+* make this case sensitive
+
+```=
+\C
+```
+#### smart case sensitivity
+
+```=
+:set smartcase
+```
+* it will override `ignorecase` setting
+* if search pattern all lower case, then it is case insensitive
+* if search pattern contains upper case, then it become sensitive.
+
+### Tip 74 : Use the \v Pattern Switch for Regex Searches
+`\v` stands for **very magic**. It enables all the special meanings of these special characters by default, so we don't have to escape them.
+* `{n}` stands for number of times
+* `(a|b)` matches a or b.
+* `[...]` matches anything inside the brackets.
+
+#### very magic exception
+only **three** characters has no special meanings
+1. `numbers`
+1. `letters`
+1. `_`
+
+* rest of characters may not have special meaning now. but pending for assignment in the future.
+
+#### character class
+character class matches certain group of characters.
+* `\x` matches hex digits characters.
+* `\d` matches digits charaters.
+* `\w` matches words.
+* `\a` matches alphabetic characters.
+* `\s` matches white space and tab.
