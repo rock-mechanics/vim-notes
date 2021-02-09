@@ -1656,3 +1656,229 @@ character class matches certain group of characters.
 * `\w` matches words.
 * `\a` matches alphabetic characters.
 * `\s` matches white space and tab.
+
+### Tip 75 : Use the \V Literal Switch for Verbatim Searches
+`\V` stands for very unmagical.
+* all special characters lose the special meaning
+* only `\` remain special.
+
+### Tip 75.1 : Magical or Unmagical
+* if search for patterns, `\v` is more friendly
+* if search for compound words, `\V` is more friendly.
+
+### Tip 76 : Use Parentheses to Capture Submatches
+* `()` is used to create a capture group
+* `\{0-9}` is used to reference the capture group both in search field and replacement field.
+* `\0` is always refer to the entire match
+
+### Tip 76.5 : Use Parenthese to Denote Groups
+* group is like sets, only one of them gets matched.
+* by default, the content in parenthese will be captured.
+
+```=
+/(a|b)
+```
+* we may tell vim not to capture the group by prefix an `%`
+
+```=
+/%(a|b)
+```
+
+### Tip 77 : Stake the Boundaries of a Word
+#### word characters
+
+```=
+\w
+```
+
+#### non word characters
+
+```=
+\W
+```
+
+#### boundary of words
+
+```=
+<\w+>
+```
+* the `+` sign shows the word character appears one or more times.
+* the boundary will exclude characters that are not inside the `<>`
+* so in this case, the boundary is equivalent to the following.
+
+```=
+\W\zs\w+\ze\W
+```
+* `\zs` denotes the start of match
+* `\ze` denotes the end of match
+* we don't want to match the `\W` characters.
+
+### Tip 78 : Stake the Boundaries of a Match
+Match can be different from the pattern, we can only extract part of the pattern as the match.
+
+```=
+\zs
+\ze
+```
+* denote the match within a pattern
+* by default, the match is the entire pattern.
+
+### Tip 79 : Escape Problem Characters
+
+* all search field has a terminator 
+* it leaves space for flags to be included in the whole expression.
+
+```=
+/
+?
+```
+* terminator for forward search and backward search
+* if your search field includes these characters, we should escape them.
+
+```=
+\
+```
+* it is special character even in `\V` search, it should be escaped as well.
+
+### Tip 79.5 : Use Library Functions to Escape Characters in Search Field
+#### work flow 
+1. yank the search string into a register
+2. bring up search field with very unmagical search
+3. use `CR=` to bring up evaluation register
+4. use `escape(@{register}, '{chars}') <Enter>` to evalue the expression
+5. complete the search.
+
+#### commands
+* `escape` function takes two arguments, one is the register content, the other is character to be escaped.
+
+## Chapter 13 : Search
+### Tip 80 : Meet the Search Command
+
+```=
+/{pattern}
+```
+* forward search
+* if no pattern is given, vim uses the previous pattern
+
+```=
+:set wrapscan
+:set nowrapscan
+```
+* start from beginning once hit end.
+* stop once hit boundary of document.
+
+```=
+?{pattern}
+```
+* backward search
+* if no pattern is given, vim uses the previous pattern
+
+```=
+n
+N
+```
+* repeat last search
+* repeat last search in reversed direction.
+
+### Tip 81 : Highlight Search Matches
+
+```=
+:set hls
+```
+* highlight the search in all windows.
+
+### Tip 82 : Preview the First Match Before Execution
+
+```=
+:set incsearch
+```
+* Enable searching as you type, rather than waiting till you press enter.
+
+```=
+<c-r><c-w>
+```
+* auto complete the word for the first match in incremental search
+
+### Tip 83 : Count the Matches from the Current Pattern
+#### workflow
+1. complete the search
+2. use `substitute` command to count the occurance.
+
+#### commands
+
+```=
+:%s///gn
+```
+* `g` denote global search through a line.
+* `n` denote only count without substitute
+
+### Tip 84 : Offset the Cursor to the End of a Search Match
+
+```=
+/{pattern}/e
+```
+* `e` flag place the cursor at end of the match
+* by default, it always place at the start of the match.
+* `n` and `N` will repeat the search with same flag.
+
+### Tip 85 : Operate on a Complete Search Match
+search matches can be different in length, or they can be nested in other words.
+vim's motion may or may not be able to cover the entire match effectively.
+#### possible workflow
+1. complete the match
+2. place cursor on the first match at the beginning of the match.
+3. use search `//e` as a motion to reach the end of match, it will registered as a repeatable commands.
+4. use `//` to hit the next target and place the cursor on the beginning of the next match.
+5. use `.` to repeat the last command.
+
+* the command with a motion to cover entire match requires the cursor at the beginning of the match.
+* the search is refereshed by flag `e`. to hit the next target at the beginning, we need to restart the search by `//<Enter>`
+
+### Tip 86 : Create Complex Patterns by Iterating upon Search History
+
+```=
+q/
+```
+* bring up command line window to show all search history.
+* commands can be edited as normal vim buffers and once `Enter` is hit, the command will be executed.
+* old command history will always preserved even it is changed in the editing session, new command will be apppended to the search history.
+* this is a very important trick, because it allows us to iterate existing search patterns in a simple manner.
+
+### Tip 87 : Search for the Current Visual selection
+plugin called `visual star` to change the default behavior of vim
+* default : in normal mode and visual mode, `*` and `#` always search for the word under the cursor.
+* vim star : normal mode it search for word under cursor, in visual mode, it search for the selection.
+
+## Chaptr 14 : Substitution
+### Tip 88 : Meet the Substitute Command
+
+```=
+:{range}s/{pattern}/{replace}/{flags}
+```
+#### flags
+* `g` : global on the line
+* `c` : confirm each substitution.
+* `n` : count without substitute.
+* `e` : silent the error output.
+* `&` : resue last flag
+
+#### replacement character
+* `\r` : enter 
+* `\t` : tab
+* `\\` : \
+* `\{number}` : submatch content
+* `\={script}` : evaluate vim script to insert 
+
+### Tip 89 : Find and Replace Every Match in a File.
+* use `%` range to denote all lines.
+* use `g` flag to denote all occurances in a line.
+
+### Tip 90 : Eyeball Each Substitution
+* use `c` flag to ask for a confirmation before substitution.
+* it can achieve similar effect as dot formula, which is a personal flavor to choose which.
+
+### Tip 91 : reuse the last search pattern
+* in subsititution, if search field is blank, it will use the last search pattern.
+* separate search field and subsititution field can cause incomplete search history, because search history and substitute history is placed in different places.
+* search history is put in search history. bring up using `q/`
+* substitute history is put in ex cmd history. bring up using `q:`
