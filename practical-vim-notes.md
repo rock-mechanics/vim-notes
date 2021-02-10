@@ -1850,6 +1850,7 @@ plugin called `visual star` to change the default behavior of vim
 * vim star : normal mode it search for word under cursor, in visual mode, it search for the selection.
 
 ## Chaptr 14 : Substitution
+
 ### Tip 88 : Meet the Substitute Command
 
 ```=
@@ -1882,3 +1883,244 @@ plugin called `visual star` to change the default behavior of vim
 * separate search field and subsititution field can cause incomplete search history, because search history and substitute history is placed in different places.
 * search history is put in search history. bring up using `q/`
 * substitute history is put in ex cmd history. bring up using `q:`
+
+#### Alternatives
+
+```=
+<c-r>/
+```
+* insert into the command line the register `/`, which holds the last search pattern
+* the subsititute history will be full in this case.
+
+### Tip 92 : Replace with the Contents of a Register
+in substitute, the replacement field will not use the previous substitution string
+#### work flow
+1. yank the replacement string into a register
+2. insert the value of a register into the replacement field by value or by ref.
+
+#### commands
+
+```=
+<c-r>{register}
+```
+* insert the register value by value.
+
+```=
+\=@{register}
+```
+* `\=` is to evaluate vim script.
+* `@{register}` in vim script will grab the content of a register.
+* this command will update with the contents of the register, so it is by ref.
+
+```=
+:let @/ = {search pattern}
+```
+* populate the last search register manually.
+
+#### work flow 
+1. populate the register search
+2. populate the register replace
+3. use by ref to do substitution
+
+#### commands
+
+```=
+:let @/ = "search"
+:let @a = "replace"
+:%s//\=@a/g
+```
+* all the values are by ref, so you may change the register content to use the command in different way.
+
+### Tip 93 : Repeat the Previous Substitute Command
+
+```=
+:s
+:&
+```
+* replay the last substitute on current line
+* ignoring all the flags.
+* `:&` can be short cut using `&`
+
+```=
+:&&
+```
+* replay the last substitution with same flags on current line
+* second `&` specify the same flags as the last substitution.
+* ignoring the range of last substitute.
+
+```=
+:{range}&&
+```
+* replay the last substitution on the current range
+
+```=
+g&
+```
+* run last substitution across all lines.
+* `:%&&` is same as `g&`
+
+### Tip 94 : Rearrange CSV Fields Using Submatches
+
+```=
+/\v^([^,]*),([^,]*),([^,]*)$
+:%s//\3,\2,\1
+```
+* a very magical search
+* `^` denotes the start of line.
+* [^,] matches non comma character.
+* `$` match the end of line.
+
+### Tip 95 : Perform Arithmetic on the Replacement
+
+#### workflow
+1. use search pattern to identify the numeric portion
+2. use vim script to add or subtract the match 
+3. replace it in the substitution.
+
+#### commands
+
+```=
+\d
+```
+* may appear is the search field
+* match digit character same as `[0-9]`
+
+
+```=
+\zs
+\ze
+```
+* may appear is the search field
+* focus the match on the numeric fields.
+
+```=
+\=submatch(0)
+```
+* may appear in the replace field.
+* vim script to capture the match as number.
+* we can add or extract number from this.
+
+### Tip 96 : Swap Two or More Words
+
+#### workflow
+1. create a dictionary in vim script, using match as key, replacement as value.
+2. match both words
+2. use the dictionary as replacement string, match as key.
+
+#### commands
+
+```=
+:let swapper = {"dog":"man","man":"dog"}
+```
+* build a dictionary called swapper to hold two key-value pairs.
+
+```=
+/\v(<dog>|<man>)
+```
+* match both dog and man and capture it 
+
+```=
+:%s//\=swapper[submatch(0)]/g
+```
+* `\=` evaluate vim script expression
+* `swapper[key]` is the syntax to access the value of a dictionary.
+* `submatch(0)` is the captured match.
+
+### Tip 97 : Find and Replace Across Multiple Files
+
+#### workflow
+1. find all matches in the project direcotry across all files.
+2. all these matches will be saved in a list called `quick fix list`
+3. run substitution on all list times.
+
+#### commands
+
+```=
+:vimgrep /{pattern}/{files}
+```
+* `{files}` accpets string globbing where `*` match any characters, `**` match any directory
+* it will open up the quick fix list
+
+```=
+:cfdo %s/{patterns}/{replacement}/g
+```
+* substitute all items in the quick fix list.
+
+```=
+:cfdo update
+```
+* save the quick fixes if it is modified
+* leave it if it is unmodified.
+
+## Chapter 15 : Global Commands
+global commands is an `ex` command that allows user to run a `ex` command on lines that meets certain pattern.
+
+### Tip 98 : Meet the Global Command
+
+```=
+:[range]g[!]/{pattern}/{cmd}
+```
+* `[range]` is optional, if omitted, it is default to entire file, which is all the lines `%`. 
+* `[!]` is optional to specify pattern match or pattern not match, this is equivalent to `v/reg/command`
+* `cmd` can be omitted, if so, vim will use default `print` command, which echos the match.
+
+### Tip 99 : Delete Lines Containing a Pattern
+
+### Tip 100 : Collect TODO Items in a Register 
+
+#### workflow
+1. clear the register
+2. append register for each line.
+
+#### commands
+
+```=
+q{register}q
+```
+* clear register by recording nothing
+
+```=
+:g/{pattern}/yank {REGISTER}
+```
+* use upper case register name denotes a append mode.
+
+```=
+"{register}p
+```
+* puts the register content somewhere else.
+
+### Tip 101 : Alphabetize the Properties of Each Rule in a CSS File.
+
+global commands will moves the cursor to the match literally. the `ex` command can take a range from each of this match.
+
+```=
+:{range1}g/{pattern}/{range2}{command}
+```
+* `range1` is the searching range of `g` command.
+* `range2` is the range of each command refers to the cursor position of that match.
+
+
+```=
+:g/{/.+1,/}/-1 sort
+```
+* sort all items inside the `{}`
+* `g/{/` is the global command moves the cursor to the `{` position
+* `.+1` defines next line number
+* `/}/-1` defines the closing line number at that match.
+* `sort` will do the sorting.
+
+```=
+:g/{start}/.,/{end}command
+```
+* a general pattern for this approach.
+
+```=
+:sil {range}{command}
+```
+* by default, `ex` command will echo a message when completed a task
+* `sil` silent the message in the sceario there are large number of matches.
+
+# Part 6 : Tools
+## Chapter 16 : Index and Navigate Source Code with ctags
+
+### Tip 102 : Meet ctags
