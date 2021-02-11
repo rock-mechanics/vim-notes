@@ -1,5 +1,9 @@
-# Vim Notes
 
+# Part 1 : Basic and Advanced vi
+## Chapter 1 : The vi Text Editor
+### editors
+* line editor 
+* screen editor
 # ZZ
 saves and writes to the file.
 it will also **exit** the vim editor.
