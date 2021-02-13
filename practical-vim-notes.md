@@ -17,10 +17,12 @@ Normal mode is the natrual resting state for vim.
 * Spend more time thinking, reviewing, modifing than simply inputing text to your code.
 * A painter does not need to hold the brush all the time, at normal mode, he has more tools.
 * Normal mode should be a natural stop for the author to think.
+
 ### Tip 8 : Chunk Your Undos
 * What is a change. a change can be char, word, line. 
 * between entry and exit of insert mode, it counts as an change.
 * Make each "undoable chunk" corresponds to a thought.
+
 ### Tip 9 : Compose Repeatable Changes.
 
 * in the event when two action has the same number of strokes. repeatability is also a measure.
@@ -28,12 +30,14 @@ Normal mode is the natrual resting state for vim.
 ```=
 daw : delete a word and the space before it.
 ```
+
 ### Tip 10 : Use Counts to Do Simple Arithmetic
 Both the following commands can be fixed with a number, so it will repeat `n` times.
 * `ctrl-a` : increase the first number after cursor.
 * `ctrl-x` : decrease the first number after cursor.
 > the command will try to identify a number at the cursor position.
 > if there is no number at the cursor, it will look for the first number after the cursor.
+
 ### Tip 11 : Don't Count If You Can Repeat.
 * `d2w` : `d` is delete ,`2w` is a motion.
 * `2dw` : `2d` is delete two times,`w` is a motion.
@@ -266,6 +270,7 @@ block visual modes can select not only rectanglur data. It can do more and becom
 $
 ```
 * it can extend each subselection to the end of line.
+
 ```
 A
 ```
@@ -463,27 +468,32 @@ you may need to run a command after writing to vim. use `|` to chain commands to
 ```=
 :!{command}
 ```
+* run a shell command wiithin vim
 
 ```=
 :!ls
 ```
 * list file in current directory
+
 #### current file name
 
 ```=
 %
 ```
+* refer to current file path.
 
 ```=
 :w | !python3 %
 ```
 * save file and use python 3 interpreter to run the current file
+
 #### start a shell to run multiple shell commands
 
 ```=
 :sh
 ```
 * start a shell
+* get back to vim when the shell session is ended.
 
 ```=
 exit
@@ -559,8 +569,11 @@ vglobal/href/delete
 %substitute/\v^[^\>]+\>\s//g
 ```
 * above commands can be saved in `batch.vim`
+
 #### Run scripts
+
 * run the script using `:source batch.vim`
+
 #### Source scripts for multiple buffers.
 
 ```=
@@ -614,6 +627,7 @@ vim *.vim
 ```
 * this allow you to switch between two different buffers quickly in the current window.
 * it can toggle quick using `<c-^>`
+
 #### Use the Buffer List
 
 ```=
@@ -888,6 +902,7 @@ vim {directory}
 :Vexplore
 ```
 * explore the directory of active buffer in a split window.
+
 ### Tip 45 : Save Files to Nonexistent Directories
 vim open a new buffer for new file regardless the directory existance.
 vim will pop up an error if you try to write the file to an non existence directory.
@@ -1281,6 +1296,7 @@ x
 p
 ```
 * in normal mode, it pastes the unnamed register after the cursor.
+
 #### Black whole register
 block whole register is a register that does not return anything. we can use it to as a command of "true deletion"
 
@@ -1293,26 +1309,22 @@ block whole register is a register that does not return anything. we can use it 
 
 ### Tip 61 : Grok Vim's Registers
 
-
-
 ```=
 "{register}
 ```
 * indicate the address of register
-
 
 ```=
 "add
 ```
 * delete the current line, put it in register a
 
-
 ```=
 "ap
 ```
 * puts the content of register a
-#### `ex` command for regiser
 
+#### `ex` command for regiser
 
 ```=
 :d {register}
@@ -1320,27 +1332,32 @@ block whole register is a register that does not return anything. we can use it 
 :p {register}
 ```
 * all of them operate on the current line
+
 #### `yank` special register
 yank command save the content to two registers
 * unamed register
 * 0 register
+
 #### unamed register
 
 ```=
 ""
 ```
 * default register of `c`, `d` commands
+
 #### append to register
 ```
 "{CHAR}
 ```
 * it will save to same register `char`, but instead of overwrite the register, it appends to it.
+
 #### system clipboard register
 
 ```=
 "+
 ```
 * we can read and write to it to external applications.
+
 #### expression register
 
 ```=
@@ -1348,6 +1365,7 @@ yank command save the content to two registers
 ```
 * it will drop into command line mode, and evaluate what is inside the register.
 * use `p` to paste the value into the buffer.
+
 #### More interesting registers
 
 ```=
@@ -1604,28 +1622,29 @@ q{REGISTER}
 ## Chapter 12 : Matching Patterns and Literals
 ### Tip 73 : Tune the Case Sensitivity of Search Patterns
 #### global setting
-* make search case insensitive
 
 ```=
 :set ignorecase
 ```
-* make search case sensitive
+* make search case insensitive
 
 ```=
 :set noignorecase
 ```
+* make search case sensitive
 
 #### per-search setting
-* make this case insensitive
 
 ```=
 \c
 ```
-* make this case sensitive
+* make this case insensitive
 
 ```=
 \C
 ```
+* make this case sensitive
+
 #### smart case sensitivity
 
 ```=
@@ -2449,4 +2468,300 @@ vim builds a keyword list for you when you are typing in **insert mode**.
 <c-x><c-n>
 ```
 * limit the word list to words in the current buffer.
+
+### Tip 113 : Work with the Autocomplete Pop-Up Menu
+#### goals
+1. refine the list
+2. pick an item
+3. dismiss the list.
+
+#### commands
+
+```=
+<c-y>
+```
+* say yes to the selected word.
+
+```=
+<c-e>
+```
+* this is the end, dismiss the window, and get back to what I have typed.
+
+```=
+<c-h>
+```
+* refine left, delete one character from the match.
+
+```=
+<c-l>
+```
+* refine right, add one character from the current match.
+
+```=
+<c-n><c-p>
+```
+* this combination will return to your typing status, but keep the matching window in real time.
+
+### Tip 114 : Understand the Source of Keywords
+#### workflow
+use different commands to tell vim to select words from different sources.
+these commands all starts from `<c-x>`
+
+#### commands
+
+```=
+<c-x><c-n>
+```
+* use the current buffer list.
+
+```=
+<c-x><c-i>
+```
+* use the include file list.
+
+```=
+:set include?
+```
+* figure out what languages that vim already know
+* by default, only c language is supported.
+
+```=
+<c-x><c-]>
+```
+* use the tagged file which is generated by c-tags.
+* it will include all the function names, class names etc.
+
+```=
+<c-n>
+```
+* generic completion list.
+* a combination of all above.
+
+```=
+:set complete?
+```
+* the order and sequence of sources
+
+```=
+complete=.,w,b,u,t,i
+```
+* an example of output from `compelte` option
+* `.` : current buffer.
+* `w` : current window
+* `b` : loaded buffer
+* `u` : unloaded buffer.
+* `t` : tag file.
+* `i` : included file.
+
+```=
+:set complete += k
+```
+* add `k` to the comma separated list.
+
+### Tip 115 : Autocomplete Words from the Dictionary
+#### goals
+* vim can look up a pre-compiled dictionary to check misspelled words.
+* user can define their own dictionary for a special purpose.
+
+#### commands
+
+```=
+:set spell
+```
+* use vim's default words list as a dictionary
+
+```=
+<c-x><c-k>
+```
+* use words from the default dictionary to autocomplete.
+
+### Tip 116 : Autocomplete Entire Lines
+
+```=
+<c-x><c-l>
+```
+* auto complete entire lines.
+
+### Tip 117 : Autocomplete Sequence of Words
+
+```=
+<c-n><c-n>
+```
+* use autocompletion consecutively will make vim remember the context.
+
+### Tip 118 : Autocomplete Filenames
+
+```=
+<c-x><c-f>
+```
+* autocomplete the file name in the current working directory
+
+```=
+:pwd
+```
+* check the current working directory.
+
+```=
+:cd {directory name}
+```
+* navigate the current working directory.
+
+### Tip 119 : Autocomplete with Context Awareness
+
+```=
+<c-x><c-o>
+```
+* trigger the omni completion.
+
+```=
+:set omnifunc=syntaxcomplete#Complete
+```
+* turn on omni function
+
+## Chapter 20 : Find and Fix Typos with Vim's Spell Checker
+
+### Tip 120 : Spell Check Your Work
+
+```=
+:set spell
+```
+* enable the built in spell checker dictionary.
+
+```=
+]s
+```
+* navigate to next wrong word
+
+```=
+[s
+```
+* navigate to previous wrong word
+
+```=
+z=
+```
+* bring up the suggestion list for replacement words.
+
+### Tip 121 : Use Alternate Spelling Dictionaries
+
+```=
+:set spelllang=fr
+```
+* change from spelling from English to French.
+* local to the current buffer.
+
+```=
+:set spelllang?
+spelllang=en
+```
+* default setting for `spelllang`
+
+### Tip 122 : Add Words to the Spell File
+#### goal
+1. create a spell file that store all the unknown words.
+2. add to the file we created.
+3. remove from the file we created.
+
+#### create a spell file.
+
+```=
+mkdir ~/.vim/spell/
+touch en.utf-8.add
+```
+* create a spell file on Linux.
+
+```=
+:set spellfile?
+:setlocal spellfile=~/.vim/spell/en.utf-8.add
+```
+* create a file for own words. 
+
+#### operations on the list.
+
+```=
+zg
+```
+* add the word under the cursor to the word list.
+* prefix the command with a number to indicate the index of multiple word list.
+
+```=
+zw
+```
+* remove the word under the cursor from the word list.
+
+```=
+zug
+```
+* what ever you done to the word under the cursor, remove it.
+
+### Tip 123 : Fix Spelling Errors from Insert Mode.
+
+```=
+<c-x>s
+```
+* in insert mode, trace back spell mistake for a fix.
+
+## Chapter 21 : Now What?
+1. keep practicing
+2. refer back to the notes if necessary. this is only the first pass of the book.
+3. Resist the temptation to customize vim in the ugly way. Try to know the saw before sharpening it.
+
+## Appendix 1 : Customize Vim to Suit Your Preferences
+
+```=
+:set {option}
+```
+* set the option value to true.
+
+```=
+:set no{option}
+```
+* set the option value to false.
+
+```=
+:set {option}!
+```
+* toggle the options.
+
+```=
+:set {option}?
+```
+* check the current value for the option.
+
+```=
+:set {option}&
+```
+* resume the default value for the option.
+
+```=
+:set {option}={value}
+```
+* some options require a value to be filled in.
+
+```=
+:setlocal {option}
+:setlocal {option}={value}
+```
+* it will apply the current window or buffer.
+
+```=
+:source {vimrc}
+```
+* run through a file line by line and apply the settings.
+* the file is either `.vimrc` or `something.vim`.
+* default vimrc will be sourced on startup.
+
+```=
+:e $MYVIMRC
+```
+* editing the default vimrc file.
+* `$VIMRC` is an environment variable which expands to the full path (usually `~/.vimrc`
+
+```=
+~/.vim/after/ftplugin/javascript.vim
+~/.vim/after/ftplugin/ruby.vim
+```
+* specify setting only for javascript file.
+* `filetype plugin on` needs to be enabled.
+
 
