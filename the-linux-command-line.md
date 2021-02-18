@@ -685,9 +685,93 @@ ls /bin /usr/bin | sort | less
 * list two directories into a sorted file stream then use `less` to page it.
 
 ### uniq - report or omit repeated lines
+* `uniq` accepts a **sorted** list, and it removes dumplicates from the list, after that it sends the filtered list to stdout
+* `uniq` uses binary search to detect dumplicates, that's why it needs to take a sorted list.
+
+```=
+command | sort | uniq
+```
+* getting input from stdin
+
+```=
+uniq sorted-file
+```
+* getting input from a file 
+
+```=
+uniq -d sorted-file
+```
+* show only dumplicates
+
 ### wc - print line, word, and byte counts
+wc count number of lines, words and bytes. it can take two kinds of arguments
+1. stdin
+2. file
+
+```=
+command | wc 
+wc file
+```
+
+#### arguments
+
+```=
+wc -l
+wc -w
+wc -c
+```
+* by default, all lines, words , bytes count will be displayed, if controlled by argument, only certain result is displayed.
+
+
 ### grep - print lines matching a pattern
+
+```=
+grep {pattern} file1 file2 file3 ...
+command | grep 
+```
+* grep run across multiple files and take out lines containing certain patterns.
+* grep can take inputs from both `stdin` and `file`
+* it will print the selected **lines** to stdout
+
+#### arguments
+
+```=
+grep -i 
+```
+* ignore case
+
+```=
+grep -v
+```
+* inverse the grep
+
 ### head/tail - print first / last part of files
+
+```=
+command | head 
+command | tail
+head file
+tail file
+```
+* head/tail display the first/last ten lines.
+* they can take inputs from `stdin` as well as `file`
+* the result is directed to `stdout`
+
+#### arguments
+
+```=
+head -n {number}
+tail -n {number}
+```
+* change the default behavior of displaying 10 lines. display `{number}` lines.
+
+```=
+head -f file
+tail -f file
+```
+* monitor mode, keeping the screen updated once the file is changed.
+* use `ctrl - c` to exit the monitor session.
+
 ### tee - read from stdin and output to stdout and files
 ## summing up
 
