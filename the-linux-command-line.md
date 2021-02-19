@@ -773,13 +773,173 @@ tail -f file
 * use `ctrl - c` to exit the monitor session.
 
 ### tee - read from stdin and output to stdout and files
-## summing up
+`tee` takes `stdin`, direct it into two destination
+* a file
+* `stdout`
+
+```=
+command1 | tee file | command2
+```
+* takes the input from command1
+* `tee` saves the output to file
+* `tee` saves the output to command2
 
 # seeing the world as the shell sees it
 ## expansion
+
+```=
+echo arg1 arg2 ...
+```
+* shell will expand the args according to certain rule before executing command
+* `echo` just echo the input. which is the text **after** expansion.
+
+### pathname expansion
+```=
+echo *
+```
+* `*` expands to all file names (**including directory names**) in the current working directory.
+* multiple spaces are omitted, so the default format is not working.
+* expansion result will be auto-sorted.
+* `*` by default does not reveal hidden files.
+
+```=
+ls -d .*
+```
+* list all hidden files including the `.` and `..`
+* this is usually not the ideal result for hidden files.
+
+```=
+ls .[!.]*
+```
+* list all files containing more then two character
+* the first character is a `.`
+* the second character is not a `.`
+* precise way to list all the hidden files.
+
+```=
+echo ~
+```
+* `~` expands to the home address of current user.
+
+```=
+echo ~user
+```
+* `~user` expands to the home directory of the user `user`
+
+### arithmetic expansion
+
+```=
+$((expression))
+```
+* this will expands to the result of the expression
+
+```=
++ - * / % **
+```
+* supported computation
+* the precedence of computation is same as arithmetic calculation.
+
+### brace expansion
+
+```=
+{item1,item2,item3...}
+```
+* expands to all single items in the braces.
+* there is no space inside the pattern.
+
+```=
+echo {01..15}
+echo {001..15}
+```
+* there is **no space** around the `..` which defines a range
+* the format (preceding zeros) will be respected.
+
+```=
+echo thisis-{A..Z}-letter
+```
+* brace expansion can include preamble and postscript
+
+### parameter expansion
+parameter or variables will expands to its content during parameter expansion
+
+```=
+$variable-name
+```
+* expands to the variable content.
+
+```=
+echo $USER
+```
+* expands to user variable, in my case it is `rock-mechanics`
+
+### command expansion
+command expansion takes a command, and expands to its output.
+
+```=
+$(command -option argument)
+```
+
+```=
+ls -l $(which cp)
+```
+* `$(which cp)` expands to `/usr/bin/cp`
+* `ls -l /usr/bin/cp` list in detail about the program
+
 ## quoting
+
+* `$ ~` are special characters in arguments.
+* extra space will also be omitted in arguments.
+* quoting is used to prevent these special characters from expansion.
+
+### double quotes
+all special characters lose their meaning except
+1. `$` will expand
+2. `\` will escape
+3. \` will expand
+* \` is an alternative syntax for command substitution like `$(command)`
+* since `$` will expand, expansion using this will continue to work, so paramter, arithmetic, command expansion all work.
+
+```=
+echo "$USER $((2+2)) $(cal)"
+```
+* `$USER` is parameter expansion
+* `$((2+2))` is arithmetic expansion
+* `$(cal)` is command expansion
+* double quoted argument will be taken as a single argument.
+
+### single quotes
+**all** special characters loose their special meaning, shell takes the input as pure string without expanding it.
+
+### escpating characters
+`\` can escape one character from expanding. so we don't need to put quotes
+
+```=
+echo this is \$5.00
+```
+
+### backslash escape sequences
+`\` is used to represent control codes.
+
+```=
+echo -e arguments
+```
+* echo the arguments, and watch for escape sequences
+
+```=
+\a
+```
+* alert, ring a bell
+
+```=
+\b
+\n
+\r
+\t
+```
+* backspace, newline, return and tab
+
 ## summing up
-## further reading
+it will be used more frequently, it is very important to understand how expansion works.
 
 # advanced keyboard tricks
 ## command line editing
