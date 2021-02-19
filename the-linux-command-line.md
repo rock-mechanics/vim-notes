@@ -943,8 +943,118 @@ it will be used more frequently, it is very important to understand how expansio
 
 # advanced keyboard tricks
 ## command line editing
+bash uses a library called `readline` to implement command line editing.
+### cursor movement
+
+```=
+ctrl - a
+ctrl - e
+```
+* a means ahead, move to the beginning of the line.
+* e means end, move to the end of the line.
+
+```=
+ctrl - f
+ctrl - b
+```
+* f means forward, move the cursor forward one character
+* b means backward, move the cursor backward one character
+
+```=
+alt - f
+alt - b
+```
+* forward by word
+* backward by word
+
+### modifying text
+
+```=
+alt - l
+alt - u
+```
+* change case from cursor to the end of line.
+* `-l` to lower
+* `-u` to upper
+
+```=
+ctrl - d
+```
+* delete the character at cursor position.
+
+```=
+ctrl - t
+alt - t
+```
+* transpose the character with the previous one
+* transpose the word with the previous one.
+
+### cutting and pasting (killing and yanking) text
+in readline, cut is called kill and the content is saved in a buffer called `killing`
+
+```=
+ctrl-k
+ctrl-u
+```
+* kill to the end of line from the cursor
+* kill to the beginning of line from the cursor
+
+```=
+ctrl-y
+```
+* yank the text from the killing buffer.
+
+```=
+alt-d
+alt-backspace
+```
+* word wise killing
+* `alt-d` kills to the end of word from the cursor
+* `alt-backspace` kills to the beginning of a word from the cursor.
+
+### the meta key
+* after unix and before pcs, there is one large computer, and everybody only have a device called `terminal` which consists of
+	1. screen
+	2. keyboard
+* meta key is invented because the developer does not know what extra key each different keyboard may have
+* in modern pc, it is mapped to the `alt` key.
+
 ## completion
+* `tab` key is used to auto complete keywords and variables
+
+```=
+alt - ?
+```
+* inspect all possible completions
+
+### programmable completion
+* bash may include addtional rules for auto-completion
+* for example option list of a command
+* it is implemented using shell functions.
+
 ## using history
+list of history commands is kept at a file in the home directory
+
+```=
+.bash_history
+```
+
+```=
+history
+```
+* shows the all the history commands.
+
+```=
+!{line-number}
+```
+* history expansion, it will expands to the command on the n-th line of the command history.
+
+```=
+c-r
+```
+* start increamental search in real time
+* you may type and the result will refine by itself.
+
 ## summing up
 ## further reading
 
