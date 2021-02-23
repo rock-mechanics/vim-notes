@@ -44,24 +44,38 @@ vim --version
 #### packages organize and load your plugins.
 
 ```=
-$VIMCONFIG/pack
+${packpath}/pack
 ```
 * default place to place all packages.
 
+```=
+:echo join(split(&packpath, ','), "\n")
+```
+* inspect the packpath variable.
+
+```=
+sample-pack/start/plugin_autoload_1/..
+sample-pack/start/plugin_autoload_2/..
+...
+sample-pack/opt/plugin_optload_1/..
+sample-pack/opt/plugin_optload_2/..
+```
+* sample folder structure for a package.
+
 #### loading process
-1. search for `start` directory, load it to `runtimepath`
+1. search for `{packpath}/pack/{packname}/start` directory, load it to `runtimepath`
 2. source all scripts in the `runtimepath`
 
 ### Tip 5 : installing plugins to your package
 
 #### installing your first plugin
 ```=
-mkdir -p ~.vim/pack/bundle/start
-mkdir -p ~.vim/pack/bundle/opt
+mkdir -p {packpath}/bundle/start
+mkdir -p {packpath}/bundle/opt
 ```
 * create the `bundle` package.
-* `start` folder contains plugin loaded when startup.
-* `opt` folder contains plugin optionaly loaded by user during runtime.
+* `start` folder contains plugins loaded when startup.
+* `opt` folder contains plugins optionaly loaded by user during runtime.
 
 ```=
 git clone ....
@@ -92,16 +106,16 @@ git clone ....
 
 #### migrating to vim packages.
 
-
 ### Tip 6 : managing plugins with minpac
 minpac is a package manager that 
 1. manipulate the `runtimepath` variable.
 2. provide function to install/uninstall/update plugins
 
 ```=
-mkdir ~/.vim/pack/minpac/opt
+mkdir {packpath}/minpac/opt
 ```
 * create the package for minpac
+* it is a package containing all plugins including the `minpac` plugin itself.
 * the minpac manager will be installed in `opt` folder.
 
 ```=
@@ -136,8 +150,85 @@ call minpac#add(tpope/vim-scriptease', {'type' : 'opt'})
 * update the plugins in the minpac package.
 * it will also run `helptags` for us. so we can view the documentation directly.
 
+#### removing plugins with minpac
+1. remove the `packadd` statement from `vimrc` file.
+2. call clean method from minpac.
+
+```=
+:call minpac#clean()
+```
+* the entire directory will be removed from the `{packpath}/minpac/`
+
+#### creating commands
+
+```=
+command! Packupdate call minpac#update()
+command! Packclean call minpac#clean()
+```
+* add these to `vimrc` file will create new `ex` command.
+* customized command must start will capital letter.
+
+#### a modern and minimal plugin manager
+* minpac uses the vim's default package functions.
+* it is for minimum, may not provide all functions as `Vundle`
+
 ## Chapter 3 : opening files
 ### Tip 7 : finding files using fuzzy path matching
+#### preparation
+
+```=
+cd ~/.vim/pack/bundle/start
+git clone https://github.com/junegunn/fzf
+```
+* install `fzf` plugin
+
+```=
+cd ~/.vim/pack/bundle/start/fzf
+./install --bin
+fzf --version
+```
+* install the fzf for bash.
+* the bash program is part of the vim fzf plugin.
+
+```=
+:FZF
+```
+* access fzf inside vim.
+
+#### opening files by specifying their filepath
+provide a sequence of characters, fzf will find the files base on
+* path matching these characters in the order specified.
+
+#### opening files by fuzzy-matching their names
+
+```=
+<c-k>
+<c-j>
+```
+* navigate the filtered list 
+
+```=
+<enter>
+```
+* open the selected fzf file in the current window.
+
+```=
+<c-x>
+```
+* open the selected fzf file in split window.
+
+```=
+<c-v>
+```
+* open the selected fzf file in vertical split window.
+
+```=
+<c-t>
+```
+* open the selected fzf file in a new tab.
+
+#### filtering out files
+#### fuzzy finding other sources
 ### Tip 8 : finding files semantically
 ### Tip 9 : jumping to an alternate file
 
