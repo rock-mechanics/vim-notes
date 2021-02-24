@@ -501,6 +501,7 @@ command --help
 ```
 
 ### man - display a program's manual page
+
 * man is a formal documentation for command line programs.
 * many program provides such documentation.
 
@@ -885,6 +886,14 @@ ls -l $(which cp)
 * `$(which cp)` expands to `/usr/bin/cp`
 * `ls -l /usr/bin/cp` list in detail about the program
 
+### history expansion
+```=
+history
+!{line-number}
+```
+* show the history
+* expands to the command in n-th line of the history file (search forward to the details section on history)
+
 ## quoting
 
 * `$ ~` are special characters in arguments.
@@ -940,6 +949,11 @@ echo -e arguments
 
 ## summing up
 it will be used more frequently, it is very important to understand how expansion works.
+1. pathname expansion
+2. arithmatic expansion
+3. command expansion
+4. brace expansion
+5. history expansion
 
 # advanced keyboard tricks
 ## command line editing
@@ -1055,15 +1069,254 @@ c-r
 * start increamental search in real time
 * you may type and the result will refine by itself.
 
-## summing up
-## further reading
-
 # permissions
+* more than one person can use the computer at the same time.
+* remote users can attach a terminal to the netowrk to operate on the pc. the output will be displayed in the remote screen.
+* computer needs to take care of different users, so they don't mess up with each other.
+
 ## owners, group members, and everybody else
+* user can own files.
+* user can create a group and grant rights to this group of people
+* user can grant rights to everybody using this computer.
+
+```=
+$ ls -l /etc/shadow
+-rw-r----- 1 root shadow 1287 Jan 30 02:19 /etc/shadow
+```
+* `root` owns this file
+* `root` created a group called `shadow`
+
+```=
+id
+uid=1000(rock-mechanics) gid=1000(rock-mechanics) groups=1000(rock-mechanics)
+```
+* check userid, groupid
+* `uid` is the userid, it is created when user account created.
+* `gid` is the primary group id, you are born here.
+* `groups` is the groups the user may belongs to, you have lived there.
+
+```=
+/etc/passwd
+```
+* file contains user account information.
+
+```=
+$ sudo cat /etc/passwd | grep rock
+rock-mechanics:x:1000:1000::/home/rock-mechanics:/bin/bash
+```
+* colon seprated values.
+* `username : password : uid : gid : uid-info : home-directory : shell`
+* password is `x`, means it is encrypted and stored in `/etc/shadow/` directory.
+
+```=
+/etc/group
+```
+* file contains group information.
+
+```=
+$ sudo cat /etc/group | grep rock
+lp:x:7:rock-mechanics
+sudo:x:27:rock-mechanics
+users:x:100:rock-mechanics
+netdev:x:109:rock-mechanics
+lpadmin:x:117:rock-mechanics
+scanner:x:120:rock-mechanics
+sambashare:x:123:rock-mechanics
+rock-mechanics:x:1000:
+```
+* colon separated values
+* group name : password : gid : other group members
+* for `rock-mechanics`, there is no other group members, only the owner.
+* `rock-mechanics` user is also a member for other groups listed.
+
+```=
+/etc/shadow
+```
+* file containing all the passwords
+
+```=
+sudo cat /etc/shadow | grep rock
+rock-mechanics:$6$og7ZuH3owR0828QA$s2yyi4T2Iu/KOUKGt.8YrzJo9AYdhqHGJjTjehrrg8Hqudc1c5DP3RPD93btoTJbDVib88.ovivUxARf/2pVJ1:18656:0:99999:7:::
+```
+* colon separated value
+* `rock-mechanics` : user name
+* `$6$og....` : hashed password
+* `18656` : the day you changed your password
+* `0` : min days required for you to be able to change password
+* `99999` : max days then you must change the password
+* `7` : number of days system will warn you before your password expire.
+
 ## reading, writing, and executing
+
+```=
+$ > test
+$ ls -ld test .
+drwxr-xr-x 4 rock-mechanics rock-mechanics 4096 Feb 24 17:00 .
+-rw-r--r-- 1 rock-mechanics rock-mechanics    0 Feb 24 17:00 test
+```
+* `d` stands for directory, `-` stands for regular file, `l` stands for link
+* `rwx` is `read write and exectue`
+* for regular files, `rwx` is normal meaning
+	* `r` is reading the content of the file.
+	* `w` is writing the content of the file.
+	* `x` is executing the file as a program.
+* for directory
+	* `x` means enter directory, it is basic for other rights
+	* `r` is read the content of directory, which is `ls` the directory
+	* `w` is modifiying the directory structure, including add/remove/rename files.
+
+### `chomod` to change file's mode
+#### using oct mode to change the file's mode
+
+```=
+chmod 600 foo.txt
+```
+* you need to specify the file modes for owner, group, and everyone else.
+* `6` in binary is `110`, it is the same as `rw-`
+* `0` in binary is `000`, it is the same as `---`
+* the `foo.txt` now has the permisson as `rw-,---,---`
+
+
+```=
+$ > foo.txt
+$ chmod 600 foo.txt
+$ ls -l foo.txt
+-rw------- 1 rock-mechanics rock-mechanics 0 Feb 24 17:22 foo.txt
+
+```
+#### using symbolic mode to change the file's mode
+
+```=
+chmod u+x foo.txt
+chmod g+r foo.txt
+chmod o+r foo.txt
+```
+* `u` stands for user/owner
+* `g` stands for group 
+* `o` stands for others
+* `a` stands for all
+
+```=
+chmod u-x foo.txt
+chmod a=r foo.txt
+chmod u=rw foo.txt
+chomd u+x,a+r foo.txt
+```
+
+#### `umask` set default permissions
+umask mask the bits when creating a new file. it uses a number to determine what permission to mask/shadow to false
+
+```=
+original file mode -> mask -> final file mode when created
+```
+* the process of determine file modes for newly created files.
+
+```=
+rw-, rw-, rw-
+```
+* default file modes.
+
+```=
+umask
+0022
+```
+* it shows the curren `umask` value.
+* starting from second bit.
+* `0` is `000`, there is no mask for the `rwx`
+* `2` is `010`, which mask the `w` bit.
+* new created file will have rights `rw-, r--, r--`, the `w` bit is masked by `umask`
+
+```=
+umask 0000
+```
+* change `umask` to `0000`, there is no mask bits on.
+* newly created file will have rights `rw-, rw-, rw-`
+
+##### `umask` : the first bit : special permissions
+
+```=
+4
+```
+* in binary it is `100`
+* setuid
+* when assigned to a program, any user run this program will wear a jacket of the user (pretend to be the user).
+
+```=
+2
+```
+* in binary it is `010`
+* setgid
+* when assigned to a program, any user run this program will wear a jacket of the group (pretend to be the group member).
+
+```=
+1
+```
+* in binary it is `001`
+* sticky bit
+* when assigned to a directory, unless you are the owner of this directory, it is not allowed to delete and rename files of this directory
+* normal user can only plus the content of the folder, but not able to minus the content of the folder.
+
+
 ## changing identities
+### become another user
+
+```=
+su -l user-name
+```
+* start a new shell as a different user
+* `-l` means login shell, switch home directory
+* `exit` will return to your normal shell.
+
+### become the super user
+
+```=
+sudo su -
+```
+* it starts a new shell as root user
+* home directory is changed to `/root/`
+* shell prompt is changed from `$` to `#`
+* return to normal shell using `exit`
+
+```=
+sudo su -c 'command in single quotes'
+```
+* pass the command to root shell to execute and return back.
+* single quotes is to prevent expansion in the current shell.
+
+## `sudo` execute command as another user
+```=
+sudo command
+```
+* use your own password to login
+* use your own shell as root.
+* can be configured what you can do from super user.
+
+```=
+/etc/sudoers
+```
+* the file contains all settings for users that can execute sudo
+
+### `chown` to change the owner of a file
+
+```=
+sudo chown {ownername}:{groupname} foo.txt
+```
+
+```=
+$ ls -l foo.txt
+-rw-r--r-- 1 rock-mechanics rock-mechanics 0 Feb 24 17:41 foo.txt
+$ sudo chown root:root 
+$ ls -l foo.txt
+-rw-r--r-- 1 root root 0 Feb 24 17:41 foo.txt
+
+```
+
 ## exercising our privileges
 ## changing your passwords
+
+```=
+passwd
+```
 ## summing up
 ## further reading
 
