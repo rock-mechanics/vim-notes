@@ -227,13 +227,163 @@ provide a sequence of characters, fzf will find the files base on
 ```
 * open the selected fzf file in a new tab.
 
+```=
+<c-c>
+```
+* cancel the fzf session.
+
 #### filtering out files
+It is possiblle to limit the input to fzf so we are not troubled by all the noise input like a unused folder.
+
+
+```=
+export FZF_DEFAULT_COMMAND='find . -type f'
+```
+* default setting for the search method
+
+```=
+export FZF_DEFAULT_COMMAND='git ls-files'
+```
+* change the behavior, so fzf only list files tracked by git.
+
+```=
+exprot FZF_DEFAULT_COMMAND='rg --files'
+```
+* exclude files that marked by 'gitigonre'
+
 #### fuzzy finding other sources
+1. source : the file list sent to fzf
+2. sink : after filter by the user, action to the selection.
+
+##### possiblility 1
+1. source : buffer list
+2. sink : open the selected buffer
+
+##### possiblility 2
+1. source : command history list
+2. sink : execute the command in the current buffer.
+
+##### fzf.vim
+a standalone plugin provide these possiblities
+
 ### Tip 8 : finding files semantically
+#### plugins
+* `projectionist`
+
+#### what does it do?
+1. it classifies files into different categories
+2. by providing part of the filepath, we can open the file in particular type in different folders quickly.
+
+#### preparation
+install projectionist from tim pope
+#### exploring demo project
+
+* in the master project directory, a confration file called `.projections.json` , this file will define the types of the file.
+* the demo shows two project structures, amazingly, the same command can work with both structure.
+* sematics will be
+	1. open the model of comment module.
+	2. open the model of adapter module.
+
+```=
+"app/models/*.js": {"type" : "model"}
+```
+* sample from `.projections.json`
+* all the files in models folder will be classified as `model` type.
+* the models folder contains model file for all modules.
+
+```=
+:Emodel comment
+:Emodel adapter
+```
+* `E` stands for edit
+* `model` is type of the file.
+* `comment` is the fill for the glob.
+* this command opens the file `app/models/comment.js`
+* this command opens the file `app/models/adapter.js`
+
+```=
+"src/data/models/*/model.js" : {'type' : 'model'}
+```
+* a new `.projections.json` for the project
+* each module is sperated in its own folder, each module contains its model file.
+* all the commands still work.
+
+```=
+:Emodel comment
+:Emodel adapter
+```
+* opens `src/data/models/comment/model.js`
+* opens `src/data/models/adpater/model.js`
+
+#### Navigation command variation
+
+```=
+E : edit in current buffer.
+S : edit in horizontal split buffer.
+V : edit in vertical split buffer.
+T : edit in a new tab.
+```
+#### Smart tab completion
+* use `tab` to autocomplete file types and path names.
+* use `ctrl-d` to reveal list of possibilities
+
 ### Tip 9 : jumping to an alternate file
+#### why we need this
+when we need to switch between two different files, like a code and corresponding test
+#### plugins
+* projectionist
+#### exploring the demo
+
+```=
+"app/models/*.js" : {
+	'type':'model",
+	'alternate':"test/unit/models/{}-test.js"
+	},
+"test/unit/models/*-test.js" : {
+	'type' : 'modeltest',
+	'alternate':"app/models/{}.js"
+	}
+```
+* part of the `.projections.json`
+* `alternate` property defines the alternate file with this file.
+* `{}` matches the glob by `*`
+* files are alternates to each other, 
+	* {name}.js -> {name}-test.js
+	* {name}-test.js -> {name}.js 
+* you may flip the two files like a flip card
 
 ## Chapter 4 : working with the quickfix list
 ### Tip 10 : running a build and navigating failures
+
+```=
+vim-dispatch
+```
+* the plugin needs to be installed.
+#### making vim call the compiler (a native approach)
+
+```=
+:!tsc --outDir build %
+```
+* `:!` calls an external command 
+* `tsc --outDir build` is the type script complier used in this example.
+	* `--outDir` is the option to specify the customized directory
+	* `build` is the directory name you specified.
+* `%` is shorthand for the current file path.
+
+##### the problem
+1. the error message disappears, so we could not identify the error easily
+2. we could not interact with vim during the compilation, we need to wait until it finishes, this is called synchronous
+
+##### capturing compiler output with :make
+
+```=
+makeprg
+errorformat
+```
+* specify make program and the error of output from compiler.
+
+
+
 ### Tip 11 : switching compilers
 ### Tip 12 : linting the current file
 ### Tip 13 : searching files with grep-alikcs
