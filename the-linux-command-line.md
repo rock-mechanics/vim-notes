@@ -1317,13 +1317,239 @@ $ ls -l foo.txt
 ```=
 passwd
 ```
-## summing up
-## further reading
 
 # processes
 ## how a process works
+when system starts up, the kernal will 
+1. start a few program itself as processes
+2. start a program called `init`
+3. the `init` program runs a series of scripts in `/etc/` folder, which starts all the system services.
+4. each process has been assigned a unique `pid`, its memory has been recorded by the system, so 
+	* it could be stopped at any given time
+	* it could be resumed to its state at any time.
+
 ## viewing processes
+
+```=
+ps
+```
+* list all the running processes controlled by the current terminal
+
+```=
+ps x
+```
+* list all the running processes regardless of the control terminal
+
+```=
+ps aux
+```
+* list all process by all the user
+
+### Attributes of process
+
+```=
+TTY
+```
+* it is short for `teletype`, refering to the controlling terminal of the process.
+* an `?` in the `TTY` attribute means the process has no controlling terminal.
+
+```=
+STAT
+```
+* it is short for `status` which shows the status of the process
+* `R` means process is running or ready to run
+* `S` means sleeping
+* `*s` means leading process
+* `*N` means nice process (low priority)
+* `*<` means high priority process
+* `*l` means multi-thread process
+* `*+` means foreground process
+
+```=
+%MEM
+```
+* memory use percentage
+
+```=
+%CPU
+```
+* CPU usage percentage
+
+```=
+VSZ
+```
+* virtual memory size
+
+```=
+RSS
+```
+* residual (actual) memory size
+
+```=
+START
+```
+* time when process started
+
+### view process dynamically with `top`
+`top` shows a bunch of infomation and most recent processes (top process)
+
+```=
+top - 07:00:44 up  1:31,  0 users,  load average: 0.97, 1.85, 2.08
+Tasks:  18 total,   1 running,  17 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.8 us,  0.0 sy,  0.0 ni, 99.2 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem :  2000000 total,  1876104 free,    80364 used,    43532 buff/cache
+KiB Swap: 41943036 total, 40752636 free,  1190400 used.  1919636 avail Mem 
+```
+* `top` : is the name of the program
+* `07:00:44` : is the current time of the day
+* `up 1:31` : system has been on for 1:31 hours
+* `0 users` :  there is no users currently
+* `load average` : 0.97, 1.85, 2.08` : number of process waitting for last 1, 5, 15 minutes
+* `%Cpu(s): 0.8us` : 0.8% of the cpu is used by user process
+* `0.0 sys` : 0% of the cpu is used by system process
+* `0.0 ni` : 0% of the cpu is used by nice process
+* `0.0 wa` : 0% of the cpu is used by waiting process (process waiting for io input)
+* `Mem` : physical memory
+* `Swap` : virtual memory
+
 ## controlling processes
+### interrupting the process
+
+```=
+ctrl-c
+```
+* interrupt means politely ask the program to terminate
+* most program can be interrupted in this manner
+
+```=
+{program-name} &
+```
+* start a program and put it in the background
+
+```=
+jobs
+[1]+ Running xlogo &
+```
+* list the running processes
+* `[1]` is the job number
+* `Running` is the status of the process
+* `xlogo &` is the name of the process
+
+```=
+fg %{job-number}
+```
+* bring the process to the foreground
+* `%{job-number} can be omitted if there is only one job in the job control center.
+
+```=
+ctrl-z
+```
+* pause(stop) the process and put it in the background
+
+```=
+bg %{job-number}
+```
+* move a stopped process in the background
+
+### why start a graphical program from command line
+1. there may not be gui for the program (no buttons)
+2. we can lauch interesting command line `options` when we lanuch graphic program from command line
+
 ## signals
+
+```=
+ctrl-c
+```
+* terminal send a `INT` signal to the program
+
+```=
+ctrl-z
+```
+* terminal send a `TSTP` (terminal stop) to the program
+
+### why signals
+program can do certain clean up work when received with some signals such as terminate
+
+### sending other signals
+
+```=
+kill -{signal} {process-id}
+kill -{signal} {job-number}
+```
+* sending a signal to a process
+
+```=
+kill {process-id}
+kill -TERM {process-id}
+```
+* send a terminate signal to the process
+* default behavior without specifying the options
+
+```=
+kill -INT {process-id}
+```
+* send a interrupt signal to the process
+* different program perceive this in different way. most program will just termiate
+
+```=
+kill -KILL {process-id}
+```
+* kill the process immediately by the kernal
+* no clean up work is possible
+
+```=
+kill -TSTP {process-id}
+```
+* send a terminal stop signal to the process
+* same as press `ctrl-z`
+* program may ignore it after recieve this signal
+
+```=
+kill -STOP {process-id}
+```
+* stop the process without terminating
+* program must stop when receiving this signal
+
+```=
+kill -CONT {process-id}
+```
+* continue a stopped process
+
+### view all the possible signals
+
+```=
+kill -l
+```
+### sending signal to multiple processes
+
+```=
+killall -{signal} name1 name2..
+```
+
 ## more process related commands
-## summing up
+
+```=
+pstree
+```
+* show parent-child relationship for all process
+
+```=
+vmstat
+vmstat -n
+```
+* stands for `virtual memory statistics`
+* it shows the resource usage of the system
+* using an option of `n`, we can see a snapshot of resource usage every `n` seconds.
+
+# Chapter 11 : The environment
+## what is stored in the environment
+### examine the environment
+### some interesting variables
+### how is the environment established
+### what is in a startup file
+## modifying the environment
+### which file should we modify
+### text editors
+### using a text editor
+### why comments are important
+### activating our changes
