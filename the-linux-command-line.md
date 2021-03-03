@@ -1542,14 +1542,190 @@ vmstat -n
 * using an option of `n`, we can see a snapshot of resource usage every `n` seconds.
 
 # Chapter 11 : The environment
+when we start a shell session, the shell maintains a body of information called the `The Environment`
+the program will ususally be customized through two information
+1. configration file
+2. the environment
+
 ## what is stored in the environment
+1. environment variable
+2. shell variable (this data is placed by bash)
+3. aliases
+4. shell functions
+
 ### examine the environment
+
+```=
+set
+```
+* print both shell and environemnt variables
+
+```=
+printenv | less
+```
+* print environment variables.
+
+```=
+printenv {var-name}
+```
+* print certain values of the variable
+
+```=
+alias
+```
+* show the list of alias that the shell is using.
+
 ### some interesting variables
+
+```=
+EDITOR
+SHELL
+HOME
+LANG
+PAGER
+PATH
+PS1
+TERM
+TZ
+USER
+```
 ### how is the environment established
+1. when the bash starts, it will read some `start up` files to establish the environment for all users
+2. it will then reads some personal configration file to personalize the environment for the current user.
+
+### login shell
+login shell requires user to login to use the shell (for example, virtual shell)
+
+```=
+/etc/profile
+```
+* for all users
+
+```=
+~/.bash_profile
+```
+* for the current user.
+
+```=
+~/.bash_login
+```
+* back up file if `~/.bash_profile` not found
+
+```=
+~/.profile
+```
+* back up file if `~/.bash_login` not found
+
+### non-login shell
+non-login shell is the normal shell we use through various of terminals. we don't need a password to access the shell
+* it is usually started by a login shell
+* it will inherit the environment from its parents.
+
+```=
+/etc/bash.bashrc
+```
+* for all users
+
+```=
+~/.bashrc
+```
+* for the current user.
+
 ### what is in a startup file
+
+```=
+#....
+```
+* this is a comment
+
+```=
+if ...
+   ...
+fi
+```
+* if block
+
+```=
+PATH=$PATH:$HOME/bin
+```
+* change the content of the variable.
+* `:$HOME/bin` will be appended to the content of the variable.
+* the `PATH` variable is a colon seprated value list, so we need to append ` : something`
+
+```=
+export PATH
+```
+* make this path available to its child process.
+
 ## modifying the environment
 ### which file should we modify
+the idea is to keep your personal setting in your home directory without causing problems for other users.
+
+```=
+~/.bash_profile
+```
+* this file is for customization for login shell
+
+```=
+~/.bashrc
+```
+* this file is for customization for non-login shell
+
+
 ### text editors
 ### using a text editor
 ### why comments are important
 ### activating our changes
+
+```=
+source ~/.bashrc
+```
+
+## Chapter 12 : An gentle introduction to vi
+## Chapter 13 : Customizing the prompt
+
+```=
+echo $PS1
+```
+* check the prompt string 1 environment varible.
+* this variable controls the appearance of the prompt
+
+### prompt string content
+1. escape sequence `\x`. which has special meanings.
+
+```=
+\u
+\w
+\h
+\$
+\!
+\#
+\a
+\A
+```
+* `\u` is the user name
+* `\w` is the current working directory
+* `\h` is the host computer name
+* `\$` is the prompt character, it will be displayed as normal `$`, if the user is root, it will be displayed as `#`
+* `\!` is the history number of the current command
+* `\#` is the number of commands you have entered during the current shell session.
+* `\a` is bell ring
+* `\A` is the current time in hour:min format
+
+2. controlling characters 
+
+```=
+\[....\]
+```
+* controlling characters does not print, the bash will ignore these characters when calculating the length of the prompt.
+
+* it is used for manipulate the output such as 
+	1. moving the cursor
+	2. change the color of the text
+	3. include other non-print characters.
+
+3. text literals
+* the actual text that will be displayed in the terminal prompt.
+
+### Adding color
+* this is done using non-print controlling characters
