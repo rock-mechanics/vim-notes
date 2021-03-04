@@ -1729,3 +1729,405 @@ echo $PS1
 
 ### Adding color
 * this is done using non-print controlling characters
+* it should be enclosed in `\[ .. \]` to indicate they are controlling non-print controlling characters.
+* the standard is developed by ANSI to cater for too many different types of terminals.
+
+```=
+\033
+```
+* indicate this is a color changing command
+
+```=
+[x;
+```
+* there are two values to be included
+	1. 0 : dark color 
+	2. 1 : light color
+	3. 4 : underscore
+	4. 5 : blinking
+
+```=
+3xm
+```
+* specify the color of the text 
+* `0` is black group
+* `1` is red group
+* `2` is green group
+* `3` is yellow group
+* `4` is blue group
+* `5` is purple group
+* `6` is cyan group
+* `7` is white group
+* there is a special code `0m` which signify the return of previous color
+
+```=
+4xm
+```
+* specify the color of the background color
+
+```=
+\[\33[0;31m\]
+```
+* a complete compound string siginfing change the color to red.
+
+```=
+\[\33[0;41m\]
+```
+* a complete compound string siginfing change the background-color to red.
+
+```=
+\[\033[0m\]
+```
+* a complete compound string siginfin return to previous color
+
+### moving the cursor
+
+```=
+\033[{move-command}
+```
+* overall format to move the cursor
+
+### move-commands
+
+```=
+s
+```
+* store the current cursor position in a buffer.
+
+```=
+u
+```
+* resume the cursor position from the buffer
+
+```=
+K
+```
+* clear the cursor position to the end of the line
+* this removes any characters that is printed on the screenn before.
+
+```=
+{number}A
+```
+* move the cursor up n line.
+
+```=
+{number}B
+```
+* move the cursor down n line.
+
+```=
+{number}C
+```
+* move the cursor forward n characters
+
+```=
+{number}D
+```
+* move the cursor backward n characters
+
+```=
+2J
+```
+* move the cursor to the upper left corner.
+
+```=
+{number1},{number2}H
+```
+* move the cursor to line number1 and coloumn number2
+
+```=
+1,1H
+2J
+```
+* these two commands are equivalent
+
+## Chapter 14 : Package Management
+### what makes a linux distribution good
+* package system
+* vitality of the support community
+
+### what is a package system
+* a method of installing and maintaining softwares on the system.
+
+### packaging systems families
+1. debian style (.deb)
+2. redhat style (.rpm)
+
+### package files
+* a compressed file that consists of the body of the progrma
+* it will also comes with the meta data of the prorgram
+* sometimes it comes with cofigration scripts before and after the installation of the software.
+
+### how package files are made
+* they are usually made by package maintainer
+* the package maintainer will get and compile the source code, add meta data and pre and post configrations.
+
+### repositories
+* a collection of packages.
+* it is common for the distribution to maintain several different repositories and include third-party repositories.
+
+### dependencies
+* some program requires program component from a shared library.
+* package management tool will do the dependencies resolution to make sure all the dependencies are installed when the program is installed.
+
+### high and low level package tools
+1. low level tools
+	* installing package files
+	* for debian family, it usually use `dpkg`
+	* for redhat family, it usually use `rpm`
+2. high level tools
+	* searching meta data
+	* dependency resolution
+	* for debian family, it usually use `apt-get` and `aptitude`
+	* for redhat family, it usually use `yum`
+
+### common package management tasks
+#### finding a package in a repository
+
+```=
+apt-get update
+apt-cache search {string}
+```
+* `apt-get update` updates the fetching lists
+* `apt-cache search` search the string from the package list.
+
+#### installing a package from a repository
+
+```=
+apt-get update
+apt-get install {package-name}
+```
+#### download a package from the repository
+
+```=
+apt-get download {package-names}
+```
+* it will downloaded to the current directory
+* you may provide multiple names in one go.
+
+#### installing a package from a package file
+
+```=
+dpkg --install {package-file}
+```
+* this method is applied after the package file has been downloaded.
+* it will search for Internet for dependencies, so most of time an Internet connection is compulsory
+
+#### remove a package
+
+```=
+apt-get remove {package-name}
+```
+
+#### updating a package from a repository
+
+```=
+apt-get update
+apt-get upgrade
+```
+* `apt-get update` retreive a new list of packages from the repo
+* this info is stored in cache.
+
+#### display info about an installed package
+
+```=
+apt-cache show {package-name}
+```
+* get the information about an installed package.
+* it will read the cache, so better perform an update before make the query.
+
+#### updating a package from a package file
+
+```=
+dpkg --install {package-file}
+```
+
+#### list installed package
+
+```=
+dpkg --list
+```
+
+#### determine if a package is installed
+
+```=
+dpkg --status {package-name}
+```
+
+#### determine other files belongs to the same packages.
+
+```=
+dpkg --search {file-name}
+```
+
+## Chapter 15 : Storage Devices
+## Chapter 16 : Networking
+## Chapter 17 : Searching for files
+### `locate` : find the file in the easy way
+
+```=
+locate /bin/zip
+```
+* find all path names containing `*/bin/zip*`
+* it performs a rapid database search
+* the database is updated periodically.
+
+```=
+dbupdate
+```
+* update the database manually.
+* this ensure `locate` can find the most recent files.
+
+### `find` : find the file in the hard way.
+
+```=
+find {directory} {pattern}
+```
+* this lists all the files in the directory matching the pattern
+* if {directory} is omitted, it defaults to the current directory
+* if {pattern} is omitted, it defaults to all files
+
+```=
+find {tests or actions} {options}
+```
+* using `tests` to filter the path name further
+* using `actions` to do action on the selected pathname(the file)
+* using `option` to change the scope of the find search.
+
+```=
+{test or action} -and {test or action} -or {test or action} -not {test or action}
+```
+* combine `test` and `action` in the logical way.
+* it executes from left to right
+* we can include `\( ...\)` to change the sequence.
+* if the operator omitted, if defaults to `-and`
+* operators are evalued in the shortcut manner.
+
+#### tests
+1. type test
+	* `-type f` : regualr file
+	* `-type d` : direcotry
+	* `-type l` : symbolic link
+2. name test
+	* case senstive : `-name {wildcards}`
+	* case insenstive : `-iname {wildcards}`
+3. size test
+	* `-size n`
+4. modification time test in minutes
+	* `-cmin n` : changed in minutes including file attributes
+	* `-mmin n` : modified in minutes only refer to file content.
+5. modification time test in days.
+	* `-ctime n` : change in days 
+	* `-mtime n` : modification in content in days.
+6. modification comparison with a file
+	* `-cnewer {file}`
+	* `-newer {file}`
+7. ownership test
+	* `-user {user-name}`
+	* `-group {group-name}`
+	* `-nouser`
+	* `-nogroup`
+8. permission test
+	* `-perm xxxx` 
+9. empty file test
+	* `-empty`
+10. inode number test
+	* `-inum {number}`
+	* `-samefile {filename}` : finds file with same inode number with selected file.
+11. reverse test
+	* `-not {test}`
+
+#### actions
+##### pre-defined actions
+1. `-print` : print selected filepath (default if omitted)
+1. `-delete` : delete selected file
+1. `-ls` : perform a long list for the selected file to inspect its properties.
+1. `-quit` : quit find once found the file.
+
+##### user-defined actions
+
+```=
+-exec {command} '{}' ';'
+```
+* fire the command at every instance of the filepath that meets the tests.
+* `'{}'` represents the current filepath that matches the tests
+* `';'` indicate the end of the command.
+* they are both single quoted to prevent expansion.
+
+```=
+-ok {command} '{}' ';'
+```
+* fire the command at every instance of the filepath that meets the tests
+* ask for confirmation each time.
+
+##### improve the efficiencies
+
+```=
+find ~ -type f -name "foo*" -exec ls -l '{}' ';'
+```
+* find the file, and each time a file is found, fire a `ls -l` command.
+* this is not very efficient.
+
+```=
+find ~ -type f -name "foo*" -exec ls -l '{}' '+'
+```
+* find the file, accumulat the path. at the end, we fire the `ls -l` commands for all the paths.
+* this creates a space sperated argument lists it then feeds the `ls -l` command.
+* bad file names containing space will be quoted.
+
+##### turn stdin to argument list.
+
+```=
+xargs {command}
+```
+* the keyboard input will become the arg list.
+* use `c-d` to terminate the input.
+
+```=
+{command1} | xargs {command2}
+```
+* `|` turns the stdout of command1 to stdin of xargs
+* xargs convert the stdin to argument list for command2
+* it creates space seprated argument list.
+
+```=
+find ~ -type f -name "foo*" | xargs ls -l
+```
+* xargs parse the stdin using spaces, then will encouter problem if the file name contains space.
+* filename containing space will be treated as two different files.
+
+```=
+find ~ -type f -name "foo*" -print0 | xargs --null ls -l
+```
+* print a null character at each filepath
+* use null character as delimiter for the arguments.
+* this will handle all the bad file names cotaining spaces.
+
+#### options
+
+```=
+-depth
+```
+* process files before directory.
+* this is auto applied when using `-delete` action, because otherwise delete a directory with files will fail.
+
+```=
+-maxdepth n
+```
+* go down the tree from directory n levels and stop search.
+
+```=
+-mindepth n
+```
+* go down the tree from directory n levels then start search.
+
+```=
+-mount
+```
+* not to search other file systems
+
+```=
+-noleaf
+```
+* find non-unix file systems such as MS-DOS or CD
+
