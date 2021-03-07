@@ -383,7 +383,6 @@ errorformat
 * specify make program and the error of output from compiler.
 
 
-
 ### Tip 11 : switching compilers
 ### Tip 12 : linting the current file
 ### Tip 13 : searching files with grep-alikcs

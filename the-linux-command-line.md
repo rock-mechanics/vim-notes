@@ -2467,18 +2467,173 @@ locate --regex '....'
 ## Chapter 20 : Text Processing
 ### Application of text
 #### documents
+* large document can be written in simple text format. 
+* then a mark up can be used to convert it to the final doocument.
+
 #### web pages
+* `html` and `css` are plain text.
+
 #### email
+* email use text to transmit data
+
 #### printer output
+* a output to a printer is plain text.
+* the printer receives the output and print the document
+* graphics is converted to text.
+
 #### program source code
-### revisting some old friend
+### revisiting some old friend
 #### cat
+
+```=
+cat -A file
+```
+* show  non-printable characters.
+
+```=
+cat -n file 
+```
+* labelling file with line numbers 
+
+```=
+cat -s file
+```
+* output file removing duplicate empty lines.
+* single empty lines will be preserved
+
 #### ms-dos text vs unix text
+* ms-doc text uses two characters to end a line.
+* unix text uses only one character to end a line.
+
 #### sort 
+* takes `stdin` or `file` as input
+* output to `stdout`
+* it can take multiple files as input
+
+```=
+sort -n file
+```
+* sort based on the first number string found.
+
+```=
+sort -v file
+```
+* reverse the sort order
+
+```=
+sort -f file
+```
+* ignore the case of sort.
+* `export LANG=POSIX` makes the character ASCII coded. in this environment sort will perform a case-sensative sort by default, all upper case letter comes before the lower case letter so `abcABC` will be sorted as `ABCabc`
+
+```=
+sort -b file
+```
+* in ASCII, space comes before the letters.
+* this ignore the leading spaces when sorting.
+
+```=
+sort -k{c1},{c2} file
+```
+* default column delimiters are spaces
+* `c1` and `c2` defines a range of columns sort will use.
+* it will first sort based on `c1`. for the same `c1 ` value, perform next sort
+* delimiters are included in the column values.so for `a<space><space>b`. the first column is `a`, second column is `<space><space>b`
+
+```=
+sort --field-seprator={char} k=1 file
+```
+* define a new delimiter for columns 
+
+```=
+sort -k{c1},{c2} -k{c0}n file
+```
+* use multiple keys to sort.
+* the first key sort alphabetically
+* the second key sort as numeric string with an `n` modifier.
+	1. `b` modifier : ignore leading spaces for each column when sort.
+	2. `n` modifier : sort as numeric string
+	3. `r` modifier : reverse the sort order.
+
+```=
+sort -k{column}.{offset}{options}
+```
+* `offset` will offset from the starting of column and ignore all these offseted character.
+* this is usuful when dealing with time format in `mm/dd/yyyy` format.
+
 #### uniq
+* input : **sorted** stdin or **sorted** file
+* output : stdout 
+
+```=
+sort file | uniq 
+```
+* pipe the sorted file to uniq
+
+```=
+uniq -c file
+```
+* count duplicates
+* it will print unique lines with number of occurance in the beginning.
+
+```=
+uniq -d file
+```
+* show duplicates only.
+
+```=
+uniq -f n file
+```
+* ignore the first n fields, compare only the left.
+* delimiters are spaces only.
+
+```=
+uniq -i file
+```
+* ignore case when compare lines.
+
+```=
+uniq -s {n} file
+```
+* skip the first n character when compare lines
+* the file needs to sorted based on the nth character, otherwise it won't work.
+
+```=
+uniq -u file
+```
+* default value.
+* show only unique lines.
+
 ### slicing and dicing
 #### cut
+* extract only a portion of a line for each lines in files
+* takes files or `stdin` as input.
+* output to `stdout`
+
+```=
+cut -c {n} file
+cut -c {n,m} file
+cut -c {n-m} file
+```
+* cut single character or a series of characters
+
+```=
+cut -f {n} file
+cut -f {n-m} file
+cut -f {n1,n2,n3...} file
+```
+* cut the nth field.
+* `Tab` is the default delimiter.
+
+```=
+cut -f {n} -d {char}
+```
+* `-d` changes delimiter to `char`
+
 #### expanding tabs
+when performing character-wise cut, we may encouter problems if there is `tab` characters, in order to use character wise operation we should expand it to `space`
+* `expand file | cut -c ...`
+
 #### paste
 #### join
 ### comparing text
