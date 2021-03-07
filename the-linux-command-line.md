@@ -2131,3 +2131,364 @@ find ~ -type f -name "foo*" -print0 | xargs --null ls -l
 ```
 * find non-unix file systems such as MS-DOS or CD
 
+## Chapter 18 : Archiving and Backup
+### compressing files
+#### what is compression
+remove dedundency and optimize the data storage space. the data will be restored to its original state
+* lossless compression : the recovered data is exactly the same with original
+* lossy compression : the recovered data is a close approximation.
+#### gzip
+* lossless compression program.
+* replace original with compressed version.
+
+```=
+gzip options orignal-files
+```
+* compressed each file to `file-name.gz`
+* used the compressed file to replace original files
+
+```=
+gzip -c files
+```
+* compresse each file and send the compressed file lists to `stdout`
+* original files are untouched.
+
+```=
+gzip -f files
+```
+* overwrite the `.gz` files even they are already exist.
+
+```=
+gzip -l files
+```
+* list statisics for each compressed file.
+
+```=
+{command} | gzip > file
+```
+* takes stdin. compressed stdin, and save it in a compressed file.
+
+```=
+gunzip file.gz
+gunzip file
+```
+* uncompress a file, `.gz` can be omitted.
+
+```=
+gunzip -c file.gz ..
+```
+* send the uncompressed file to stdout.
+* a similar program called `zcat`, which perform the same thing.
+
+#### bzip2
+* higher compression rate
+* lower speed
+* its usage is almost identical as `gzip`
+
+### archiving files
+#### what is archiving 
+archiving is turn many files into one big file for easy storage.
+#### tar
+* its name is derived from `tape archive`, which helps program early days to save data on the tape.
+
+```=
+tar mode[options] files-to-archive
+```
+* mode comes before options.
+
+##### mode
+
+```=
+tar c files
+tar x files
+tar r files
+tar t files
+```
+* c is for create, creat the `.tar` file, it will overwrite the file if the `tar` file existed.
+* x is for extract
+* r is for append, it will append to `tar` file if it exists, otherwise creat a new `tar` file.
+* t is for tabulate, show the content of the `.tar` file without touching the original file.
+
+##### options
+
+```=
+f {tar-name}
+```
+* specify the name of the tar archive.
+* tar can receive file from stdin, we just need to specify `f -`
+
+```=
+v
+```
+* verobse, printing more information about the process.
+
+```=
+--wildcards {pattern}
+```
+* using wild cards to select files to archive.
+
+##### combined examples
+
+```=
+tar cf test.tar test1 test2 test3
+```
+* create a test.tar archive from the three files.
+
+```=
+tar xf test.tar
+```
+* extract the test.tar on the current directory.
+
+```=
+find -name 'test*' -exec tar cf test.tar '{}' '+'
+```
+* find all the files staring with test from current directory
+* in one go, create a test.tar
+
+```=
+find -name 'test*' | tar cf tests.tar --files-from=-
+```
+* find gives a list of pathnames to stdin of the tar command.
+* --files-from=- takes stdin as the input to tar.
+
+```=
+find -name 'test*' | tar cf - --files-from=- | gzip > tests.tgz
+```
+* for tar commands, the input is from stdin. output is directed to stdout.
+* the archived file in stdout is captured by gzip to create a compressed file.
+* it is a conversion to call it `.tgz` file.
+
+```=
+find -name 'test*' | tar czf tests.tgz --files-from=-
+```
+* tar have an option z. to directly create a bz file after create the tar file.
+
+```=
+find -name 'test*' | tar cjf tests.tbz --files-from=-
+```
+* tar have an option j. 
+* use bzip2 progrm to zip the tar.
+
+```=
+ssh remote-sys 'tar cf - files' | tar xf -
+```
+* using ssh to archive a remote directory or files into stdout.
+* the stdout will be transfer to local machine through ssh tunnel.
+* on the local machine, the stdout is captured by tar to extract to files.
+* in this way, we are transfering a directory from remote machine to local machine securely through the tunnel.
+
+#### zip
+
+```=
+zip options zip-file files...
+```
+
+### synchronizing files and directories
+#### use rsync over a network
+
+## Chapter 19 : Regular Expressions
+### grep
+* it stands for global regular expression print (grep)
+* it searches a file and output to stdout the matching lines.
+
+```=
+grep options regex files
+```
+* grep is capable to search multiple files
+
+#### grep-options
+
+```=
+grep -i regex files
+```
+* ignore case in the regex
+
+```=
+grep -v regex files
+```
+* invert match, show results not match with regex.
+
+```=
+grep -c regex files
+```
+* count the number of matches for each file.
+* there will be a number print out for each file.
+
+```=
+grep -l regex files
+```
+* list the file names instead of each line of the match.
+
+```=
+grep -L regex files
+```
+* list the file names not containing the match.
+
+```=
+grep -n regex files
+```
+* prefix line number of each match.
+
+```=
+grep -h regex files
+```
+* hide the file names for the output.
+
+### Meta characters and literals
+* Meta character has special meanings
+* literals are just text.
+
+#### Meta characters
+
+* it is a better idea to quote the regex to prevent expansion from the shell.
+
+```=
+^
+$
+```
+* anchors, zero in length
+* start and end of the line.
+
+```=
+[...]
+```
+* any character inside the bracket.
+* meta characters will be interpreted as literals inside bracket, except two cases
+	1. ^ will invert the selection.
+	2. - will expand to a range of characters.
+* character will be treated as individuals instead of combination.
+	* ^[ab]c will match ac and bc but not abc.
+
+```=
+{char1}-{char2}
+```
+* expands to all characters from char1 to char2
+* this may or may not work due to different sequences of characters by the language setting
+	1. Ascii order ab...AB...
+	2. Dictionary order aAbB....
+
+```=
+.
+```
+* any single character.
+
+```=
+*
+```
+* quantifier
+* zero of more occurrence.
+
+```=
+{m}
+{m, n}
+{m,}
+{,n}
+```
+* quantifier
+* exact number of times.
+
+```=
++
+```
+* quantifier
+* one or more occurrence.
+
+```=
+?
+```
+* quantifier
+* zero or one occurrence. It means the object before is optional
+
+```=
+( ... )
+```
+* create separation from different group of regular expressions.
+
+```=
+|
+```
+* or 
+
+```=
+\
+```
+* escape meta character to literal string
+* escape literal character to meta character.
+
+### POSIX Basic and POSIC Extended 
+#### POSIX basic
+
+```=
+^ $ [ ] . *
+```
+* meta character set.
+* `grep regex files` using basic set.
+
+#### POSIX extended
+
+```=
+( ) { } ? + | 
+```
+* `egrep regex files` using extended  set.
+* `grep  -E regex files` using extended  set.
+
+### Alternation
+* match this or that
+
+```=
+echo foo | grep -E 'foo|bar'
+echo bar | grep -E 'foo|bar'
+```
+
+### quantifiers
+### Finding Ugly file names with find
+* grep produce positive if the instance contains the match
+* find produce positive if the instance exactly match 
+
+```=
+find . -regex '.*[^a-zA-Z0-9./_-].*'
+```
+* -regex is a test
+* all the file in the current directory starts with `./xxxx`
+* without the beginning `.*`, no match will be found.
+
+### searching for files using `locate`
+
+```=
+locate --regex '....'
+```
+* it will show path names containing the match
+* behaves similar to `grep`
+
+### searching for text in less and vim
+* less supports extended regular expression.
+* vim supports basic regular expression.
+
+## Chapter 20 : Text Processing
+### Application of text
+#### documents
+#### web pages
+#### email
+#### printer output
+#### program source code
+### revisting some old friend
+#### cat
+#### ms-dos text vs unix text
+#### sort 
+#### uniq
+### slicing and dicing
+#### cut
+#### expanding tabs
+#### paste
+#### join
+### comparing text
+#### comm
+#### diff
+#### patch
+### editing on the fly
+#### tr
+#### ROT13 : the not so secret decoder ring
+#### sed
+#### people who like sed also like
+#### aspell
+
