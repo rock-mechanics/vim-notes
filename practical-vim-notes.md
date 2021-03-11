@@ -764,7 +764,7 @@ modified but unsaved buffer will be denoted by an `+` sign in the buffer list.mo
 
 ```=
 :close
-```
+``
 * close the current window
 
 

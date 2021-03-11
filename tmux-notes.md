@@ -943,6 +943,7 @@ bind O pipe-pane -o "cat >>~/mylog.txt" \; display "Toggled logging to ~/mylog.t
 ```
 ### adding battery life to the status line.
 ### integrating seamlessly with vim
+* vim splits are different from the tmux window splits.
 
 ## extending tmux with plugins
 
