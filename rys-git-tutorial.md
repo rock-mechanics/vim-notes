@@ -497,6 +497,145 @@ git merge about
 git branch -d about
 ```
 
+# Chapter 6 : Rewriting History
+## Create The Red Page
+
+```=
+git checkout -b new-page
+```
+* `-b` creates the branch and check it out
+
+## Create The Yellow Page
+## Link And Commit The New Pages
+red page and yellow page reside in a single snapshot
+## Create And Commit The Green Page
+## Begin Interactive Rebase
+
+```=
+git rebase -i master
+```
+## Undo The Generic Commit
+take the `edit` command of the bad commit
+
+```=
+git reset --mixed HEAD~1
+```
+* move the head to the previous commit
+* `--mixed` keeping the working direcotry unchanged, so it looks like the change happens on top of the HEAD
+* now we have a modified `index.html` and unchanged `html` files
+
+## Split The Generic Commit
+### Remove Yellow Page
+* remove the yellow page link from `index.html`
+* stage the `red.html` and `index.html` and commit the change
+* `yellow.html` is still untracked
+### Add Back Red Page
+* add back yellow page link from `index.html`
+* stage the `yellow.html` and the `index.html`
+* commit the change
+### Continue The Rebase
+
+```=
+git rebase --continue
+```
+## Remove The Last Commit
+### Accidently Remove The Last Commit
+
+```=
+git reset --head HEAD~1
+```
+* this moves the HEAD to the previous commit
+* this moves the `new-content` branch pointer to the previous commit
+* the `green page commit` becomes dangling
+
+```=
+git log --oneline
+```
+* we are currently at `new-content` branch
+* the `green page` is missing from the log history
+
+## Open The Reflog
+
+```=
+git reflog
+```
+* the reflog contains all the changes in chronological order
+
+### Check Out The Missing Commit
+* this move the `HEAD` to the missing commit
+* the missing commit is still connected to the `new-content` branch
+
+### Create A New Branch Name And Points To The Current Commit
+
+```=
+git checkout -b green-page
+```
+* a branch is a `pointer` by nature.
+* this create a pointer pointing to the dangled commit
+* the danglling commit is still connected to the `new-content branch`. so this will make the dangling commit visiable again.
+
+## Filter The Log History
+
+```=
+...new-page <- commit1 <- commit2 <- commit3(green-page)
+git log new-page..green-page
+```
+* the difference between the 2 branches in terms of commits
+* this will show `commit1` `commit2` and `commit3`
+
+```=
+git log -n{number}
+```
+* show the last `{number}` commits 
+
+```=
+git log HEAD green-page
+```
+* show the difference between current `HEAD` to branch `green-page`
+
+## Merge In The Revived Branch
+
+```=
+git checkout master
+git log HEAD..green-page --stat
+```
+* `--stat` option shows details about changes between each commits
+
+```=
+git merge green-page
+```
+* merge to the fastest branch
+
+```=
+git branch -d new-page
+```
+* delete the branch in the middle.
+
+## Conclusion
+1. branch is a pointer
+2. create a branch is the same as creating a point to the commit
+3. the point will move when user do a new branch
+4. parent relationship of commits will not change even the commit becomes dangling
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
