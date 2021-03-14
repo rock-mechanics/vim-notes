@@ -617,6 +617,126 @@ git branch -d new-page
 3. the point will move when user do a new branch
 4. parent relationship of commits will not change even the commit becomes dangling
 
+# Chapter 7 : Remotes
+## Clone The Repository(Mary)
+
+```=
+git clone {repo-to-copy} {destination-folder}
+```
+## Configure The Repository(Mary)
+
+```=
+git config user.name "Mary"
+git config user.email mary.example@rypress.com
+```
+* this is a local configuration overwrite the global setting
+* this setting is located `.git/config` file 
+
+## Start Mary's Day
+start a new feature branch and add in the information
+
+```=
+git checkout -b bio-page
+```
+
+## Create Mary's Bio Page(Mary) 
+add the bio page info and commit the change, Now two types of branch is here
+
+```=
+HEAD -> master
+origin/master, origin/HEAD
+```
+* `master` is the local branch
+* `HEAD` is the local head position
+* `origin/master is the remote branch
+* `origin/HEAD is the remote head position
+* the remote branch pointer is **not** updated. it is completely local unless we explicitly tell it to get the update.
+
+## View Remote Repositories
+
+```=
+git remote -v
+```
+* when you clone a repository, git automatically create a remote pointer called `origin` which points to the repository being cloned
+
+## Return To Your Home Directory
+## Add Mary As A Remote
+
+```=
+git remote add mary ../git-mary
+```
+* `mary` is the name of the remote
+* `../git-mary` is the relative address of Mary's repo
+
+```=
+code-git <---> mary-git
+```
+* code-git is the remote to mary-git as `origin`
+* mary-git is the remote to code-git as `mary`
+
+## Fetch Mary's Branches (You)
+### Check Remote Branches
+
+```=
+git branch -r
+```
+* currently, we don't have mary's branch in our repo
+
+### Fetch Remote Branches
+
+```=
+git fetch mary
+```
+* now we get `mary/master` branch in our repo
+
+### Read-Only Nature of Remote Branches
+* remote branches are read only
+* they are for reference and copy codes
+* you may/not incorporate these changes by copying the branch content on you local repository
+
+## Checkout A Remote Branch
+
+```=
+git checkout mary/master
+```
+* now our `HEAD` is detached, it points to a commit ahead of our master branch`
+
+## Find Mary's Change
+
+```=
+git log master..mary/master --stat
+```
+## Merge Mary's Change
+
+```=
+git checkout master
+git merge mary/master
+```
+* this result to a fast forward merge
+
+## Push A Dummy Branch
+
+```=
+git branch dummy
+git push marry dummy
+```
+* this push the dummy branch to the local repo of mary's
+* not a good idea.
+
+## Push A Tag
+
+```=
+git push mary master
+```
+* this doesn't push the tag our master branch
+
+```=
+git push mary v2.0
+```
+* this will push the branch with the tag
+
+
+
 
 
 
