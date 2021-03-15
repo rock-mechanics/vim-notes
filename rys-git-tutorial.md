@@ -12,6 +12,7 @@
 * has to manage conflicts as well.
 * create creative messup with your local copy.
 * faster as it is performing local changes.
+
 ## The Birth Of Git
 ## Installation
 ## Get Ready
@@ -114,6 +115,7 @@ git checkout 142c113
 
 ## View An Older Version
 ## Return To Current Version
+In progress
 
 ```=
 git checkout master
@@ -160,6 +162,7 @@ fa7e297 (tag: v1.0) Add Navigation links
 * a new history is added to the history list.
 * the history is the same as the stable version v1.0
 * `crazzzy experiment` is abolished (reverted)
+In progress
 
 ## Start A Smaller Experiment
 * create a new `dummy.html`
@@ -734,6 +737,127 @@ git push mary master
 git push mary v2.0
 ```
 * this will push the branch with the tag
+
+# Chapter 8 : Centrailized WorkFlow
+## Create A Bare Repository (Remote)
+
+```=
+git init --bare centrorepo.git
+```
+* `--bare` option tell git not creating a working directory with checked ou t files. only create the database
+* in git convention, database is defined with extension `.git`
+* normally in working directory, the database in located in `.git` folder in the working directory
+
+## Update Remotes ( Mary And You )
+
+```=
+git remote rm mary
+git remote add origin ../centro-repo.git
+```
+* do this in the my-repo directory
+* this removes the remote link and add a new one.
+
+```=
+git remote rm origin
+git remote add origin ../centro-repo.git
+```
+* do this in the mary's directory
+
+## Push The Master Branch ( You )
+
+```=
+git push origin master
+```
+
+## Add New Updates ( You )
+* create a new branch
+* modify the documents and create some documents
+* commit the change
+
+## Publish The News Item ( You )
+
+```=
+git checkout master
+git merge news-items
+git branch -d news-items
+git push origin master
+```
+* this will push the master branch to the centro-repo.
+
+## Update CSS Styles ( Mary )
+* create a new branch called "css-edits"
+* make modification and commit the change.
+* make modification and commit the change again.
+
+## Clean Up Before Publishing ( Mary )
+* combine commits using
+
+```=
+git rebase -i master
+```
+
+* never rebase commit that has been pushed to public repository
+* rebasing will erase old commits and create a new commit. this will cause a diverge with the public commits
+
+## Publish CSS Changes ( Mary )
+* if the feature is done, we should publish it to `master`
+* if we decide to collabrate on this feature, we may need to publish it to a feature branch.
+
+```=
+git checkout master
+git merge css-edit
+git branch -d css-edit
+```
+* so far, our master branch contains `....a <- b`
+* the centrorepo master branch contains `....a <- c`
+* it will be rejected, because if the remote master branch try to match the our local branch, the commit `c` will be lost
+* git push only accepts fast forward merge
+
+## Pull In Changes ( Mary )
+
+```=
+git fetch origin
+```
+* fetch the latest remote branches.
+
+```=
+git log master..origin/master
+git log origin/master..master
+```
+* both contains something the other branch does not have, so they are diverged.
+
+```=
+git rebase origin/master
+```
+* move the diversion point on our master branch to the tip of the remote master branch
+* some of the commits will be included in our local branch
+* now we are totally ahead of the remote master
+
+```=
+git push origin master
+```
+* now, our local master branch is one commit ahead of the remote master branch, we can push to cause a fast forward merge for the remote repository
+
+## Pull In Changes ( Me )
+
+```=
+git fetch origin
+git log master..origin/master
+git log origin/master..master
+```
+* we can see the remote repo is one commit ahead of us.
+* we just need to catch up merging the branch
+
+```=
+git merge origin/master
+```
+
+## Conclusion
+
+* the centralized workflow ensure no one else could overwrite each other's work, which makes collaboration easy and intuitive.
+
+
+
 
 
 
