@@ -738,7 +738,7 @@ git push mary v2.0
 ```
 * this will push the branch with the tag
 
-# Chapter 8 : Centrailized WorkFlow
+# Chapter 8 : Centralized Workflow
 ## Create A Bare Repository (Remote)
 
 ```=
@@ -856,39 +856,94 @@ git merge origin/master
 
 * the centralized workflow ensure no one else could overwrite each other's work, which makes collaboration easy and intuitive.
 
+# Chapter 9 : Distributed Work Flow
+## Problems Of Centralized Workflow
+1. everyone has access to the entire master data
+2. random people can push random changes.
 
+## A New Model
+1. only you have direct access to the public repository
+2. you fetch content from other developer and merge it in your local repo
+3. you are responsible to push the fastest updates to the public repository
 
+## Create A BitBucket Account
+## Create A Public Repository ( You )
+## Push To The Public Repository ( You )
+* remove old remote
+* add new remote the repository
+* push
 
+## Browse The Public Repository
+## Clone The Repository ( John )
 
+```=
+git clone {https.....git} my-git-repo
+```
 
+## Add The Pink Page ( John )
+* add the `pink.html` and link it in `index.html`
+* commit the changes
 
+## Publish The Pink Page ( John )
 
+```=
+git push john-public pink-page
+```
+* push the `pink-page branch` to johns public repository
 
+## View John's Contribution ( Me )
 
+```=
+git remote add john http://rock-mechanics@bitbucket.org/rock-mechanics/johns-repo.git
+```
+* add john's **public repo** as our remote named `john`
 
+```=
+git fetch john
+git branch -r
+git log master..john/pink-page --stat
+```
+* check the different made by john
 
+```=
+git checkout john/pinkpage
+```
+* check john's actual modification before merge
 
+## Integrate John's Contribution ( Me )
 
+```=
+git checkout master
+git merge john/pink-page
+```
+## Publish John's Contribution ( Me )
 
+```=
+git push origin master
+```
+## Update Mary's Repository ( Mary )
+* remove original remote
+* add remote as `origin` for `my-git-repo` public repository
+* fetch from `origin`
+* the remote branch is one commit ahead of us.
+* we may merge the `origin/master`, but a general solution would be `rebase` directly to the `origin/master`
 
+```=
+git rebase origin/master
+```
+## Update John's Repository ( John )
+* John is the owner of this feature, but he should not merge directly to its master branch using `john-public repo`
+* because the integrator may actually modified the commit before pushing to the public repository. Instead john should fetch content from the official public repository
+* this also make john sync with the official repository
 
+```=
+git fetch origin
+git rebase origin/master
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## Conclusion
+1. everyone has their own personal repository
+2. everyone pull content from the **only** official repository
+3. everyone push their contribution to their personal repository
+4. project integrator fetch from these repos, modify and push them to the "official" repo
+5. if the project integrator stops maintaining the repo, someone else can declare as the official repo.
