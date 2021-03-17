@@ -943,7 +943,85 @@ git rebase origin/master
 
 ## Conclusion
 1. everyone has their own personal repository
-2. everyone pull content from the **only** official repository
+2. everyone pull content from the **only** official repository to their working directory
 3. everyone push their contribution to their personal repository
-4. project integrator fetch from these repos, modify and push them to the "official" repo
-5. if the project integrator stops maintaining the repo, someone else can declare as the official repo.
+4. project integrator fetch from these repos to his working directory, modify and push them to the "official" repo
+5. if the project integrator stops maintaining the repo, someone else can declare their repo as the official repo.
+
+# Chapter 10 : Patch Workflow
+## What is a patch
+a patch is a set of instructions about how to change a file
+## Change The Pink Page ( Mary )
+1. create a new `pink-page` branch 
+2. modify `pink.html`
+
+## Create A Patch ( Mary )
+
+```=
+git format-patch master
+```
+* this will create patch files for all the commits in the current branch which is **ahead of master**
+* `000x-{commit-message}.patch` will be created
+	* `000x` is the index number starting from 1
+	* `{commit-message}` helps to identify which commits the master branch compares to
+
+## Add A Pink Block ( Mary )
+* modify `pink.html`
+
+## Create Patch Of Entire Branch ( Mary )
+
+```=
+git format-patch master
+```
+## Mail The Patches ( Mary )
+
+```=
+git send-email {options} {files or directories}
+```
+* refer to documentation for detailed configuration
+
+## Apply The Patches ( You )
+* create a new feature branch
+* apply the patch
+
+```=
+git checkout -b patch-integration
+git am < 0001...patch
+```
+* `git am` stands for `apply message`, this will create a new commit
+* the multiple patch can be applied in any order as long as it does not cause a conflction
+
+## Integrate The Patches ( You )
+
+```=
+git checkout master
+git merge patch-integration
+git branch -d patch-integration
+git clean -f
+git push origin master
+```
+
+## Update Mary's Repository ( Mary )
+* mary created those patches
+* but she should not merge it directory. instead she should pull it directly from the official repository
+* the order may be shuffled by integrator, and other patches may be applied from other contributor
+
+```=
+git checkout master
+git fetch origin
+git rebase origin/master
+```
+
+```=
+git branch -D pink-page
+git clean -f
+```
+
+## Conclusion
+1. the patch workflow requires only the integrator has a public repo
+2. everyone else can work locally on their own repository
+3. integrator does not need to tack everyone else's repo
+
+
+
+

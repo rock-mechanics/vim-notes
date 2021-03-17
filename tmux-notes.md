@@ -140,6 +140,13 @@ prefix-arrow
 ```
 * jump from pane to pane
 
+### move pane position
+
+```=
+prefix - ctrl - o
+```
+* rotate all the panes in clockwise direction
+
 ### use default pane layouts
 
 ```=
