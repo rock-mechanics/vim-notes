@@ -1023,4 +1023,268 @@ git clean -f
 3. integrator does not need to tack everyone else's repo
 
 
+# Chapter 11 : Tips And Tricks
+## Archive The Repository
+
+```=
+git archive master --format=zip --output=../website-2020.zip
+git archive master --format=tar --output=../website-2020.tar
+```
+* saves one branch so we can send it to other people
+* it only contains files in the current branch
+* this archive has nothing to do with git, there is no `.git` folder. so no git version information is saved in the directory.
+
+## Bundle The Repository
+
+```=
+git bundle create ../repo.bundle master
+```
+* the `bundle` object contains all the version information of the git.
+
+```=
+git clone repo.bundle repo-copy -b master
+```
+* recover the repo from the bundle file. save the repo in `repo-copy` directory
+* checkout the master branch
+
+## Ignore A File
+add `.gitignore` file to untrack certain files.
+## Stash Uncommited Changes
+* store untracked changes to some other places.
+* run `git reset --hard` to resume working directory from last commit.
+* retrieve it back when finish the emergency job.
+
+```=
+git stash
+```
+* remove all the changes since last commit, save it somewhere else.
+
+```=
+git stash apply
+```
+* bring back to these changes.
+
+if you find yourself working on the wrong branch, then you could
+* stash the change.
+* switch to correct branch
+* apply the stash
+
+## Hook Into Git's Internals
+### What is hooks
+script will be run at certain events
+### Where is hook scripts is stored
+
+```=
+.git/hooks
+```
+### make hooks active
+
+```=
+mv post-update.sample post-update
+```
+* rename the hook file
+
+## example
+make a backup whereever there is a push to the repo, update the post-update hook file
+
+```=
+#!/bin/sh
+echo "Publishing master branch" >&2
+rm -rf ../web-site
+mkdir ../web-site
+git archieve master --format=tar --output=../web-site.tar
+tar -xf ../web-site.tar -C ../web-site
+exit 0
+```
+
+## View Diffs Between Commits
+
+```=
+git diff HEAD~2..HEAD~1
+```
+* view diff between two commits.
+
+```=
+git diff
+```
+* view diff from staging area to working directory
+
+```=
+git  diff --cached
+```
+* view diff from last commit to staging area.
+
+## Alias And Other Configurations
+
+```=
+git config --global alias.co checkout
+git config --global alias.ci commit
+git config --global alias.br branch
+```
+
+# Chapter 12 : Plumbing
+plumbing is the low level commands to gives us a more precise representation of git's internal structure.
+
+## Examine Commit Details
+
+```=
+git cat-file commit HEAD
+```
+* `tree` is the nodes under the commit
+* `parent` is the node of its parent
+* `author` is the one who creates the content
+* `committer` is the one who pulbish the content to the branch.
+
+### What Is A Tree
+a tree object is like a directory except it does not contain any actual data, it is  a paper with addresses of all its children.
+
+the children of a tree can be the following
+* another tree can be there if it contains other directory
+* actual file content
+
+## Examine A Tree
+tree is binary data.
+
+```=
+git cat-file tree ...
+```
+* view the binary data
+* not very useful
+
+```=
+git ls-tree ...
+```
+* parse the tree for human readable.
+* it contains a set of `blob` and other `trees`
+* `blob` is the address of file
+* `tree` is the address of other tree.
+* `blob` are shared among commits if there is no modification on the file.
+
+## Examine A Blob
+
+```=
+git cat-file blob ..
+```
+* it is simply file content.
+* its meta data such as file name is stored in its parent tree together with the file address
+* blobs are shared among commits if they are not modified.
+
+## Examine A Tag
+
+```=
+git cat-file tag v2.0
+```
+* it contains a commit object address 
+* a tag is simply a pointer to one commit
+
+## Inspect Git's Branch Representation
+
+```=
+git cat-file -t master
+```
+* check the type master branch.
+* a branch is simply a commit
+
+```=
+git cat-file commit master
+```
+* a branch is simply a pointer to a commit
+* it contains
+	1. tree
+	2. parent
+	3. author
+	4. committer
+	5. description of the branch.
+
+```=
+.git/refs/heads/master
+```
+* the content of the master branch
+* it contains the address of recent commit.
+
+```=
+cat .git/HEAD
+ref: refs/heads/master
+```
+* the HEAD is current pointing to the master branch.
+* this shows our working directory is the same as the commit master.
+
+```=
+git checkout origin/master
+cat .git/HEAD
+d5507782edeb372cdb0f39af5d8a2425736d8e95
+```
+* checkout makes the HEAD detached from the master branch.
+* now the HEAD file contains the checksum of a commit
+
+## Explore The Object Database
+
+```=
+.git/objects/
+```
+* the gits database contains all the objects.
+	* commit object
+	* tree object
+	* blob object
+	* other objects
+* the files are stored in folders
+* foler-name + file-name is the file id for the object.
+
+```=
+git cat-file -t ...
+```
+* check the type of the object.
+
+## Collect The Garbage
+
+```=
+git gc
+```
+* compress individual object file
+* remove dangling commits
+
+## Add File To The Index
+* create a new `news-4.html`
+* update `index.html`
+
+### What is the Index
+the index is git's term of stagging shot. it consists of the last commits which is the same as the working directory before the working directory is modified.
+
+```=
+git update-index index.html
+git update-index --add news-4.html
+```
+* now the index is different from last commit.
+* one file is updated, another file is added.
+
+## Store The Index In The Database
+
+```=
+git write-tree
+```
+* this writes our index snapshot to a tree object in the object database
+
+## Create A Commit Object
+1. check the parents
+
+```=
+git log --oneline -n1
+```
+2. define a commit object by providing the tree and the parent
+
+```=
+git write-tree {tree-address} -p {parent-address}
+```
+* the commit object is created with the correct parents
+* it become dangling commit
+
+3. update HEAD
+update file in `.git/heads/master` from our commit address
+
+4. all of this is the same as running
+
+```=
+git commit -a -m"...."
+```
+
 
