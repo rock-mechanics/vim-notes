@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+# dos ends a line with two character 
+#	* carrage return 
+#	* line feed
+# unix ends a line with one character
+#	* line feed
+
+dos2unix --version

@@ -1,0 +1,27 @@
+#!/usr/bin/bash
+
+countfiles()
+{
+	local dir=$1
+	if test -z $dir
+	then
+		echo error: missing directory
+	elif test -d $dir
+	then
+		echo $dir :
+		echo $(ls $dir | wc -l)
+	else
+		echo error: directory not exisited.
+	fi
+}
+
+if test $# -lt 1
+then
+	echo provide one or more directories for us to count.
+	exit 1
+fi
+
+for dir in $@
+do	
+	countfiles $dir
+done

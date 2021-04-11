@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+name=bet
+echo "Hello it is just ${name}ter"

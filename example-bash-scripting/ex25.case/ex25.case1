@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+
+read -p "do you want to continue learning bash (y/n) : " answer
+
+case "$answer" in
+	[yY]|[yY][eE][sS])
+		echo you entered yes, continue.
+		;;
+	[nN]|[nN][oO])
+		echo you decided to quit, sorry to see you go.
+		;;
+	*)
+		echo 'you need to enter y(yes) or n(no)'
+		;;
+esac
+	

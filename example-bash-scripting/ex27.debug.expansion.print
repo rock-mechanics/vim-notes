@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+#!/usr/bin/bash -x : this will turn on expansion print by default.
+
+# this turn on the debug print after expansion
+# the set command is not print
+set -x 
+
+# RANDOM generate a random number.
+
+rand=$RANDOM
+
+echo $rand
+
+# this turn off expansion print
+set +x
+echo script finish executing.
+
+

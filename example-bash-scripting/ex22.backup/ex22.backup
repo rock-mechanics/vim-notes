@@ -1,0 +1,33 @@
+#!/usr/bin/bash
+
+backup()
+{
+	file=$1
+	if test -n $file
+	then
+		echo "backing up $file"
+		bname=$(basename $file)
+		#$$ is used to access the pid of the process
+		suffix=$(date +%F)$$
+		newname=./backup/$bname-$suffix
+		cp -p $file $newname
+	fi
+
+	if test -f $newname
+	then
+		echo -e "\tbacking up $file completed"
+	else
+		echo -e "\tbacking up $file failed"
+	fi
+}
+
+for eachfile in $@
+do
+	if test -f $eachfile
+	then
+		backup $eachfile
+	else
+		echo $eachfile does not exists
+	fi
+done
+

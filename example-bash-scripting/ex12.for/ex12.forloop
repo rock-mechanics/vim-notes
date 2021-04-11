@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+prefix=$(date +%F)
+
+for file in $(ls *.jpg)
+do
+	mv $file $prefix-$file
+done

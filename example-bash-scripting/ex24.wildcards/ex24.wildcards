@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+mkdir only-html > /dev/null 2>&1
+for x in *.html
+do
+	cp $x only-html
+done

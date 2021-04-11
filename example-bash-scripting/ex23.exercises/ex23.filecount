@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+count=$(ls . | wc -l)
+
+echo there are $count number of files in this directory

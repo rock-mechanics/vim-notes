@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+read -p "Please enter your name : " name
+
+if test -z $name
+then
+	echo "Error : no name is captured."
+	exit 1
+fi
+
+echo Welcome, $name

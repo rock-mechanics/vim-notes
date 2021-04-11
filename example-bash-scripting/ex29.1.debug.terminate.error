@@ -1,0 +1,6 @@
+#!/usr/bin/bash -e
+
+ls /etc/passwd
+ls /faked/address/not/exists
+ls /etc/passwd
+

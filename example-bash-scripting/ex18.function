@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+general_greet()
+{
+	echo "hello there"
+}
+greet()
+{
+	general_greet
+	echo "you are running $0"
+	echo "You name is $1"
+}
+
+read -p "Enter you name : " name
+greet name

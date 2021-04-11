@@ -1,0 +1,14 @@
+#!/usr/bin/bash -x
+
+# three variables for bash scripts.
+
+PS4='+ $BASH_SOURCE + $LINENO + $FUNCNAME' 
+
+myfunc()
+{
+	echo executing function 
+	$@
+}
+
+myfunc ls
+echo $FUNCNAME

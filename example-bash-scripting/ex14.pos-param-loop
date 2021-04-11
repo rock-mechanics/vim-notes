@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+count=1
+
+for arg in $@
+do
+	echo argument number $count is $arg 
+	count=$(($count + 1))
+done
+

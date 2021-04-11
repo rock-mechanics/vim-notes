@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+greets()
+{
+	for name in $@
+	do
+		echo "hello $name, welcome to the bash world"
+	done
+}
+
+greets $@

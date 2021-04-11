@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+bashshell=$(which bash)
+bashshell=zsh
+
+# '=' is used to compare strings
+if test $SHELL = $bashshell
+then
+	echo "You are using bash"
+else
+	echo "You are using some shell I dont understand"
+fi

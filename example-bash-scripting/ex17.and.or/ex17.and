@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+mkdir testfolder 2> /dev/null && cd testfolder && touch file{1..4}
+
+ping -n 1 google.com > /dev/null 2>&1 && echo "google.com is accessible"
+ping -n 1 fakeaddress.com > /dev/null 2>&1 && echo "fakeaddress.com is accessible"
+
+ping -n 1 google.com > /dev/null 2>&1 || echo "google.com is not working"
+ping -n 1 fakeaddress.com > /dev/null 2>&1 || echo "fakeaddress.com is not accessible"
+
+# if this is not specified. the last executed command will return an exit code.
+# this code will serve as the return code as the overall script.
+exit 0

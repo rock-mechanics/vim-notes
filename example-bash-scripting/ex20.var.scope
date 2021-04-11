@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+increase1()
+{
+	counter=$(($counter + 1))
+}
+
+increase2()
+{
+	counter=$(($counter + 2))
+}
+
+counter=0
+
+echo "counter : $counter"
+echo "executing +1"
+increase1
+echo "counter : $counter"
+echo "executing +2"
+increase2
+echo "counter : $counter"
+

@@ -1,0 +1,21 @@
+#!/usr/bin/bash
+
+# logger command will log a message at the following file.
+# /var/log/*.log
+# this may not work on windows
+# each Linux distribution may use slightly different files.
+
+logthis()
+{
+	if test -d testfolder 
+	then
+		# -t option will append the script name in the message, so we could easily find it in the log file.
+		logger -t $0 'the test folder does not exists'
+	else
+		echo pass
+	fi
+}
+
+logthis
+mkdir testfolder
+logthis

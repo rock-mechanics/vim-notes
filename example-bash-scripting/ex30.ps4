@@ -1,0 +1,3 @@
+#!/usr/bin/bash -v
+echo $PS4
+echo ps4 is used for bash script debugging.

@@ -1,0 +1,32 @@
+#!/usr/bin/bash
+
+var1=
+var2="hi"
+var3="5"
+var4="5"
+
+if test -z $var1
+then
+	echo "var1 is empty"
+fi
+
+if test -n $var2
+then
+	echo "var2 is not empty"
+fi
+
+# $var1 is empty. in order for the intepreter know there is # an empty object in the place. we can enclose it with "
+if test "$var1" = $var2
+then
+	echo "var1 equals to var2"
+else
+	echo "var1 not equal to var2"
+fi
+
+if test $var2 = $var3
+then
+	echo "var2 equals to var3"
+else
+	echo "var2 not equal to var3"
+fi
+

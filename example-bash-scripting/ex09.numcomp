@@ -1,0 +1,39 @@
+#!/usr/bin/bash
+
+var1="5"
+var2="5"
+var3="6"
+
+echo var1 is $var1
+echo var2 is $var2
+echo var3 is $var3
+
+if test $var1 -gt $var2
+then
+	echo "var1 > var2"
+fi
+
+if test $var1 -lt $var2
+then
+	echo "var1 < var2"
+fi
+
+if test $var1 -eq $var2
+then
+	echo "var1 = var2"
+fi
+
+if test $var3 -gt $var2
+then
+	echo "var3 > var2"
+fi
+
+if test $var3 -lt $var2
+then
+	echo "var3 < var2"
+fi
+
+if test $var3 -eq $var2
+then
+	echo "var3 = var2"
+fi

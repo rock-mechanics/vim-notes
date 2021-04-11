@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+
+host2check=$1
+
+if test -z host2check
+then
+	echo Error : hostname required.
+	exit 1
+fi
+
+# this is okay in bash, zsh and a few other shells.
+ping -n 1 $host2check &> /dev/null
+
+# this is more portable
+# 1> is the same as > this is used to direct stdout
+# 2> is used to direct stderr
+
+ping -n 1 $host2check > /dev/null 2>&1
+
+
+if test $? -eq 0
+then
+	echo we have access to $host2check
+else
+	echo "we don't have access to $host2check"
+fi

@@ -1,0 +1,14 @@
+#!/usr/bin/bash -v
+
+# this turn on the debug print before expansion
+# just the like originally.
+
+rand=$RANDOM
+
+set -x
+echo $rand
+set +x
+
+echo script finish executing.
+
+

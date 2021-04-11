@@ -1,0 +1,42 @@
+#!/usr/bin/bash
+
+# bool value type should not enclused to quotes.
+
+# using bool, there is no need to use test expression when do branching.
+# test command typically return a bool value.
+
+boolvar01=true
+
+if $boolvar01 
+then
+	echo the value of boolvar01 is true
+else
+	echo the value of boolvar01 is false.
+fi
+
+boolvar02=false
+
+if $boolvar02 
+then
+	echo the value of boolvar02 is true
+else
+	echo the value of boolvar02 is false.
+fi
+
+strvar01="true"
+
+if $strvar01 = "true"
+then
+	echo the value of strvar01 is true
+else
+	echo the value of strvar01 is false
+fi
+
+strvar02="false"
+
+if $strvar02 = "true"
+then
+	echo the value of strvar02 is true
+else
+	echo the value of strvar02 is false
+fi

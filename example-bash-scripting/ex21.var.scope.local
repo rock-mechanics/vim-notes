@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+number=10
+
+getnumber()
+{
+	local number=20
+	#put the content to stdout
+	echo $number
+}
+
+echo in our progrm, the outter number is $number
+# when using $(command), the stdout of the command is captured
+# by the callee and returned to the callee.
+# and it does not get the chance to print on the screen.
+echo in the function, the number is $(getnumber)

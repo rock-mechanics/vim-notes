@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+echo Executing script : $0
+echo Take user name : $1
+
+if test -z $1
+then
+	echo "user name is needed" >&2
+	exit 1
+fi
+
+# archive the user folder in the current directory
+if test -d ./$1
+then
+	tar -cf ./$1.tar ./$1
+else
+	echo "user folder does not exist"
+fi
