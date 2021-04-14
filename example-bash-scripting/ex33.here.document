@@ -1,0 +1,35 @@
+#!/usr/bin/bash
+
+# here documents can input multiple text to the stdin of a command
+
+echo the first example output an html
+echo ---
+cat << _eof_
+<html>
+	<head> Here Document </head>
+	<body>
+		<p> here document can put multiple lines of 
+			txt into the stdin of a command
+		</p>
+
+		<p> here document needs an delimiter at the start of first line.
+			in this example, we use _eof_, which is an convention.
+		</p>
+
+		<p> cat is the command taking stdin and sends the input to stdout. </p>
+	</body>
+</html>
+
+_eof_
+
+echo the second example omitts the tab characters
+echo ---
+
+cat <<- _eof_
+	this is kind of special.
+	it will omit all the tab characters in the beginning of the line.
+		so indent freely without worring about its effect on the line.
+		they will output the same at the beginning of the line.
+_eof_
+
+

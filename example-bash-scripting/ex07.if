@@ -1,9 +1,11 @@
 #!/usr/bin/bash
 
-bashshell=$(which bash)
-bashshell=zsh
+bashshell=$(which shell)
+# bashshell=zsh
+bashshell='/bin/bash'
 
 # '=' is used to compare strings
+# test will return an exit integer 0 or 1
 if test $SHELL = $bashshell
 then
 	echo "You are using bash"

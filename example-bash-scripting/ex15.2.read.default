@@ -1,0 +1,42 @@
+#!/usr/bin/bash
+
+# read without assign a variable.
+read -p 'What is your name : ' 
+
+echo "Your name is $REPLY, welcome"
+# it will be saved into a system variable.
+
+name=$REPLY
+
+read -sp 'What is your passowrd : ' passcode
+
+if test $passcode = "hi" 
+then
+	echo welcome back! continue to play game.
+else
+	echo password wrong. 
+	exit 1
+fi
+
+# -t sets a timer, if not it will return 1
+# otherwise 0
+if read -t 10 -p 'input your name in 10 seconds : '
+then
+	if test $REPLY = $name
+	then
+		echo you have done it.
+		echo you really know who you are.
+		echo you win!
+	else
+		echo "you don't even know who you are"
+		echo exiting. 
+		exit 1
+	fi
+else
+	echo you cannot even do it in 10 seconds.
+	echo exiting
+	exit 1
+fi
+
+exit 0
+

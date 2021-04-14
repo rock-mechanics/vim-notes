@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+
+read -p 'what is your names : ' first middle last
+
+# if not enough parameter (space separated ) is supplied.
+# the rest of the variable will be initialized to empty.
+
+if ! test -z $first 
+then
+	echo your first name is $first
+else
+	echo your first name is empty
+fi
+if ! test -z $middle 
+then
+	echo your middle name is $middle
+else
+	echo your middle name is empty
+fi
+if ! test -z $last 
+then
+	echo your last name is $last
+else
+	echo your last name is empty
+fi

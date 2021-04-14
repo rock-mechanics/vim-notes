@@ -1,0 +1,18 @@
+#!/usr/bin/bash -x
+
+
+true
+
+echo $?
+
+false
+
+echo $?
+
+# every command return an integer value back to the system.
+# 0 means the programs runs okay.
+# non zero means something is wrong.
+# test is using this return value to make decisions.
+
+# true does nothing, but return a 0 
+# false does nothing, but return a non-zero integer.

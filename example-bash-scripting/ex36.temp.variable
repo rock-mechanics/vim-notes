@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+name=chen
+
+echo "name variable is $name"
+
+# temp variable or temp system environment variable 
+# only affect the commands on the same line.
+name="max" echo "name varible for this command is $name"
+
+echo "name variable after the command is $name"
+
+echo -e "\nthis is not working because, the variable is passed to the command"
+echo however, bash expands the variable before call the command
+
+echo -e "\nlet's pass the varible to the bash command without any expansion"
+name=max bash -c 'echo -e "\nvariable this time is $name"'
+echo Howeve after the command, the varible value is $name

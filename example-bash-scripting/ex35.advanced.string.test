@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+read -p "Enter your name " name
+
+# [[ ... ]] is an advanced test for string
+# it is compatiable with normal test experssion as well.
+# =~ can match regular expressions.
+
+if [[ $name =~ ^k.*t$ ]]
+then
+	echo your name is $name
+	echo you are likely to be kobe bryant
+else
+	echo you cannot be kobe, your name is not right.
+fi

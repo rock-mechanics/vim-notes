@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+
+f=/etc/passwd
+
+read -p 'what is your username : ' username
+
+user_info=$(grep "^$username:" $f)
+
+if test -n $user_info
+then
+	echo -e "full string is \n$user_info"
+	IFS=':' read user pw uid gid name home shell <<< $user_info
+	echo user is $user
+	echo pw is $pw
+	echo uid is $uid
+	echo name is $name
+	echo gid is $gid
+	echo home is $home
+	echo shell is $shell
+else
+	echo no found the user in the file $username >&2
+	exit 1
+fi
+
+exit 0

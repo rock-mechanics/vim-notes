@@ -4,3 +4,9 @@ ls /etc/passwd
 ls /faked/address/not/exists
 ls /etc/passwd
 
+echo an error above, so I am not echoed to the screen
+echo that is very sad.
+
+# -e will terminate as long as an error occurs. the following scripts
+# will not be executed.
+

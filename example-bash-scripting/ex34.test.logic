@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+
+
+read -p 'try guess a number : ' number
+
+# the following is and operator
+# combined with not operator
+
+while ! test $number -lt 100 -a $number -gt 50
+do
+	read -p 'guess again : ' number
+done
+
+echo you are in the range, it is 50 to 100
+
+read -p 'try guess my name : ' name
+
+# the following is or operator
+if test $name = 'jing' -o $name = 'chen'
+then
+	echo you are right
+else
+	echo you have only one chance this time.
+	echo you failed.
+fi
