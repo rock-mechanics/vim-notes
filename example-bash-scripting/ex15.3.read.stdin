@@ -1,0 +1,53 @@
+#!/usr/bin/bash
+
+# create the temporary file
+temp=sample.txt
+echo "
+this,isa,good,day
+I,really,love,it
+if,you,like,me
+go,with,me,ba 
+" > $temp
+
+name=chen
+echo I am a variable, my name is $name
+
+count=1
+echo -e "\tlet's enter the function"
+
+cat $temp | \
+while IFS=, read word1 word2 word3 word4
+do
+	name=stupid
+	if ! test -z $word1
+	then
+		echo -e "\treading from stdin line$count"
+		echo -e "\t$word1:$word2:$word3:$word4"
+		echo -e "\tI am a variable, my name is $name"
+		count=$(($count + 1))
+	fi
+done
+
+# read command reads a line from stdin and remember its positions.
+# if read succssful, it will output 0
+# else output 1. so it can be used as a test.
+
+# any env setting in the pipe operation will be lost due to the destroy of the chhild shell.
+# the entire while loop is executed in the child shell.
+
+echo -e "\tlet's get out of the function"
+echo when the pipe command is finished, the child shell is destroyed
+echo I am a variable, my name is $name
+
+# let's do it another way.
+# using io redirection, this time, the env variable is changed.
+while IFS=, read w1 w2 w3 w4
+do
+	if ! test -z $word1
+	then
+		echo $word1:$word2:$word3:$word4
+	fi
+done < $temp
+
+# let's remove the file.
+rm -f $temp

@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+echo you have entered $# arguments.
+
+while test $# -gt 0
+do
+	echo $1
+	shift
+done
+
+# shift removes the first arguments, so the nubmer of arguments decreases.
+# $1 will be replaced by the next value.
+# this way, we can loop through all the arguments regardless the number of arguments.
+

@@ -1,0 +1,20 @@
+#!/usr/bin/bash
+
+read -p "Enter a number : "
+
+case $REPLY in 
+	[[:digit:]]*)
+		echo I match multiple digits.
+		;;&
+	[[:alpha:]]*)
+		echo I match multiple letters.
+		;;&
+	*)
+		echo I match everything, I will always print
+		;;&
+esac
+
+# change the end ;; to ;;&
+# it is allowed to match multiple items.
+
+# normal case will exit immediately when a match is encountered.

@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+echo you have entered $# files.
+
+while test $# -gt 0
+do
+	if test -f $1
+	then
+		echo scan $1
+		echo -e "\n$(file $1)"
+		echo -e "\n$(stat $1)"
+	else
+		echo -e "\n$(basename $0) : $1 does not exsit."
+	fi
+	shift
+done
+
+echo -e "\n$(basename $0) program completed"

@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+
+cmpfile()
+{
+	echo -e "\n++++++"
+	num1=$(stat -c %i $1)
+	num2=$(stat -c %i $2)
+
+	if test $num1 -eq $num2
+	then
+		echo $1 and $2 are the same file in memory.
+		echo they are hard links to each other.
+	else
+		echo $1 and $2 are not the same file.
+	fi
+}
+
+if test $# -lt 3
+then
+	echo $(basename $0) : Usage : ./$(basename $0) file1 file2 file3
+fi
+
+cmpfile $1 $2	
+cmpfile $2 $3	
+cmpfile $1 $3	
+
