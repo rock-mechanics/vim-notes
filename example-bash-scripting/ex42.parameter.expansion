@@ -1,0 +1,59 @@
+#!/usr/bin/bash
+
+expand-star()
+{
+	echo 'expand $*'
+	echo this takes steps
+	echo first it simply removes all the quotes.
+	echo then it seprate the string into arguments using IFS
+	for i in $*
+	do
+		echo -e "\t$i"
+	done
+}
+
+expand-star "this" "is a great way""goodway"
+
+expand-at()
+{
+	echo 'expand $@'
+	echo 'this is the same as $*'
+		for i in $@
+	do
+		echo -e "\t$i"
+	done
+}
+
+expand-at "this" "is a great way""goodway"
+
+expand-star-quote()
+{
+	echo 'expand "$*"'
+	echo this takes steps
+	echo first it simply removes all the quotes.
+	echo then it take the entire thing as a single argument
+	for i in "$*"
+	do
+		echo -e "\t$i"
+	done
+}
+
+expand-star-quote "this" "is a great way""goodway"
+
+expand-at-quote()
+{
+	echo 'expand "$@"'
+	echo this is complicated
+	echo it respect both quotes and IFS
+	echo if IFS inside quotes, do not seprate
+	echo if IFS outside quotes, sperate
+	echo this is the most common for argument expansion.
+	echo after sepration, quotes are removed for each argument.
+	
+	for i in "$@"
+	do
+		echo -e "\t$i"
+	done
+}
+
+expand-at-quote "this" "is a great way""goodway""haha"
