@@ -1,0 +1,44 @@
+#!/usr/bin/bash
+
+invalid_exit()
+{
+	echo invalid reply : $REPLY. program exited. >&2
+	exit 1
+}
+
+read -p 'Enter a single item : '
+
+test -z "$REPLY" && invalid_exit
+
+test $(echo $REPLY | wc -w) -gt 1 && invalid_exit
+
+if [[ $REPLY =~ ^[-[:alnum:]\._]+$ ]]
+then
+	echo $REPLY is a valid file name.
+else
+	echo $REPLY is not a valid file name.
+	exit 1
+fi
+
+if test -e $REPLY 
+then
+	echo the file exists
+else
+	echo however the file does not exist.
+fi
+
+if [[ $REPLY =~ ^[[:digit:]]*\.[[:digit:]]+$ ]]
+then
+	echo it is a floating point number
+else
+	echo it is not a floating point number.
+fi
+
+if [[ $REPLY =~ ^-?[[:digit:]]+$ ]]
+then
+	echo it is an integer
+else
+	echo it is not an integer
+fi
+
+

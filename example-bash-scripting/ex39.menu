@@ -1,0 +1,50 @@
+#!/usr/bin/bash
+
+
+testinput()
+{
+	if [[ ! $1=~^[0-3]$ ]]
+	then
+		echo invalid selection
+		echo program exited.
+		exit 1
+	else
+		return 0
+	fi
+}
+
+while true
+do
+	# clear the screen, so it looks like a new program
+	clear
+
+	# multi lines echo 
+	echo <<- _eof_
+	Please Choose your options
+	1. Show your user name
+	2. Show your user id
+	3. Show your machine name
+	0. exit the program
+	_eof_
+
+	read -p 'Enter you Selection [0-3] : ' option
+	echo $option
+	testinput $option
+
+	if test $option -eq 0
+	then
+		echo normal exit
+		exit 
+	elif test $option -eq 1
+	then
+		whoami
+	elif test $option -eq 2
+	then
+		id -u
+	else
+		echo $HOSTNAME
+	fi
+
+	# sleep 5 seconds before entering next iteration
+	sleep 5
+done
