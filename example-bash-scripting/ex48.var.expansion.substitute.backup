@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+echo -e "\nlet's try sample variable unset\n"
+sample=
+
+echo the sample expands to ${sample:=backup}
+
+echo after expansion, the sample becomes $sample
+
+echo -e "\nlet's try sample variable set to something\n"
+sample=something
+
+echo the sample expands to ${sample:=backup}
+echo after expansion, the sample becomes $sample
+echo when sample is set, the backup does not work at all.

@@ -1,0 +1,28 @@
+#!/usr/bin/bash
+
+sample="one two three four five"
+
+echo -e "${sample}\n"
+echo -e "let's look at some interesting expansions\n"
+echo number of character of sample is ${#sample}
+echo sample starting from 4th character is ---${sample:4}
+echo "let's make it three character long is ---${sample:4:3}"
+
+# pay attention to the space before minus sign
+# so it is different from the backup synatax
+echo "let's count from -9 position ---${sample: -9}"
+echo "let's make it 4 chracter long ---${sample: -9:4}"
+
+echo -e "\nnow we can see it looks very similar to string slicing\n"
+
+echo "let's do some deletion at the start of varible string"
+echo "let's delete chunk ends with space at the beginning---${sample#* }"
+echo "let's delete greedily from the start this time---${sample##* }"
+echo "let's delete until the letter three---${sample#*three }"
+
+echo -e "\nlet's do some deletion at the end of varible string"
+echo the match starts from left to right though
+echo "let's delete the chunk start from space at the end---${sample% *}"
+echo "let's delete greedily this time ---${sample%% *}"
+echo "let's delete letter three and the following ---${sample%three*}"
+

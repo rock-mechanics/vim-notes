@@ -1,0 +1,21 @@
+#!/usr/bin/bash 
+
+echo -e '\nrun ./external version'
+echo -e "in this version, we use sed and wc\n"
+
+
+# time command is used to track the time used by the program
+
+time ./longest.words.external test*
+
+echo -e '\nrun ./inbuilt version'
+echo -e "in this version, we use in built string replacement and string character count\n"
+time ./longest.words.inbuilt test*
+
+cat << _eof_
+
+the conlusion is that program use inbuilt string slicing
+is much faster than external program such as sed or wc
+we should use inbuilt function to achieve efficiency.
+_eof_
+

@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+# send a message to stderr if the variable expands to nothing
+
+echo -e "\nlet's try an empty sample value."
+sample=
+echo the sample expands to ${sample:?the sample is empty}
+
+# once an error is encountered, the script stops executing
+echo -e "\nlet's assign the sample varible a value = something"
+sample=something
+echo the sample expands to ${sample:?the sample is empty}
+
+
+

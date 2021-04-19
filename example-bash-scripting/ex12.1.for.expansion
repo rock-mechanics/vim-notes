@@ -1,0 +1,31 @@
+#!/usr/bin/bash
+
+echo for can use expansion
+for i in {A..B}
+do
+	echo $i
+done
+
+echo -e "\nwithout quotes, item expansion will happen for example {A..C} expands to " {A..C}
+
+echo -e "\nfor can also use path name expansion"
+echo "this is the result after expanding ex*"
+count=0
+for i in ex*
+do
+	count=$(($count + 1))
+done
+echo there are $count number of files starting with ex in this directory
+echo -e "\n"echo without quotes will make star expand for example 'ex01*' expands to ex01*
+
+echo -e "\npath name fail to expand will return iteself"
+count=0
+
+echo 'let us expand nonexist*'
+for i in notexist*
+do
+	count=$(($count + 1))
+	echo the item is $i
+done
+
+echo "there are $count numbers of items after expand notexist*"

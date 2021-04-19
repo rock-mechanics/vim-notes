@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+
+finished=0
+
+num=0
+printf "a\ta**2\ta**3\n"
+printf "=\t====\t====\n"
+until ((finished))
+do
+	b=$((a**2))
+	c=$((a**3))
+	printf "%d\t%d\t%d\n" $a $b $c
+	((a<10?(++a):(finished=1)))
+done
+
+cat <<- _eof_
+	
+	there are a couple of things 
+	1. printf is pretty much like c language.
+	2. in tri operator, assignment needs to enclosed with ()
+	3. otherwise there will be errors.
+
+_eof_
+
+

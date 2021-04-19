@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+sample=
+
+echo -e "\nlet's make the sample variable empty"
+echo if the sample is empty, then nothing happens
+echo the sample expands to ${sample:+replacement}
+
+echo -e "\nlet's assign the sample : something"
+sample=something
+echo the sample expands to ${sample:+replacement}
+
+echo since sample is not empty, then subsitution occurs.
+echo the sample variable is $sample without change.
+
+
+

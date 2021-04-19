@@ -1,0 +1,33 @@
+#!/usr/bin/bash
+
+for i in {1..20}
+do
+	if (((i % 5)==0))
+	then
+		echo -n "<$i> "
+	else
+		echo -n "$i "
+	fi
+done
+
+echo 
+
+if (((5+5)==10))
+then
+	echo 5 + 5 == 10
+fi
+
+if (((5+5)>=10))
+then
+	echo "5 + 5 >= 10"
+fi
+
+if (((5+5)<=10))
+then
+	echo "5 + 5 <= 10"
+fi
+
+cat <<- _eof_
+	an additional () is need to enclose the arithmetic operation
+	so it is differentiate with the logical operation.
+_eof_

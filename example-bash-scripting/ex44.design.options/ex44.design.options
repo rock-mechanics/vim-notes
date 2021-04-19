@@ -1,0 +1,73 @@
+#!/usr/bin/bash -x
+
+progname=$(basename "$0") 
+how_to_use()
+{
+	echo "$progname Usage : $progname [-f file | -i]" 
+	return
+}
+
+print_message()
+{
+	echo hello, welcome to my world
+	echo this is a message from $FUNCNAME
+}
+
+is_interactive=false
+
+# test -n string. returns false if string is empty.
+while test -n "$1"
+do
+	case "$1" in 
+		-f | --file)
+			shift
+			filename=$1
+			;;
+		-i | --interactive)
+			is_interactive=true
+			;;
+		-h | --help)
+			how_to_use
+			exit
+			;;
+		*)
+			how_to_use >&2
+			exit 1
+			;;
+	esac
+	shift
+done
+# this is from the test man page
+# Binary -a and -o are inherently ambiguous.   
+# Use  'test EXPR1 && test EXPR2' or 'test EXPR1 || test EXPR2' instead.
+
+if test -n "$filename" && $(touch "$filename")
+then
+	if test $is_interactive = true && test -n "$(cat $filename)"
+	then
+		while true
+		do
+			read -p "$filename exists, do you want to overwrite it [y|Y|n|N] : "
+			case $REPLY in 
+				y|Y)
+					print_message > $filename
+					echo $filename overwrited successfully
+					break
+					;;
+				n|N)
+					echo program aborted.
+					exit
+					;;
+				*)
+					continue
+					;;
+			esac
+		done
+	else
+		print_message > $filename
+		echo $filename created written successfully.
+	fi
+else
+	how_to_use >&2
+	exit 1
+fi

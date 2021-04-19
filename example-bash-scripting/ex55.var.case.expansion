@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+read -p 'input some mixed case sentences : ' sample
+
+# this is the same as external program ${basename $0}
+prog=${0#*/} 
+
+if test -z $sample 
+then
+	echo "$prog usage : $prog [string]" >&2
+	exit 1
+fi
+
+echo -e "\nlet's switch the first character to upper case"
+echo ${sample^}
+echo -e "\nlet's switch the all characters to upper case"
+echo ${sample^^}
+
+echo -e "\nlet's switch the first character to lower case"
+echo ${sample,}
+echo -e "\nlet's switch the all characters to lower case"
+echo ${sample,,}

@@ -1,0 +1,54 @@
+#!/usr/bin/bash
+
+# arithmetic test can take a number as a return value.
+# if zero return false
+# if non-zero return true
+
+if ((0))
+then
+	echo I am true.
+else
+	echo I am false
+fi
+
+if ((5+6))
+then
+	echo I am true
+else
+	echo I am false
+fi
+
+if ((sample=5))
+then
+	echo after assignment, the result is returned, so I am not zero.
+else
+	echo "I don't know what is going on"
+fi
+
+echo the variable sample is $sample
+
+echo -e "\nlet's do some interesting assignment"
+sample=0
+
+if ((sample++))
+then
+	echo "I don't know what is going on"
+else
+	echo sample++ : I am false, sample is $sample
+fi
+
+sample=0
+if ((++sample))
+then
+	echo "++sample : I am true and sample is $sample"
+else
+	echo "I don't know what is going on"
+	echo sample is $sample
+fi
+
+cat <<- _eof_
+
+	Conclusion
+	a++ returns the value of a, then perform +1 on a 
+	++a perform the +1 on a, then returns the value of a.
+_eof_

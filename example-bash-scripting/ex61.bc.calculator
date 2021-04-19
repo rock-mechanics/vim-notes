@@ -1,0 +1,45 @@
+#!/usr/bin/bash
+
+# bc is an external program that do complex calculations, such as float point calculation.
+# bc takes a c-like scripts from a file or stdin
+# bc direct the output to stdout
+
+# we will use bc to calculate the installment you need to pay when you borrow money for n years. 
+
+progname="${0##*/}"
+
+how_to_use()
+{
+	cat <<- _eof_
+		Usage: $progname : priciple interest months
+
+		Where:
+			principle is the amount of the money you borrow
+			interest is the anuual interest but compounded every month
+			months is the total number of months of loan
+
+	_eof_
+}
+
+if test $# -ne 3
+then
+	how_to_use
+	exit 1
+fi
+
+principle=$1
+interest=$2
+months=$3
+
+# let's use a here document to pass to the stdin of the command
+# bc is the arbitary precision calculator
+# you needs to specify the precision use the scale variable.
+bc <<- _eof_
+	scale = 10
+	p = $principle
+	i = $interest / 12.0
+	m = $months
+
+	a = p * (( i * ((1 + i) ^ m)) / (((1 + i) ^ m ) - 1 ))
+	print a, "\n"
+_eof_

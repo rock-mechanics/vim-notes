@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+foo()
+{
+	echo I am running $FUNCNAME
+}
+
+bar()
+{
+	echo I am running $FUNCNAME
+}
+
+echo welecome to program : $(basename $0)
+foo
+bar

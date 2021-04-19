@@ -1,0 +1,17 @@
+#!/usr/bin/bash
+
+sample="I am superman and superman never gets hungry"
+
+echo -e "$sample"
+echo -e "\nlet's replace superman to spiderman\n"
+echo ${sample/superman/spiderman}
+echo ${sample//superman/spiderman}
+echo this is pretty much the same as sed substitution command.
+
+echo -e "\nlet's replace chunk at the beginning\n"
+echo ${sample/#*superman/I am spiderman}
+echo this replace string greedily, not consistent
+
+echo -e "\nlet's replace chunk at the end\n"
+echo ${sample/%superman*/I am spiderman}
+echo this replace string greedily, not consistent

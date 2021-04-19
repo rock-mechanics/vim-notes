@@ -1,0 +1,42 @@
+#!/usr/bin/bash 
+
+prog=$(basename $0)
+
+how_to_use()
+{
+	echo $prog usage : $prog [file1 [file2 [file3 ..]]]
+}
+
+max_word=
+max_length=0
+
+until test -z $1 
+do
+	if ! test -f $1
+	then
+		echo file $1 does not exist >&2
+		exit 1
+	fi
+
+	for i in $(strings $1)
+	do
+		real_word=$(echo $i | sed 's/[^[:alnum:]]//g')
+		current_length=$(echo $real_word | wc -c)
+		if test $current_length -gt $max_length
+		then
+			max_length=$current_length
+			max_word=$real_word
+		fi
+	done
+
+	shift
+done
+
+if test -z $max_word
+then
+	echo no words in the file. program exited.
+	exit
+else
+	echo words with maximum length is $max_word
+	echo the number of characters is $max_length
+fi

@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+# bash can provide back up for variable expansion
+
+# if sample is empty, then empty will become the backup during expansion
+sample=
+echo the sample expands to  ${sample:-backup}
+
+# during backup. the variable value is unchanged.
+if test -z $sample 
+then
+	echo the sample is still empty. not backup
+fi
+# if sample is not empty, backup will not be applied during expansion
+sample="something"
+echo the sample expands to  ${sample:-backup}
+
+
+

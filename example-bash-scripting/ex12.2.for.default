@@ -1,0 +1,27 @@
+#!/usr/bin/bash
+
+# this program using for default behavior, which loop through all the positional arugments.
+
+prog=$(basename $0)
+how_to_use()
+{
+	echo $prog usage : $prog [params..]
+}
+
+if test -z $1
+then
+	how_to_use >&2
+	exit 1
+fi
+
+echo -e '\ausing $*, for can iterates through all arguments.'
+for x in $*
+do
+	echo "line " $x
+done
+
+echo -e "\awithout definition of the list, for iterates through all arguments."
+for x
+do
+	echo "line " $x
+done
