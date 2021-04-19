@@ -1,0 +1,43 @@
+#!/usr/bin/bash
+
+a=("this" "is a" "good way")
+
+echo 'a=("this" "is a" "good way")'
+
+echo "let's expand the array to see what happes"
+
+echo -e "\n"'expand using ${a[*]}'
+
+for i in ${a[*]}
+do
+	echo $i
+done
+
+echo -e "\n"'expand using "${a[*]}"'
+
+for i in "${a[*]}"
+do
+	echo $i
+done
+
+echo -e "\n"'expand using ${a[@]}'
+
+for i in ${a[@]}
+do
+	echo $i
+done
+
+echo -e "\n"'expand using "${a[@]}"'
+
+for i in "${a[@]}"
+do
+	echo $i
+done
+
+cat <<- _eof_
+
+conclusion : 
+1. @ respect the double quotes when enclosed.
+2. * gives a single string when enclosed.
+3. normal expansion will igonore quotes and use only spaces as delimiter.
+_eof_
