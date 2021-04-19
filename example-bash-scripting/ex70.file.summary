@@ -1,0 +1,47 @@
+#!/usr/bin/bash
+
+prog=${0##*/}
+how_to_use()
+{
+	echo $prog usage : $prog [directory] >&2
+}
+
+if test -z $1
+then
+	how_to_use
+	exit 1
+fi
+
+if ! test -d $1
+then
+	how_to_use
+	exit 1
+fi
+
+total_count=0
+
+for i in {0..23}
+do
+	time[$i]=0
+done
+
+for i in $(stat -c %x $1/* | cut -c 12-13)
+do
+	# remove the leading zeros.
+	# leading zero number is oct number by default
+	j=${i##0}
+	((time[$j]+=1))
+	((total_count++))
+done
+
+echo -e "Hour\tFiles\tHour\tFiles"
+echo -e "----\t-----\t----\t-----"
+
+for i in {0..11}
+do
+	echo -e "$i\t${time[$i]}\t$((i+12))\t${time[$((i+12))]}"
+done
+
+echo -e "\nTotal number of files in this directory is $total_count"
+
+
