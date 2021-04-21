@@ -1,0 +1,27 @@
+#!/usr/bin/bash
+
+declare -A hashtable
+
+# let's make a telephone book
+
+hashtable["james"]=12306
+hashtable["marie"]=23243
+hashtable["jacky"]=12890
+hashtable["flopy"]=90876
+
+echo -e "let's access single items\n"
+echo james is ${hashtable["james"]}
+
+echo -e "\nlet's loop through the list of values\n"
+for i in "${hashtable[@]}"
+do
+	echo $i
+done
+
+echo -e "\nlet's loop through the list of keys\n"
+echo -e "key\tvalue"
+echo -e "---\t-----"
+for i in "${!hashtable[@]}"
+do
+	echo -e "$i\t${hashtable[$i]}"
+done

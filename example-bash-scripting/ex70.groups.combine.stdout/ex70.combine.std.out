@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+m1="this is a good day"	
+m2="this is a bad day"	
+m3="this is a normal day"	
+m4="this is a extremely normal day"	
+
+# let's save all our moods into a file
+
+echo -e "creating a file called mood.txt using a series of echo\n"
+
+{ echo $m1; echo $m2; echo $m3; echo $m4; } > moods.txt
+
+cat <<- _eof_
+
+	this is called 'group', where we combine a series of command
+	collect the stdout and combine it into a single stdout
+
+_eof_

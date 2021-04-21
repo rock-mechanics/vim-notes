@@ -1,0 +1,4 @@
+this is a good day
+this is a bad day
+this is a normal day
+this is a extremely normal day

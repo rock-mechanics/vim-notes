@@ -1,0 +1,40 @@
+#!/usr/bin/bash
+
+prog=${1##*/}
+how_to_use()
+{
+	echo $prog usage : $prog [directory] >&2
+}
+
+
+if ! test -d $1
+then
+	how_to_use
+	exit 1
+fi
+
+dir=$1
+
+declare -A owners
+count=0
+
+
+for f in $dir/*
+do
+	owner=$(stat -c %U $f)
+	((owners[$owner]++))
+	((count++))
+done
+
+echo -e "let's print out the summary\n"
+echo -e "for directory $dir"
+echo -e "total count : $count"
+echo -e "owners\tfile-count"
+
+for i in "${!owners[@]}"
+do
+	echo -e "$i\t${owners[$i]}"
+done
+
+
+
