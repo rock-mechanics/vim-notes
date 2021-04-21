@@ -1,0 +1,42 @@
+#!/usr/bin/bash
+
+prog=${0##*/}
+how_to_use()
+{
+	echo $prog usage : $prog item1 item2 .... >&2
+}
+
+if test -z $1
+then
+	how_to_use
+	exit 1
+fi
+
+list=
+until test -z $1
+do
+	list+=($1)
+	shift
+done
+
+echo the list is ${list[*]} before
+
+sorted=( \
+$( \
+for i in ${list[*]} 
+do
+	echo $i 
+done | sort ))
+
+echo the list is ${sorted[*]} after
+
+cat <<- _eof_
+
+Conclusion : 
+The for loop sends to the stdout in one go at the end of command.
+so we can pipe it to sort to make the external sorting program work.
+
+the entire for | sort is a command, thus enclused in \$(for | sort)
+the outcome then enclused in () to form a list
+
+_eof_

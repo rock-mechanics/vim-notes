@@ -1,0 +1,21 @@
+#!/usr/bin/bash
+
+# let's create an list.
+a=(this is a good time)
+a[100]=what
+a[101]=a
+a[203]=secret
+
+for i in "${!a[@]}"
+do
+	# $i expands to the index of the item
+	# ${a[$i]} expands to the item itself
+	echo $i th items is ${a[$i]}
+done
+
+cat <<- _eof_
+
+Conclusion
+\${!list-expansion} expands to the list index
+
+_eof_

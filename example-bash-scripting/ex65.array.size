@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+
+a[0]=1
+a[1]=2
+a[2]=3
+
+echo the array is "${a[*]}"
+echo there are "${#a[*]}" elements in the array
+
+b[21]=100
+b[22]=200
+b[23]=300
+b[24]=400
+b[25]=500
+
+echo the array is ${b[*]}
+echo there are ${#b[*]} elements in the array
+
+cat <<- _eof_
+
+Conclusion : 
+bash does not recoginise empty items in the array, only item with solid 
+information is count. using \${#...} we can count the number of items in 
+the list after expansion
+
+_eof_

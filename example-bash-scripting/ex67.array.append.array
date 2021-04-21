@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+
+collection1=(this is a good day,)
+collection2=(welcome to my world!)
+
+echo collection1 is ${collection1[*]}
+echo collection2 is ${collection2[*]}
+
+collection+=(${collection1[*]})
+collection+=(${collection2[*]})
+
+echo combined collection is ${collection[*]}
+
+for i in "${collection[@]}"
+do
+	echo $i
+done
+
+cat <<- _eof_
+
+Conclusion: 
+	the syntax for append list is somelist+=(item1 item2 .... )
+	in this example, we use expansion to expands to item1 item2 ....
+	then enclouse it with braces
+
+_eof_
