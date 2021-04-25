@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+echo "let's look at all the process in this associated with this terminal"
+ps | head 
+
+echo -e "\nlet's look at the current terminal process id"
+echo $$
+
+
+cat << _eof_
+
+\$\$ is an environment variable containing the current process id
+it is the shell scripts id
+if you run in the shell, you can see the bash id
+run echo \$\$ to see what happens
+
+_eof_
+
+

@@ -1,0 +1,38 @@
+#!/usr/bin/bash
+
+echo -e "\nlet's first compress all the files"
+gzip *.tar
+
+echo -e "\nlet's see the list of files\n"
+ls -l
+echo -e "\nlet's unzip the file\n"
+read -p "press enter to unzip"
+
+echo -e "\nlet's uncompress all the files"
+gunzip *.gz
+
+echo -e "\nlet's see the list of files\n"
+ls -l
+
+echo -e "\n"
+read -p "press enter to to see the conclusion"
+
+cat << _eof_
+
+Conclusion : 
+
+	syntax : 
+		gzip files...
+	description : 
+		compress each file into compressed file
+		replace each file with file.gz
+
+	syntax : 
+		gunzip files...
+	description : 
+		decompress each file into normal file
+		replace each file.gz with file
+
+	compress file cannot combine files, they must be combined using tarball
+
+_eof_

@@ -1,0 +1,33 @@
+#!/usr/bin/bash
+
+echo -e "archive program combine multiple files into a single file"
+tar -cvf archive.tar file* 
+echo -e "\nlet's list all the files in the directory now\n"
+ls -l
+
+echo -e "\n"
+read -p "press enter to unarchive the files into directory"
+
+test -d unarchive || mkdir unarchive
+tar -xvf archive.tar --directory=./unarchive
+
+echo you may check files in the unarchive directory
+cat << _eof_
+
+Conclusion : 
+
+	syntax : 
+		tar cvf archive.tar file*
+	description : 
+		create a tar called archive.tar
+		-c : create tarball
+		-v : verbose, show more info about the tar process
+		-f : specify output file name
+
+	syntax : 
+		tar xvf archive.tar --directory=./unarchive
+	description : 
+		extract the tarball into files
+		-x : extract mode.
+		--directory=... : specify a directory for output
+_eof_

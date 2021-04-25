@@ -1,0 +1,29 @@
+#!/usr/bin/bash
+
+echo -e "let's run the process with output redirectin in the bg\n"
+./sample.process >/dev/null &
+pid=$!
+echo -e "let's check the process\n"
+ps u
+
+
+echo -e "\neven the process is generating output, we see none"
+echo -e "let's terminate the process"
+
+kill $pid
+ps u
+
+echo -e "\n"
+read -p "press enter to see the conclusion"
+
+cat << _eof_
+
+Conclusion : 
+
+	Syntax : 
+		command >destination &
+	Description : 
+		run the command in the bg using &
+		redirect the output to prevent output to the screen.
+_eof_
+

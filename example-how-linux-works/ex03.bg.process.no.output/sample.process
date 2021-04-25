@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+# a sample process to run forever and output a message every 5 seconds.
+count=0
+
+while true
+do
+	echo ${0##*/} running with pid $$ with count $count
+	((count++))
+done
+

@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+
+echo -e "not everybody can run sudo command\n"
+
+echo -e "/etc/ is the place to place all the system configuration files\n"
+
+sudo cat /etc/sudoers
+
+echo ---------------------------------------------------------------------------
+echo -e "\nin the file, you can see all memebers in the group sudo can do sudo"
+echo -e "let's find who in the sudo group"
+
+grep 'sudo' /etc/group
+
+echo in this file it follows the following format
+echo groupname : encrypted-password : groupid : group-memeber-list

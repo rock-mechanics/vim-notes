@@ -1,0 +1,82 @@
+#!/usr/bin/bash
+
+startprocess()
+{
+	echo -e "\nlet's run a process in the background"
+	./sample.process &
+	pid=$!
+}
+
+waitawhile()
+{
+	echo -e "\n"
+	read -p "press enter to continue"
+	echo -e "\n"
+}
+
+checkprocess()
+{
+	echo "let's check the process"
+	ps u
+}
+startprocess
+checkprocess
+waitawhile
+
+echo "let's kill the process politely using -TERM"
+echo "this allow the program to do some cleaning work"
+kill -TERM $pid 
+
+checkprocess
+echo -e "\nthe process should be gone now"
+waitawhile
+
+startprocess
+checkprocess
+waitawhile
+
+echo "let's pause the process and save the state using -STOP"
+kill -STOP $pid
+
+checkprocess
+waitawhile
+
+echo "process stopped can be resumed using -CONT"
+kill -CONT $pid
+checkprocess
+echo -e "\nthe process is resumed and running in the background"
+waitawhile
+
+echo "let's kill the process by force. using -KILL "
+echo "this is not recommeded as there is no time for program to clean"
+kill -KILL $pid
+checkprocess
+echo -e "\nthe process should be gone now."
+
+waitawhile
+
+cat << _eof_
+
+Conclusion : 
+
+	Syntax : 
+		-INT
+		-TERM
+	Description : 
+		thiis depends on programmer whether want to treat them differently. most of the time, they are the same.
+		both of the signal allow program to terminate itself politely. which the program may have some left over clean up to do.
+
+	Syntax : 
+		-STOP
+		-CONT
+	Description : 
+		temporarily stop the process and save the status
+		resume the status and continue working on it.
+
+	Syntax : 
+		-KILL
+	Description : 
+		terminate immediatly without doing anything left over.
+_eof_
+
+

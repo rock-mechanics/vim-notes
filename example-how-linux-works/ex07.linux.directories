@@ -1,0 +1,21 @@
+#!/usr/bin/bash
+
+echo some important linux directories.
+
+echo -e "\nusr directory contains info about the user space program.\n"
+echo '/usr'
+ls -l /usr | grep include
+
+echo -e "the header file for c compilers. such as stdio.h\n"
+
+echo '/boot'
+ls -l /boot | grep vmlinuz
+echo -e "this is the linux kernal, which will be loaded when system starts.\n"
+
+file /boot/vmlinuz*
+
+echo -e '\n/lib/modules' 
+ls -l /lib/modules
+echo -e "this is all the modules the kernel can mount and unmount depends on needs\n"
+
+

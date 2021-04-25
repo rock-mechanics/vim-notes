@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+# a sample process to run forever and output a message every 5 seconds.
+count=0
+
+while true
+do
+	((count++))
+done
+
+

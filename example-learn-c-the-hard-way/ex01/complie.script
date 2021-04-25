@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+# use clang compiler to compile the program
+
+clang ex01.c -o ex01
+
+# we can run it.
+./ex01
