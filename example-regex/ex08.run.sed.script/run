@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+sed -f script ../rime.txt
+
+cat << _eof_
+
+Conclusion:
+syntax
+	sed -f script file
+where
+	<script> is the sed script file
+	<file> is the file to process
+
+_eof_

@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+echo child process starts
+
+echo child proces step 1
+sleep 10
+
+echo child process step 2
+sleep 2
+
+echo child process finished.

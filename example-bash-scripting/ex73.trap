@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+
+current=0
+total=10
+
+count=0
+
+trap 'echo -e "\nPlease wait for me to finish, status $current/$total"' SIGINT SIGTERM
+for i in {1..10}
+do
+	echo counting $((count++))
+	sleep 5
+	((current++))
+done
+
+
+cat <<- _eof_
+	the trap command takes a string.
+	which is specified what command to run
+	then it takes a series of a signals such as SIGINT SIGTERM
+	upon receiving these signals, the script will run the command
+	in the string
+_eof_

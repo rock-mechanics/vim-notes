@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+
+echo we need two terminal to make this work.
+echo we use mkfifo to create a named pipe called buffer
+echo we can pipe from one terminal to another terminal
+echo 'just like term1-command | term2-commad'
+
+echo the program hang to wait for the pipe to get through
+echo 'in another terminal type cat < buffer to view the result '
+
+if ! test -e buffer
+then
+	mkfifo buffer
+fi
+
+ls > buffer
+
+
+

@@ -1,0 +1,40 @@
+#!/usr/bin/bash
+
+cat <<- _eof_
+	create temp file in the /tmp folder
+	tmp file should be unpredicatble, so other people cannot fake a file
+	and include malicious code in the temp file
+
+	thus we use a program called mktemp
+	it receive a template with 'X' as random variable
+	it fills the x and return the random name
+
+_eof_
+
+template="tempfile-XXXXX"
+tempfile=$(mktemp -t $template)
+
+echo -e "\nmktemp program returns $tempfile\n"
+
+echo the new created template is $template
+echo the new created filename is ${tempfile##*/}
+
+echo -e "\nclean all the temp files"
+rm -f $tempfile
+
+echo -e "\nit is better to not use the /tmp folder for normal user"
+echo -e "let's create a new directory under home\n"
+
+test -d $HOME/tmp || mkdir $HOME/tmp
+
+template="tempfile-XXXXX"
+tempfile=$(mktemp -p $HOME/tmp -t $template)
+
+echo -e "mktemp program returns $tempfile\n"
+
+echo the new created template is $template
+echo the new created filename is ${tempfile##*/}
+
+echo -e "\nclean all the temp files"
+
+rm -f $tempfile

@@ -1,0 +1,20 @@
+#!/usr/bin/bash
+
+echo hello | sed 's/^h\|^s/!/'
+echo sello | sed 's/^h\|^s/!/'
+
+
+echo hello | sed 's/\(^he\|^sa\)llo/!/'
+echo sallo | sed 's/\(^he\|^sa\)llo/!/'
+
+cat <<- _eof_
+	
+	|^ is a combination that treats the following combinaton as alternative starting
+	sequence.
+	we need to define the boundary use parenthesis, otherwise it will take everything
+	after |^ as the entire sequence.
+
+_eof_
+
+
+

@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+sed -e 's/^/<h1>/' -e's/$/<\/h1>/' -e 'q' rime.txt
+
+cat << _eof_
+
+Conclusion : 
+	syntax : 
+	sed -e command1 -e command2 ... -e 'q'
+	sed will apply all commands on the first line. then
+	the last command which is q, will quit the program
+	so sed only works on the first line of the document.
+_eof_
+

@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+
+echo hello-world-there!
+echo hello-world-there! | sed 's/./!/g'
+
+echo hello-world-there!
+echo hello-world-there! | sed 's/.*/!/'
+
+cat << _eof_
+
+Conclusion : 
+
+syntax : 
+	.
+description : 
+	it match any single character
+
+quantifier : 
+	*
+description : 
+	it match zero or mulitple occurance
+_eof_
+

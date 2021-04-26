@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+
+echo hello-world-there!
+echo hello-world-there! | sed 's/\bw...d\b/!!!!!/'
+
+echo "I am 'here' to learn regular expression"
+echo "I am 'here' to learn regular expression" | sed "s/'\b.*\b'/!!!!!!/"
+
+cat << _eof_
+
+Conclusion : 
+
+syntax : 
+	\b
+description : 
+	it match the position after a non word character when place before
+	it match the position before a non word character when place after
+
+	these position chracter such as ^ $ \b does not consume characters
+
+_eof_
+

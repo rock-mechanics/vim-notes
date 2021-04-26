@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+perl -n perlscript test
+
+cat << _eof_
+
+Conclusion : 
+	syntax : perl -n perlscript testfile
+	where  : 
+		-n prints the output
+		<perlscript> is the script files
+		<testfile> is the file to process
+	
+	syntax : $.
+	description : 
+		returns the current line number in perl script
+
+_eof_

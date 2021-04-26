@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+
+echo "hello,  world"
+echo "hello,  world" | sed 's/[[:space:]]/!/'
+
+cat << _eof_
+
+Conclusion : 
+	syntax : 
+		[class-character]
+	description : 
+		it match any of the character pass the pattern
+		class such as [:space:] must be used inside anothr []
+
+_eof_
+

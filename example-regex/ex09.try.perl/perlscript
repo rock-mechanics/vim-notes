@@ -1,0 +1,11 @@
+#!/usr/bin/perl 
+
+# $. returns the current line number.
+# we are only process the first line.
+
+if ($. == 1)
+{
+	s/^/<h1>/;
+	s/$/<\/h1>/;
+	print;
+}

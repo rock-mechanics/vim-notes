@@ -20,13 +20,23 @@ then
 fi
 
 number=0
+
+if test $number -eq 0
+then
+	echo "Welcome to the journey, my friend. Let's start"
+	echo press enter when you finish the first task
+fi
+
 while test $number -le $1
 do
-	echo ------------------------------------
+	echo ------------------------------------------
 	read
 	((number++))
 	echo you completed $number tasks
-	echo you have $(($1-$number)) tasks left.
+	if test $(($1-$number)) -gt 0
+	then
+		echo you have $(($1-$number)) tasks left.
+	fi
 done
 
 echo congrats, you have completed all the tasks! you are a hero!

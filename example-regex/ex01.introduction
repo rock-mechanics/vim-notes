@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+echo hello, world
+echo hello, world | sed 's/world/there!/'
+
+
+cat << _eof_
+
+Conclusion : 
+	syntax : 
+		sed 's/regex/replacement/' 
+	regex is the terms we use the match the string
+
+_eof_
+

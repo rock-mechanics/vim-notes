@@ -1,0 +1,42 @@
+#!/usr/bin/bash
+
+echo "pipe creat a subshell. it can be a problem"
+echo "there is another way creating a stdin from a command"
+echo -e "\nit is called 'command subsitution'\n"
+
+wc -l < <(ls)
+
+echo '<(command) execute the command. take the output as a file'
+echo 'cmd < file is the standard way to make a file into stdin'
+
+echo -e "\nwe can do some interesting things\n"
+
+# while $(read attr lnknum user group size m y t filename)
+# the above creates a subshell, that's why it is not working
+# read itself is a command, thus does not need to expand
+# interesting!
+
+while read attr lnknum user group size m y t filename
+do
+	cat <<- _eof_
+		filename : $filename
+		attr : $attr
+		lnknum : $lnknum
+		user : $user 
+		group : $group
+		size in bytes : $size
+		last modification : $m $y
+		last modi time : $t
+
+	_eof_
+done < <(ls -l | tail -n 2)
+
+cat <<- _eof_
+
+Conclusion :
+
+read reads a line from stdin.
+the ls -l | tail -n 2 fill the stdin and pass to for loop.
+read reads the stdin line by line and produce the output.
+
+_eof_

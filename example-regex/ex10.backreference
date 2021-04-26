@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+sample=010-110-115
+
+echo "let's find number with same head and tail like x5x"
+
+echo $sample
+echo $sample | sed 's/\([[:digit:]]\)[0-9]\1/!!!/'
+
+cat <<- _eof_
+
+back reference takes the content of the exact match in this case 
+\1=0, it does not match any number
+
+in sed, capture group is not supported by default.
+so we need to escape the parenthesis
+
+_eof_

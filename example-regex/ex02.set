@@ -1,0 +1,20 @@
+#!/usr/bin/bash
+
+echo hello, world
+echo hello, world | sed 's/[hw]/!/g'
+
+cat << _eof_
+
+Conclusion : 
+	syntax : 
+		[xyz]
+	description : 
+		it matches x or y or z
+	
+	modifier : 
+		g
+	description : 
+		it means 'greedy', match as many case as possible.
+
+_eof_
+

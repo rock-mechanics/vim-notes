@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+
+echo hello, world!
+
+echo hello, world! | sed 's/l\{2\}/!!/'
+
+echo helllo, hellllllo!
+echo helllo, hellllllo! | sed 's/l\{3,6\}/ll/g'
+
+
+cat << _eof_
+
+Conclusion : 
+	syntax : 
+		x{number}
+	description : 
+		it match x happens <number> of times consecutively
+
+	syntax : 
+		x{low,high}
+	description : 
+		it match x happens <low> times to <high> times consecutively
+_eof_

@@ -1,0 +1,41 @@
+#!/usr/bin/bash
+
+echo parent needs to 6 steps to finish
+
+echo process step 1 ..
+sleep 2
+
+echo process step 2 ..
+sleep 2
+
+echo process step 3 .. start child process
+# run child in the back ground
+./ex75.child &
+pid=$!
+
+echo process step 4 ..
+sleep 2
+
+echo step 5 needs the result of the child. so we wait.
+wait $pid
+
+echo step 5 finished. process step 6
+sleep 2
+echo all scripts finished.
+
+cat <<- _eof_
+
+Conclusion : 
+
+the parent and child are running at the same time.
+but at some point. parent needs the child to finish first.
+thus we need to wait. 
+
+the '$!' gets the latest pid of the call stack.
+wait pid is waiting for the process to finish.
+
+the parent and child are running in different pace. so they are asynchrous.
+but at some point they need to align the sequence.
+
+_eof_
+
