@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+make
+
+if test $? -eq 0
+then
+	./ex07
+fi

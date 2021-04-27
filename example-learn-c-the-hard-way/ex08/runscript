@@ -1,0 +1,25 @@
+#!/usr/bin/bash
+
+make
+
+echo $1
+
+if test -z "$1" 
+then
+	echo one argument is needed >&2
+	exit 1
+fi
+
+if test $? -eq 0
+then
+	./ex08 "$1"
+
+	if test $? -eq 0 
+	then
+		echo -e "\nThe string in c is a character array" 
+		echo 'this array ends with character \0 which is null'
+		echo -e "we loop through the string until encouter character null\n"
+		echo -e "if we missed it somehow, we will cause segmentation error."
+	fi
+fi
+

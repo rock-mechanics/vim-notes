@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+make
+
+./ex06.exe hello world!
