@@ -1,4 +1,5 @@
 example-practical-vim/ 
 code*/
 *.swp
+**/*.exe
 
