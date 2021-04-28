@@ -5,6 +5,6 @@
 # then it will run make all
 # -g flag allows the debug program to track the code address
 all: clean
-	clang -Wall -g ex05.c -o ex05
+	clang -Wall -g ex07.c -o ex07
 clean:
-	rm -rf ex05
+	rm -rf ex07

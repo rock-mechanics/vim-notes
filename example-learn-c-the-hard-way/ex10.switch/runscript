@@ -12,7 +12,7 @@ fi
 
 if test $? -eq 0
 then
-	./ex08 "$1"
+	./ex10 "$1"
 
 	if test $? -eq 0 
 	then
@@ -23,3 +23,11 @@ then
 	fi
 fi
 
+cat <<- _eof_
+
+Jumptables:
+	jumptable is very similar to low level implementation of the cpu. 
+	you fetch an instruction, then based on the result, you add the operation address by an value. 
+	the result is that you start to executing commands at another address.
+	so it should be faster than nest if else statement.
+_eof_

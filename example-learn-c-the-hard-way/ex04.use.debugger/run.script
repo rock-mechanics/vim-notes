@@ -11,3 +11,7 @@ read -p "press enter to continue make the file"
 make 
 
 echo -e "\n-g flag must be present when compile, so the debug data is preserved\n"
+
+echo -e "\n let's run valgrind"
+echo -e "valgrind <./program>"
+valgrind ./ex04

@@ -1,4 +1,4 @@
-# ex05
+# variable and types
 
 ## data types
 

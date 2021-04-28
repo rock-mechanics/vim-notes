@@ -70,15 +70,16 @@ int main (int argc, char * argv[])
 	printf("Which means you should care %d%%\n", care_percent);
 
 	printf("\n");
-	printf("the size of an int is %d\n", sizeof( int ));
+	printf("the size of an int is %lu\n", sizeof( int ));
 	printf("\tthis is a signed integer, it contains 4 bytes = 4 * 8 = 32 bits, the first bit is the sign\n");
 	printf("\tthere is a place for 0 in the positive range, the largest number is %d, if we add 1, we get %d\n", int_power(2,31)-1, int_power(2,31));
 	printf("\tthe smallest number is %d, if we minus 1, we get %d\n", -int_power(2,31), -int_power(2,31) - 1);
 	printf("\tthat is an integer overflow\n");
 	printf("\n");
-	printf("the size of an long long is %d\n", sizeof( long long ));
-	printf("the size of an float is %d\n", sizeof( float ));
-	printf("the size of an double is %d\n", sizeof( double ));
+	printf("the size of an long is %lu\n", sizeof( long ));
+	printf("the size of an long long is %lu\n", sizeof( long long ));
+	printf("the size of an float is %lu\n", sizeof( float ));
+	printf("the size of an double is %lu\n", sizeof( double ));
 
 	return 0;
 }

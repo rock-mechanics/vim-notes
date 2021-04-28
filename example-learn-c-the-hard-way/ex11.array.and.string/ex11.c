@@ -2,6 +2,11 @@
 
 int main(int argc, char* argv[])
 {
+	// by default, c will fill uninitialized elements to 0
+	// 0 is 0 by integer
+	// 0 is null by character
+	// 0 can be otherthings if data type is different
+	// after all, all data are represented by integer and 0 is quite a special integer
 	int numbers[4] = {1};
 	char names[4] = {'a'};
 	int spoiler[4] = {1, 2, 3, 4};

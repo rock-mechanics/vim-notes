@@ -100,6 +100,18 @@ bt
 ```
 * they are the same with each other. one is abbreviated.
 
+## composite command
+
+```=
+gdb --batch -ex run --ex bt --ex q --args ./ex3
+```
+* run gdb and exit with some output.
+* `--batch` will combine commands into one
+* `-ex <command>` is used to specify a command
+* the first command is `run`, if error happens. run the second command
+* the second command is `bt`, it will output the call stack backtrace if error happens.
+* the third command is `q`, it will exit gdb and return to bash
+* `--args <file>` is to specify the argument of gdb
 
 
 

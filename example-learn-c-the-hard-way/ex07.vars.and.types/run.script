@@ -7,5 +7,5 @@ echo The Status of make : $?
 if test $? -eq 0
 then
 	echo -e "\nrun the program\n"
-	./ex05
+	./ex07
 fi
