@@ -100,6 +100,8 @@ void writeDatabaseToFile(struct Connection* conn)
 
 void writeFileToDatabase(struct Connection* conn)
 {
+	// finally find the bug. rewind the file first before read.
+	rewind(conn->file);
 	int rc = fread(conn->table, sizeof(struct Table), 1 , conn->file);
 	if (rc != 1) die("fail to write file to database");
 }

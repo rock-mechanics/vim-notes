@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+Clang -Wall -g ex00.c -o rundb
+
+if test $? -eq 0
+then
+	./rundb 
+fi
