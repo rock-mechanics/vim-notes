@@ -27,11 +27,13 @@ int read_int(long* out_int)
 	char* input = NULL;
 	char* end = NULL;
 	int rc = read_string(&input, MAX_DATA);
-	check(rc != 0, "Failed to read the number");
+	check(rc == 0, "Failed to read the string number");
 
 	*out_int = strtol(input, &end, 10);
-	check((*end == '\0' || *end == '\n') && *input != '\0' , "Invalid number: %s", input);
 
+	// end will the string contains the first character that is not an number
+	// by right, it should not contain any other character other than null and new line.
+	check((*end == '\0' || *end == '\n') && *input != '\0' , "Invalid number: %s", input);
 	free(input);
 	return 0;
 error:
@@ -74,6 +76,12 @@ int read_scan(const char* fmt, ...)
 				case 'c' : 
 					out_char = va_arg(arglist, char*);
 					*out_char = (char)fgetc(stdin);
+					// terminal are line buffered, stdin are cleared until a new line is encoutered.
+					// if the stdin is not empty, any read statement will not start a new prompt.
+					// normal command will usually clear the stdin.
+					// fgetc will only get a character and move to next one, so it is important we clear it. 
+					// so it will not affect the read command after it.
+					while(fgetc(stdin) != '\n');
 					break;
 				case 's' : 
 					max_buffer = va_arg(arglist, int); // next argument is an int
@@ -85,10 +93,10 @@ int read_scan(const char* fmt, ...)
 					sentinel("Invalid format");
 			}
 		}
-		else
-		{
-			fgetc(stdin);
-		}
+		/* else */
+		/* { */
+		/* 	fgetc(stdin); */
+		/* } */
 		check(!feof(stdin) && !ferror(stdin), "Input Error");
 	}
 	va_end(arglist);
@@ -101,32 +109,36 @@ error:
 int main(int argc, char* argv[])
 {
 	char * first_name = NULL;
-	char initial = '';
+	char initial = ' ';
 	char * last_name = NULL;
 	long age = 0;
 
 	int rc = 0;
 	printf("What's your first name? ");
+	fflush(stdout);
 	rc = read_scan("%s", MAX_DATA, &first_name);
 	check(rc == 0, "Failed first name");
 
 	printf("What's your last name? ");
+	fflush(stdout);
 	rc = read_scan("%s", MAX_DATA, &last_name);
 	check(rc == 0, "Failed last name");
 
 	printf("What's your intial? ");
+	fflush(stdout);
 	rc = read_scan("%c", &initial);
 	check(rc == 0, "Failed initial");
 
 	printf("How old are you ?");
+	fflush(stdout);
 	rc = read_scan("%d", &age);
 	check(rc == 0, "Failed read age");
 
-	printf("-----Results-----");
+	printf("\n-----Results-----\n");
 	printf("First Name : %s", first_name);
 	printf("Initial : %c\n", initial);
 	printf("Last Name : %s", last_name);
-	printf("Age : %ld", age);
+	printf("Age : %d\n", age);
 
 	free(first_name);
 	free(last_name);
