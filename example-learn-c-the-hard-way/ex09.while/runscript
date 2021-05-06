@@ -1,8 +1,0 @@
-#!/usr/bin/bash
-
-make
-
-if test $? -eq 0
-then
-	./ex09
-fi

@@ -1,8 +1,0 @@
-#!/usr/bin/bash
-
-echo -e "\nLet's compile it and run with one arguments. with NDEBUG not define\n"
-clang -Wall -g ex19.c -o ex19
-
-
-echo -e "\nLet's compile it with NDEBUG define\n"
-clang -Wall -g -DNDEBUG ex19.c -o ex19.no.debug
