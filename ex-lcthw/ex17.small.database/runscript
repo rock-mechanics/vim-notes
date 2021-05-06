@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+clang -Wall -g ex17.c -o ex17
+
+if test $? -eq 0
+then
+	./ex17
+fi

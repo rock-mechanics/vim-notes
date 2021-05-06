@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+# compile the program with errors
+clang -Wall ex03.break.c -o ex03.break
+
+# run the program to see the error result
+./ex03.break
+
+cat <<- _eof_
+
+Conclusion : 
+	the variable is not initalized. depends on computer, it may produce different results.
+	when you do printf. system will allocate memory for any template. such as %d. this template may contain junk values if not subsituted properly.
+
+_eof_

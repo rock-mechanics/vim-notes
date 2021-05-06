@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+make
+
+if test $? -eq 0
+then
+	./ex12
+fi
+
+echo -e "\narray is consecutive memeory. the total memory size will be reflected if you run sizeof on the array."
+echo -e "\nwhen you assign a \"string\" to a variable, c will attach a 'null' character in the end which makes the string 1 char longer"
