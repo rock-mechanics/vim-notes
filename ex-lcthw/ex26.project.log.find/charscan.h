@@ -1,3 +1,5 @@
+#include<stdlib.h>
+#include<string.h>
 
 // this struct is used to scan a list of characters one by one
 // it tells whether the target string is contained in the char list
@@ -68,5 +70,80 @@ void close_scanner(struct char_scanner* scanner)
 			free(scanner->target);
 		}
 		free(scanner);
+	}
+}
+
+
+struct group_scanner
+{
+	int scanner_capacity;
+	int scanner_count;
+	struct char_scanner** scanners;
+	int result;
+};
+
+struct group_scanner*  initialize_group_scanner( int scanner_cap )
+{
+	struct group_scanner* ptr = malloc(sizeof(struct group_scanner));
+	ptr->scanner_capacity = scanner_cap;
+	ptr->scanner_count = 0; // there are zero scanner in it.
+	ptr->result = 0;
+	ptr->scanners = malloc(sizeof(struct char_scanner) * scanner_cap);
+	return ptr;
+}
+
+void add_scanner(struct group_scanner* ptr, struct char_scanner* sc)
+{
+	if (!ptr) return;
+	if (!sc) return;
+	if (ptr->scanner_count < ptr->scanner_capacity)
+	{
+		ptr->scanners[ptr->scanner_count] = sc;
+		ptr->scanner_count++;
+	}
+}
+
+void group_scan_char(struct group_scanner* ptr, char ch)
+{
+	int temp_res = 1;
+	if (ptr->scanner_count == 0) temp_res = 0;
+	int i = 0;
+	for (i = 0; i < ptr->scanner_count; i++)
+	{
+		scan_char(ptr->scanners[i], ch); 
+		temp_res *= ptr->scanners[i]->result;
+	}
+	ptr->result = temp_res;
+} 
+
+void close_group_scanner(struct group_scanner* ptr)
+{
+	int i = 0;
+	for (i = 0; i < ptr->scanner_count; i++)
+	{
+		close_scanner(ptr->scanners[i]);
+	}
+	free(ptr->scanners);
+	free(ptr);
+}
+
+void reset_group_scanner(struct group_scanner* ptr)
+{
+	int i = 0;
+	for (i = 0; i < ptr->scanner_count; i++)
+	{
+		reset_scanner(ptr->scanners[i]);
+	}
+	ptr->result = 0;
+}
+
+void group_scan_string(struct group_scanner* gsc, char* test_string)
+{
+	reset_group_scanner(gsc);
+	int count = strlen(test_string);
+	int i = 0;
+	for (i = 0; i < count; i++)
+	{
+		group_scan_char(gsc, test_string[i]);
 	}
 }

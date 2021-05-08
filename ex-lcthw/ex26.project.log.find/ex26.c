@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
-			insert_string(&lists[list_index], argv[i]);
+			insert_string(&(lists[list_index]), argv[i]);
 		}
 	}
 
@@ -44,13 +44,6 @@ int main(int argc, char* argv[])
 	struct dirent * entry;
 	char* dirname = "./test/";
 
-	// testing
-	
-	char* hello = argv[1];
-	check(hello!=NULL, "usage : program <args>");
-
-	int test_size = strlen(hello);
-
 	dir = opendir(dirname);
 
 	//initialize line string memory
@@ -58,8 +51,17 @@ int main(int argc, char* argv[])
 	char* line = calloc(1, line_size + 1);
 	int index = 0;
 
-	//initialize scanner for all files
-	struct char_scanner* sc = initialize_scanner(hello, test_size);
+	//initialize group scanners for list 1
+	struct group_scanner* gsc = initialize_group_scanner(argc-1);
+
+	// build individual scanners
+	i = 1;
+	while(i < argc)
+	{
+		struct char_scanner* sc = initialize_scanner(argv[i], strlen(argv[i]));
+		add_scanner(gsc, sc);
+		i++;
+	}
 
 	while ((entry = readdir(dir)) != NULL)
 	{
@@ -70,61 +72,46 @@ int main(int argc, char* argv[])
 		sprintf(fname, "%s%s", dirname, entry->d_name);
 		FILE* f = fopen(fname, "r");
 		if (!f) continue;
-		char ch = fgetc(f);
 
+		// start to processing the file
+		char ch = fgetc(f);
 		while(1)
 		{
 			if (ch == EOF)
 			{
-				if (sc->result) printf("\t%s\n", line);
+				index = 0;
+				if (gsc->result) printf("\t%s\n", line);
 				fflush(stdout);
+				reset_group_scanner(gsc);
 				break;
 			}
 			else if (ch == '\n')
 			{
 				index = 0;
-				if (sc->result) printf("\t%s\n", line);
+				if (gsc->result) printf("\t%s\n", line);
 				fflush(stdout);
-				// scanning complete for this line. reset scanner
-				reset_scanner(sc);
+				reset_group_scanner(gsc);
+
 				// a new line is encoutered, clear the line buffer.
 				memset(line, 0, line_size);
+				// get next character and continue next line
 				ch = fgetc(f);
 				continue;
 			}
+
 			line[index] = ch;
-			scan_char(sc, ch);
-			ch = fgetc(f);
 			index++;
+
+			group_scan_char(gsc, ch);
+			ch = fgetc(f);
 		}
 
-		// reach the end of file, reset to start a new file
-		reset_scanner(sc);
-		// free memory for the scanner
+		// process next file
 		fclose(f);
 	}
 
-	close_scanner(sc);
+	close_group_scanner(gsc);
 	free(line);
 	closedir(dir);
-
-	// ends the file reading, start freeing memory
-
-	for (i = 0; i < list_index; i++)
-	{
-		free_list (lists[i]);
-	}
-error:
-	close_scanner(sc);
-	free(line);
-	closedir(dir);
-
-	// ends the file reading, start freeing memory
-
-	for (i = 0; i < list_index; i++)
-	{
-		free_list (lists[i]);
-	}
-	exit(1);
 }
 
