@@ -5,45 +5,53 @@
 #include<dirent.h>
 #include"charscan.h"
 #include"strlist.h"
+#include"process_arg.h"
+
+int get_result(struct group_scanner** gscs, int size)
+{
+	int i = 0;
+	int res = 0;
+	for (i = 0; i < size; i++)
+	{
+		res += (gscs[i])->result;
+	}
+	return res;
+}
+void reset_all(struct group_scanner** gscs, int size)
+{
+	int i = 0;
+	for (i = 0; i < size; i++)
+	{
+		reset_group_scanner(gscs[i]);
+	}
+}
+void close_all(struct group_scanner** gscs, int size)
+{
+	int i = 0;
+	for (i = 0; i < size; i++)
+	{
+		close_group_scanner(gscs[i]);
+	}
+}
 
 int main(int argc, char* argv[])
 {
-	int max_list = 10;
-	struct string_list* lists[max_list];
-	int list_index = 0;
-	lists[list_index] = get_a_list();
+	int list_count = count_arg_lists(argc, argv);
+	struct string_list** lists = get_arg_lists(argc, argv);
+	// print the arguments
+	printf("argument lists : \n");
 	int i = 0;
-
-	// process the arguments
-	// the first argument is omitted. which is the program name.
-	for (i = 1; i < argc; i++)
+	for (i = 0; i < list_count; i++)
 	{
-		if (strncmp("-o",argv[i], 2) == 0)
-		{
-			list_index++;
-			lists[list_index] = get_a_list();
-		}
-		else
-		{
-			insert_string(&(lists[list_index]), argv[i]);
-		}
+		print_list(lists[i]);
 	}
 
-	for (i = 0; i <= list_index; i++)
-	{
-		printf("list %d : ", i);
-		if (lists[i])
-		{
-			if (get_list_length(lists[i])) print_list(lists[i]);
-		}
-		printf("\n");
-	}
+	printf("search results : \n");
 
 	// process the files
 	DIR* dir;
 	struct dirent * entry;
 	char* dirname = "./test/";
-
 	dir = opendir(dirname);
 
 	//initialize line string memory
@@ -52,19 +60,26 @@ int main(int argc, char* argv[])
 	int index = 0;
 
 	//initialize group scanners for list 1
-	struct group_scanner* gsc = initialize_group_scanner(argc-1);
-
-	// build individual scanners
-	i = 1;
-	while(i < argc)
+	struct group_scanner* gscs[list_count];
+	i = 0;
+	// list counts starts from index 0, there is one list there.
+	for (i = 0; i < list_count; i++)
 	{
-		struct char_scanner* sc = initialize_scanner(argv[i], strlen(argv[i]));
-		add_scanner(gsc, sc);
-		i++;
+		int string_count = get_list_length(lists[i]);
+		gscs[i] = initialize_group_scanner(string_count);
+		char* string = NULL;
+		while((string = next_string_in_list(&(lists[i]))))
+		{
+			// build individual scanners
+			struct char_scanner* sc = initialize_scanner(string, strlen(string));
+			add_scanner(gscs[i], sc);
+		}
 	}
 
 	while ((entry = readdir(dir)) != NULL)
 	{
+		// ignore the default directory which is . and ..
+		if (strncmp(entry->d_name, ".", 1) == 0 || strncmp(entry->d_name, "..", 2) == 0) continue;
 		printf("%s\n", entry->d_name);
 		fflush(stdout);
 		// strlen counts the no of characters before the null char.
@@ -80,17 +95,17 @@ int main(int argc, char* argv[])
 			if (ch == EOF)
 			{
 				index = 0;
-				if (gsc->result) printf("\t%s\n", line);
+				if (get_result(gscs, list_count)) printf("\t%s\n", line);
 				fflush(stdout);
-				reset_group_scanner(gsc);
+				reset_all(gscs, list_count);
 				break;
 			}
 			else if (ch == '\n')
 			{
 				index = 0;
-				if (gsc->result) printf("\t%s\n", line);
+				if (get_result(gscs, list_count)) printf("\t%s\n", line);
 				fflush(stdout);
-				reset_group_scanner(gsc);
+				reset_all(gscs, list_count);
 
 				// a new line is encoutered, clear the line buffer.
 				memset(line, 0, line_size);
@@ -102,7 +117,11 @@ int main(int argc, char* argv[])
 			line[index] = ch;
 			index++;
 
-			group_scan_char(gsc, ch);
+			i = 0;
+			for (i = 0; i < list_count; i++)
+			{
+				group_scan_char(gscs[i], ch);
+			}
 			ch = fgetc(f);
 		}
 
@@ -110,7 +129,7 @@ int main(int argc, char* argv[])
 		fclose(f);
 	}
 
-	close_group_scanner(gsc);
+	close_all(gscs,list_count);
 	free(line);
 	closedir(dir);
 }

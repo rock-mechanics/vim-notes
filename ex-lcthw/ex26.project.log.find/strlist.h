@@ -1,3 +1,6 @@
+#ifndef __strlist_h__
+#define __strlist_h__ //open the switch, and process the entire file, if the switch is already on, ignore the entire file
+
 struct string_list
 {
 	char * head;
@@ -72,5 +75,10 @@ void print_list(struct string_list* list)
 		printf("%s ", list->head);
 		print_list(list->tail);
 	}
+	else
+	{
+		printf("\n");
+	}
 }
 
+#endif
