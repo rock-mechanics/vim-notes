@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+# compile the source code into a portable object library
+clang -c libex29.c -o libex29.o
+
+# compile the static library into a dynamic library
+clang -shared libex29.o -o libex29.so
+
+# check the file type
+file libex29.o
+file libex29.so
+
+# make the loader program
+clang -Wall -g -DNDEBUG ex29.c -ldl -o ex29

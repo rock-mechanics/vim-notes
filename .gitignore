@@ -1,5 +1,11 @@
-example-practical-vim/ 
 code*/
 *.swp
+
 **/*.exe
+**/*.so
+**/*.o
+
+*.exe
+*.so
+*.o
 
