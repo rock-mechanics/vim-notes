@@ -218,4 +218,38 @@ help("str")
 ```
 * show documentation for the class of the object
 
+#
+
+```=
+with open('path') as f :
+	for line in f : 
+		print(line.strip())
+f.close()
+```
+* file object is iteratable
+
+#
+
+```=
+line=file.readline()
+```
+* read oneline and update the current position in the `file`
+
+# 
+
+```=
+lines = file.read()
+```
+* read from current position to the end of the file
+
+#
+
+```=
+f = open("example.txt", "w")
+f.write("new content here")
+```
+* if the file exists, all the contents will be deleted once they are opened as `w` mode
+
+
+
 
