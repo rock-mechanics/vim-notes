@@ -218,12 +218,16 @@ git log --oneline --graph
 ```
 * show the log history in a graph manner, easier to understand
 
+#
 
+```=
+git config --global credential.helper cache
+```
+* enable the cache service to capture the password
 
-
-
-
-
-
-
+#
+Work flow when working with Github
+1. make the changes locally and commit
+2. fetch the updates from server to check conflicts.
+3. push to the remote repo
 
