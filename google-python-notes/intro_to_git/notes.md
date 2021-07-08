@@ -237,4 +237,33 @@ git branch -r
 ```
 * show **read-only** branche
 
+```=
+git remote show origin
+```
+* get information about the remote repo, the remote repo is named as origin
+
+```=
+git remote update
+```
+* fetch all the new branches of the remote repo
+* create a local **read-only** image of the branch
+
+```=
+>> git remote show origin
+* remote origin
+	Fetch URL: git@github.com:rock-mechanics/vim-notes.git
+    Push  URL: git@github.com:rock-mechanics/vim-notes.git
+	HEAD branch: master
+	Remote branches:
+	experimental tracked
+	master       tracked
+	Local branch configured for 'git pull':
+	master merges with remote master
+	Local ref configured for 'git push':
+	master pushes to master (fast-forwardable)
+```
+* **tracked** means when you fetch, you auto get the latest updates from remote repo
+* **HEAD** refers to the current checkout branch
+
+
 
