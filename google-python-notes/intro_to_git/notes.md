@@ -229,5 +229,12 @@ git config --global credential.helper cache
 Work flow when working with Github
 1. make the changes locally and commit
 2. fetch the updates from server to check conflicts.
-3. push to the remote repo
+3. git will try to merge the remote branch to your local one
+4. once conflicts resolved, push to the remote repo
+
+```=
+git branch -r
+```
+* show **read-only** branche
+
 
