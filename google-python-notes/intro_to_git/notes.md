@@ -212,7 +212,6 @@ merge algorithm
 git merge <new-content-branch>
 ```
 * merge the current branch with new-content-branch
-* adding a line on the master branch
 
 
 
