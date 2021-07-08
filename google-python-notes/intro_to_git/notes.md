@@ -209,9 +209,9 @@ merge algorithm
 #
 
 ```=
-git merge <destination_branch>
+git merge <new-content-branch>
 ```
-* if fast forward, we just need to udpate the destination to the same commit
+* merge the current branch with new-content-branch
 
 
 
