@@ -213,6 +213,12 @@ git merge <new-content-branch>
 ```
 * merge the current branch with new-content-branch
 
+```=
+git log --oneline --graph
+```
+* show the log history in a graph manner, easier to understand
+
+
 
 
 
