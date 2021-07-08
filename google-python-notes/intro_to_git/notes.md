@@ -212,6 +212,7 @@ merge algorithm
 git merge <new-content-branch>
 ```
 * merge the current branch with new-content-branch
+* add a line on experiment branch
 
 
 
