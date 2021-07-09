@@ -215,8 +215,10 @@ git merge <new-content-branch>
 
 ```=
 git log --oneline --graph
+git log --oneline --graph --all
 ```
 * show the log history in a graph manner, easier to understand
+* `--all` shows the history for all branches.
 
 #
 
@@ -264,6 +266,33 @@ git remote update
 ```
 * **tracked** means when you fetch, you auto get the latest updates from remote repo
 * **HEAD** refers to the current checkout branch
+
+#
+
+```=
+git push -u origin refactor
+```
+* push to a new branch `refactor` to the remote repo `origin`
+* this creates a new branch in the remote repo. reviewers can review the chagnes in the branch and decided whether to merge it into the master branch of the remote repo
+
+# 
+
+```=
+git rebase master
+```
+* rebase the experimental branch on top of the master branch, so the history of the experimental branch can be linear.
+
+```=
+git checkout master
+git merge experimental
+```
+* after the rebase, we can have a fast-forward merge
+
+
+```=
+git push --delete origin experimental
+```
+* remove the remote branch
 
 
 
